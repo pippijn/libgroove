@@ -29,6 +29,7 @@
 class GrooveSearchModel;
 class GroovePlaylistModel;
 class GrooveSong;
+class GrooveClient;
 class Fetcher;
 
 namespace Ui
@@ -84,6 +85,7 @@ private:
 
 private:
   Ui::MainWindow *m_ui;
+  GrooveClient *m_client;
   GrooveSearchModel *m_searchModel;
   GroovePlaylistModel *m_playlistModel;
   Phonon::MediaObject *m_mediaObject;

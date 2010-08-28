@@ -23,8 +23,9 @@
 #include "grooveclient.h"
 #include "grooveclient_p.h"
 
-GrooveClient::GrooveClient ()
-  : d (new GrooveClientPrivate (this))
+GrooveClient::GrooveClient (QObject *parent)
+  : QObject (parent)
+  , d (new GrooveClientPrivate (this))
 {
   connect (d, SIGNAL (connected ()), this, SIGNAL (connected ()));
 }
@@ -34,26 +35,24 @@ GrooveClient::establishConnection ()
 {
   qDebug () << Q_FUNC_INFO << "Making connection";
   QNetworkRequest loginRequest (QUrl ("http://listen.grooveshark.com"));
-  QNetworkReply *reply = GrooveClient::networkManager ()->get (loginRequest);
+  QNetworkReply *reply = networkManager ().get (loginRequest);
   connect (reply, SIGNAL (finished ()), d, SLOT (processPHPSessionId ()));
 }
 
-QThreadStorage<QNetworkAccessManager *> networkManagerPtr;
-QNetworkAccessManager *
+QNetworkAccessManager &
 GrooveClient::networkManager ()
 {
-  if (!networkManagerPtr.hasLocalData ())
-    networkManagerPtr.setLocalData (new QNetworkAccessManager);
-
-  return networkManagerPtr.localData ();
+  return d->networkManager ();
 }
 
-QThreadStorage<GrooveClient *> grooveClientPtr;
-GrooveClient *
-GrooveClient::instance ()
+QString
+GrooveClient::phpCookie () const
 {
-  if (!grooveClientPtr.hasLocalData ())
-    grooveClientPtr.setLocalData (new GrooveClient ());
+  return d->phpCookie ();
+}
 
-  return grooveClientPtr.localData ();
+QString
+GrooveClient::grooveMessageToken (QString const &method) const
+{
+  return d->grooveMessageToken (method);
 }

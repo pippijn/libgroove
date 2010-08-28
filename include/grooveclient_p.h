@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QNetworkAccessManager>
 
 class GrooveClientPrivate
   : public QObject
@@ -29,14 +30,12 @@ class GrooveClientPrivate
 public:
   explicit GrooveClientPrivate (QObject *parent)
     : QObject (parent)
+    , m_networkManager (new QNetworkAccessManager)
   {
-    GrooveClientPrivate::m_instance = this;
   }
 
   const QString &phpCookie () const;
   const QString &sessionToken () const;
-
-  static GrooveClientPrivate *instance ();
 
 signals:
   /*!
@@ -62,12 +61,14 @@ public slots:
    */
   void fetchSessionToken ();
 
-  QString grooveMessageToken (const QString &method);
+  QString grooveMessageToken (QString const &method);
+
+  QNetworkAccessManager &networkManager ();
 
 private:
   QString m_phpCookie;
   QString m_sessionToken;
-  static GrooveClientPrivate *m_instance;
+  QNetworkAccessManager *m_networkManager;
 };
 
 #endif /* GROOVECLIENT_P_H */

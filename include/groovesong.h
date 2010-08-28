@@ -18,6 +18,8 @@
 #ifndef GROOVESONG_H
 #define GROOVESONG_H
 
+#include "libgroove_global.h"
+
 #include <QMetaType>
 #include <QSharedData>
 #include <QSharedDataPointer>
@@ -25,7 +27,7 @@
 #include <QVariantMap>
 class QNetworkReply;
 
-#include "libgroove_global.h"
+class GrooveClient;
 
 class LIBGROOVESHARED_EXPORT GrooveSongData
 {
@@ -40,7 +42,7 @@ class LIBGROOVESHARED_EXPORT GrooveSong
   Q_OBJECT
 
 public:
-  explicit GrooveSong (const QVariantMap &data);
+  explicit GrooveSong (GrooveClient &client, QVariantMap const &data);
   ~GrooveSong ();
 
   void ref ();
@@ -111,6 +113,7 @@ private slots:
 
 protected:
   GrooveSongData *d;
+  GrooveClient &m_client;
 };
 
 #endif /* GROOVESONG_H */

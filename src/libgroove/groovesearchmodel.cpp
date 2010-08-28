@@ -29,8 +29,9 @@
 #include "groovesearchmodel.h"
 #include "groovesong.h"
 
-GrooveSearchModel::GrooveSearchModel (QObject *parent)
+GrooveSearchModel::GrooveSearchModel (GrooveClient &client, QObject *parent)
   : GrooveSongsModel (parent)
+  , m_client (client)
 {
 }
 
@@ -72,8 +73,8 @@ GrooveSearchModel::searchByHelper (const QString &type, const QString &searchTer
   QVariantMap header;
   header.insert ("client", "gslite");
   header.insert ("clientRevision", "20100412.09");
-  header.insert ("session", GrooveClientPrivate::instance ()->phpCookie ().toUtf8 ());
-  header.insert ("token", GrooveClientPrivate::instance ()->grooveMessageToken ("getSearchResults"));
+  header.insert ("session", m_client.phpCookie ().toUtf8 ());
+  header.insert ("token", m_client.grooveMessageToken ("getSearchResults"));
   jlist.insert ("method", "getSearchResults");
   jlist.insertMulti ("header", header);
   QVariantMap param;
@@ -82,7 +83,7 @@ GrooveSearchModel::searchByHelper (const QString &type, const QString &searchTer
   jlist.insertMulti ("parameters", param);
 
   QJson::Serializer serializer;
-  QNetworkReply *reply = GrooveClient::networkManager ()->post (request, serializer.serialize (jlist));
+  QNetworkReply *reply = m_client.networkManager ().post (request, serializer.serialize (jlist));
   connect (reply, SIGNAL (finished ()), SLOT (searchCompleted ()));
 }
 
@@ -106,7 +107,7 @@ GrooveSearchModel::searchCompleted ()
     {
       QVariantMap songData = song.toMap ();
 
-      newSongList.append (new GrooveSong (songData));
+      newSongList.append (new GrooveSong (m_client, songData));
     }
 
   if (!newSongList.count ())

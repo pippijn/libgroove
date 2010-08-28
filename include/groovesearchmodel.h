@@ -18,18 +18,21 @@
 #ifndef GROOVESEARCHREQUEST_H
 #define GROOVESEARCHREQUEST_H
 
+#include "libgroove_global.h"
+
 #include "groovesong.h"
 #include "groovesongsmodel.h"
 
 class GrooveSearchModelPrivate;
+class GrooveClient;
 
-class GrooveSearchModel
+class LIBGROOVESHARED_EXPORT GrooveSearchModel
   : public GrooveSongsModel
 {
   Q_OBJECT
 
 public:
-  explicit GrooveSearchModel (QObject *parent = 0);
+  explicit GrooveSearchModel (GrooveClient &client, QObject *parent = 0);
   ~GrooveSearchModel ();
 
   /*!
@@ -56,6 +59,9 @@ private slots:
    *  Invoked when a currently running search completes.
    */
   void searchCompleted ();
+
+private:
+  GrooveClient &m_client;
 };
 
 #endif /* GROOVESEARCHREQUEST_H */

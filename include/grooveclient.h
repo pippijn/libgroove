@@ -18,10 +18,10 @@
 #ifndef GROOVECLIENT_H
 #define GROOVECLIENT_H
 
+#include "libgroove_global.h"
+
 #include <QNetworkAccessManager>
 #include <QObject>
-
-#include "libgroove_global.h"
 
 class GrooveClientPrivate;
 
@@ -31,14 +31,17 @@ class LIBGROOVESHARED_EXPORT GrooveClient
   Q_OBJECT
 
 public:
-  static GrooveClient *instance ();
-  static QNetworkAccessManager *networkManager ();
+  GrooveClient (QObject *parent);
 
 public slots:
   /*!
    *  Initialises the connection to Grooveshark.
    */
   void establishConnection ();
+
+  QNetworkAccessManager &networkManager ();
+  QString phpCookie () const;
+  QString grooveMessageToken (QString const &method) const;
 
 signals:
   /*!
@@ -47,7 +50,6 @@ signals:
   void connected ();
 
 private:
-  GrooveClient ();
   GrooveClientPrivate *d;
 };
 

@@ -31,8 +31,9 @@
 MainWindow::MainWindow (QWidget *parent)
   : QMainWindow (parent)
   , m_ui (new Ui::MainWindow)
-  , m_searchModel (new GrooveSearchModel (this))
-  , m_playlistModel (new GroovePlaylistModel (this))
+  , m_client (new GrooveClient (this))
+  , m_searchModel (new GrooveSearchModel (*m_client, this))
+  , m_playlistModel (new GroovePlaylistModel (*m_client, this))
   , m_mediaObject (new Phonon::MediaObject (this))
   , m_next (0)
   , m_seekTime (-1)
@@ -185,8 +186,8 @@ inline void
 MainWindow::initGroove ()
 {
   m_ui->statusbar->showMessage ("Establishing connection...");
-  GrooveClient::instance ()->establishConnection ();
-  connect (GrooveClient::instance (), SIGNAL (connected ()), SLOT (onConnected ()));
+  m_client->establishConnection ();
+  connect (m_client, SIGNAL (connected ()), SLOT (onConnected ()));
 }
 
 

@@ -24,8 +24,8 @@ WARNINGS		= # empty
 #WARNINGS		+= -Werror
 
 AM_CFLAGS		= $(OPTFLAGS) $(WARNINGS)
-AM_CXXFLAGS		= $(OPTFLAGS) $(WARNINGS)
-AM_CPPFLAGS		= -I$(srcdir)/include
+AM_CXXFLAGS		= $(OPTFLAGS) $(WARNINGS) -std=c++0x
+AM_CPPFLAGS		= -I$(srcdir)/include -fvisibility=hidden
 AM_LDFLAGS		= -Wl,-z,defs
 
 include src/Rules.am

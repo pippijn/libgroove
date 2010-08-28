@@ -1,2 +1,2 @@
 include src/groovy/Rules.am
-include src/libgroove_link/Rules.am
+include src/libgroove/Rules.am

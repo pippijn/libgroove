@@ -29,13 +29,11 @@
 #include "grooveclient.h"
 #include "grooveclient_p.h"
 
-GrooveClientPrivate *GrooveClientPrivate::m_instance = NULL;
-
 void
 GrooveClientPrivate::processPHPSessionId ()
 {
   qDebug () << Q_FUNC_INFO << "processing";
-  QList<QNetworkCookie> cookieList = GrooveClient::networkManager ()->cookieJar ()->cookiesForUrl (QUrl ("http://listen.grooveshark.com"));
+  QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl ("http://listen.grooveshark.com"));
 
   foreach (const QNetworkCookie &cookie, cookieList)
     if (cookie.name () == "PHPSESSID")
@@ -74,7 +72,7 @@ GrooveClientPrivate::fetchSessionToken ()
 
   /* send, hook request */
   QJson::Serializer serializer;
-  QNetworkReply *reply = GrooveClient::networkManager ()->post (tokenRequest, serializer.serialize (jlist));
+  QNetworkReply *reply = networkManager ().post (tokenRequest, serializer.serialize (jlist));
   connect (reply, SIGNAL (finished ()), SLOT (processSessionToken ()));
 }
 
@@ -111,12 +109,6 @@ GrooveClientPrivate::phpCookie () const
   return m_phpCookie;
 }
 
-GrooveClientPrivate *
-GrooveClientPrivate::instance ()
-{
-  return GrooveClientPrivate::m_instance;
-}
-
 QString
 GrooveClientPrivate::grooveMessageToken (const QString &method)
 {
@@ -143,4 +135,10 @@ GrooveClientPrivate::grooveMessageToken (const QString &method)
 
   qDebug () << Q_FUNC_INFO << "Produced token " << rs;
   return rs;
+}
+
+QNetworkAccessManager &
+GrooveClientPrivate::networkManager ()
+{
+  return *m_networkManager;
 }

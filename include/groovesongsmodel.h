@@ -18,6 +18,8 @@
 #ifndef GROOVESONGSMODEL_H
 #define GROOVESONGSMODEL_H
 
+#include "libgroove_global.h"
+
 #include <QAbstractItemModel>
 
 class GrooveSong;

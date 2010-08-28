@@ -26,7 +26,8 @@
 #include "grooveclient_p.h"
 #include "groovesong.h"
 
-GrooveSong::GrooveSong (const QVariantMap &data)
+GrooveSong::GrooveSong (GrooveClient &client, QVariantMap const &data)
+  : m_client (client)
 {
   d = new GrooveSongData;
   d->m_data = data;
@@ -291,8 +292,8 @@ GrooveSong::startStreaming ()
   request.setHeader (request.ContentTypeHeader, QVariant ("application/json"));
   QVariantMap jlist;
   QVariantMap header;
-  header.insert ("session", GrooveClientPrivate::instance ()->phpCookie ().toUtf8 ());
-  header.insert ("token", GrooveClientPrivate::instance ()->grooveMessageToken ("getStreamKeyFromSongIDEx"));
+  header.insert ("session", m_client.phpCookie ().toUtf8 ());
+  header.insert ("token", m_client.grooveMessageToken ("getStreamKeyFromSongIDEx"));
   header.insert ("client", "gslite");
   header.insert ("clientRevision", "20100412.09");
   jlist.insert ("method", "getStreamKeyFromSongIDEx");
@@ -310,7 +311,7 @@ GrooveSong::startStreaming ()
   param.insert ("prefetch", false);
   jlist.insertMulti ("parameters", param);
   QJson::Serializer serializer;
-  QNetworkReply *reply = GrooveClient::instance ()->networkManager ()->post (request, serializer.serialize (jlist));
+  QNetworkReply *reply = m_client.networkManager ().post (request, serializer.serialize (jlist));
   connect (reply, SIGNAL (finished ()), SLOT (streamingKeyReady ()));
   /* TODO: error handling */
 }
@@ -338,8 +339,8 @@ GrooveSong::streamingKeyReady ()
 
   qDebug () << Q_FUNC_INFO << "Sending request to " << req.url ().toString () << " to start stream";
 
-  QNetworkReply *streamingReply = GrooveClient::instance ()->networkManager ()->post (req,
-                                                                                      QString ("streamKey=" +
-                                                                                               results["streamKey"].toString ()).toAscii ());
+  QNetworkReply *streamingReply = m_client.networkManager ().post (req,
+                                                                   QString ("streamKey=" +
+                                                                            results["streamKey"].toString ()).toAscii ());
   emit streamingStarted (streamingReply);
 }

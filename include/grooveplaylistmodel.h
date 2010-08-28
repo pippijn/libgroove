@@ -18,16 +18,19 @@
 #ifndef GROOVEPLAYLISTMODEL_H
 #define GROOVEPLAYLISTMODEL_H
 
+#include "libgroove_global.h"
+
 #include "groovesongsmodel.h"
 class GrooveSong;
+class GrooveClient;
 
-class GroovePlaylistModel
+class LIBGROOVESHARED_EXPORT GroovePlaylistModel
   : public GrooveSongsModel
 {
   Q_OBJECT
 
 public:
-  explicit GroovePlaylistModel (QObject *parent = 0);
+  explicit GroovePlaylistModel (GrooveClient &client, QObject *parent = 0);
 
   /*!
    *  Retrieve a song for a given \a index.
@@ -93,6 +96,7 @@ private:
   GrooveSong *songByIndex (const QModelIndex &index) const;
 
   int m_currentTrack;
+  GrooveClient &m_client;
 };
 
 #endif /* GROOVEPLAYLISTMODEL_H */

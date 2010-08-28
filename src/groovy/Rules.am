@@ -9,6 +9,6 @@ nodist_groovy_SOURCES =			\
 	include/fetcher.moc.cpp		\
 	include/groovewindow.moc.cpp
 
-groovy_LDADD = libgroove_link.la
+groovy_LDADD = libgroove.la
 
 BUILT_SOURCES += ui_groovewindow.h
