@@ -15,6 +15,8 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "common/make_varmap.h"
+
 #include <QDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -294,27 +296,35 @@ GrooveSong::startStreaming ()
   qDebug () << Q_FUNC_INFO << "Started streaming for " << songName () << "(id: " << songID () << ")";
   QNetworkRequest request;
   request.setUrl (QUrl ("http://cowbell.grooveshark.com/more.php?getStreamKeyFromSongIdEx"));
-  request.setHeader (request.ContentTypeHeader, QVariant ("application/json"));
+  request.setHeader (request.ContentTypeHeader, "application/json");
+
+  typedef QVariantOrMap::map map;
   QVariantMap jlist;
-  QVariantMap header;
-  header.insert ("session", m_client.phpCookie ().toUtf8 ());
-  header.insert ("token", m_client.grooveMessageToken ("getStreamKeyFromSongIDEx"));
-  header.insert ("client", "gslite");
-  header.insert ("clientRevision", "20100412.09");
-  jlist.insert ("method", "getStreamKeyFromSongIDEx");
-  jlist.insertMulti ("header", header);
-  QVariantMap param;
-  QVariantMap country;
-  country.insert ("CC1", "0");
-  country.insert ("CC3", "0");
-  country.insert ("ID", "223");
-  country.insert ("CC2", "0");
-  country.insert ("CC4", "1073741824");
-  param.insertMulti ("country", country);
-  param.insert ("mobile", false);
-  param.insert ("songID", songID ().toAscii ());
-  param.insert ("prefetch", false);
-  jlist.insertMulti ("parameters", param);
+  jlist << map {
+    { "method", "getStreamKeyFromSongIDEx" },
+    { "header", map {
+        { "session", m_client.phpCookie ().toUtf8 () },
+        { "token", m_client.grooveMessageToken ("getStreamKeyFromSongIDEx") },
+        { "client", "gslite" },
+        { "clientRevision", "20100412.09" },
+      },
+    },
+    { "parameters", map {
+        { "country", map {
+            { "CC1", "0" },
+            { "CC3", "0" },
+            { "ID", "223" },
+            { "CC2", "0" },
+            { "CC4", "1073741824" },
+          },
+        },
+        { "mobile", false },
+        { "songID", songID ().toAscii () },
+        { "prefetch", false },
+      },
+    },
+  };
+
   QJson::Serializer serializer;
   QNetworkReply *reply = m_client.networkManager ().post (request, serializer.serialize (jlist));
   connect (reply, SIGNAL (finished ()), SLOT (streamingKeyReady ()));
@@ -340,7 +350,7 @@ GrooveSong::streamingKeyReady ()
 
   QNetworkRequest req;
   req.setUrl (QUrl (QString ("http://") + results["ip"].toString () + "/stream.php"));
-  req.setHeader (req.ContentTypeHeader, QVariant ("application/x-www-form-urlencoded"));
+  req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
 
   qDebug () << Q_FUNC_INFO << "Sending request to " << req.url ().toString () << " to start stream";
 

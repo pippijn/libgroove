@@ -30,6 +30,7 @@ class LIBGROOVESHARED_EXPORT GrooveClient
 
 public:
   GrooveClient (QObject *parent);
+  ~GrooveClient ();
 
 public slots:
   /*!

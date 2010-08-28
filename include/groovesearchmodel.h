@@ -21,8 +21,6 @@
 #include "libgroove_global.h"
 
 #include "groove/songsmodel.h"
-
-class GrooveSearchModelPrivate;
 class GrooveClient;
 class GrooveSong;
 

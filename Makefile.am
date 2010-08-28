@@ -12,7 +12,7 @@ CLEANFILES		= # empty
 DISTCLEANFILES		= # empty
 MAINTAINERCLEANFILES	= # empty
 
-OPTFLAGS		= -pipe -O0
+OPTFLAGS		= -pipe -O0 -ggdb3
 WARNINGS		= # empty
 #WARNINGS		+= -Wall -Wextra
 #WARNINGS		+= -Wno-unused-parameter

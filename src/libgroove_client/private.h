@@ -30,14 +30,16 @@ class GrooveClient::Private
   Q_OBJECT
 
 public:
-  explicit Private (QObject *parent)
-    : QObject (parent)
-    , m_networkManager (new QNetworkAccessManager)
-  {
-  }
+  explicit Private (GrooveClient *parent);
+  ~Private ();
 
-  const QString &phpCookie () const;
-  const QString &sessionToken () const;
+  void establishConnection () const;
+
+  QString const &phpCookie () const;
+  QString const &sessionToken () const;
+
+  QString grooveMessageToken (QString const &method);
+  QNetworkAccessManager &networkManager () const;
 
 signals:
   /*!
@@ -45,7 +47,7 @@ signals:
    */
   void connected ();
 
-public slots:
+private slots:
   /*!
    *  Processes the first stage of the Grooveshark login process.
    */
@@ -62,10 +64,6 @@ public slots:
    *  You should generally not need to call this in user code, use login() directly.
    */
   void fetchSessionToken ();
-
-  QString grooveMessageToken (QString const &method);
-
-  QNetworkAccessManager &networkManager ();
 
 private:
   QString m_phpCookie;

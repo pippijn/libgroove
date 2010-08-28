@@ -29,13 +29,15 @@ GrooveClient::GrooveClient (QObject *parent)
   connect (d, SIGNAL (connected ()), this, SIGNAL (connected ()));
 }
 
+GrooveClient::~GrooveClient ()
+{
+  delete d;
+}
+
 void
 GrooveClient::establishConnection ()
 {
-  qDebug () << Q_FUNC_INFO << "Making connection";
-  QNetworkRequest loginRequest (QUrl ("http://listen.grooveshark.com"));
-  QNetworkReply *reply = networkManager ().get (loginRequest);
-  connect (reply, SIGNAL (finished ()), d, SLOT (processPHPSessionId ()));
+  d->establishConnection ();
 }
 
 QNetworkAccessManager &

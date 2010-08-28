@@ -15,6 +15,8 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "common/make_varmap.h"
+
 #include <QDebug>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -67,19 +69,25 @@ GrooveSearchModel::searchByHelper (const QString &type, const QString &searchTer
 
   QNetworkRequest request;
   request.setUrl (QUrl ("http://cowbell.grooveshark.com/more.php?getSearchResults"));
-  request.setHeader (request.ContentTypeHeader, QVariant ("application/json"));
+  request.setHeader (request.ContentTypeHeader, "application/json");
+
+  typedef QVariantOrMap::map map;
   QVariantMap jlist;
-  QVariantMap header;
-  header.insert ("client", "gslite");
-  header.insert ("clientRevision", "20100412.09");
-  header.insert ("session", m_client.phpCookie ().toUtf8 ());
-  header.insert ("token", m_client.grooveMessageToken ("getSearchResults"));
-  jlist.insert ("method", "getSearchResults");
-  jlist.insertMulti ("header", header);
-  QVariantMap param;
-  param.insert ("type", type);
-  param.insert ("query", searchTerm);
-  jlist.insertMulti ("parameters", param);
+  jlist << map {
+    { "method", "getSearchResults" },
+    { "header", map {
+        { "session", m_client.phpCookie ().toUtf8 () },
+        { "token", m_client.grooveMessageToken ("getSearchResults") },
+        { "client", "gslite" },
+        { "clientRevision", "20100412.09" },
+      },
+    },
+    { "parameters", map {
+        { "type", type },
+        { "query", searchTerm },
+      },
+    },
+  };
 
   QJson::Serializer serializer;
   QNetworkReply *reply = m_client.networkManager ().post (request, serializer.serialize (jlist));

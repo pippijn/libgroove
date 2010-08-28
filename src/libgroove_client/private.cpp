@@ -15,6 +15,8 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "common/make_varmap.h"
+
 #include <QCryptographicHash>
 #include <QDebug>
 #include <QNetworkAccessManager>
@@ -27,6 +29,26 @@
 #include <qjson/serializer.h>
 
 #include "private.h"
+
+GrooveClient::Private::Private (GrooveClient *parent)
+  : QObject (parent)
+  , m_networkManager (new QNetworkAccessManager)
+{
+}
+
+GrooveClient::Private::~Private ()
+{
+  delete m_networkManager;
+}
+
+void
+GrooveClient::Private::establishConnection () const
+{
+  qDebug () << Q_FUNC_INFO << "Making connection";
+  QNetworkRequest loginRequest (QUrl ("http://listen.grooveshark.com"));
+  QNetworkReply *reply = networkManager ().get (loginRequest);
+  connect (reply, SIGNAL (finished ()), SLOT (processPHPSessionId ()));
+}
 
 void
 GrooveClient::Private::processPHPSessionId ()
@@ -47,27 +69,55 @@ GrooveClient::Private::processPHPSessionId ()
   GROOVE_VERIFY_OR_DIE (m_phpCookie.length (), "PHP cookie couldn't be set");
 }
 
+struct GrooveRequest
+{
+  explicit GrooveRequest (GrooveClient &client, QString service, QString method = QString ())
+    : m_req (QUrl ("https://cowbell.grooveshark.com/" + service))
+    , m_client (client)
+  {
+    m_req.setHeader (m_req.ContentTypeHeader, "application/json");
+  }
+
+  void post (QObject *receiver, char const *slot)
+  {
+    QJson::Serializer serializer;
+    QNetworkReply *reply = m_client.networkManager ().post (m_req, serializer.serialize (jlist));
+    receiver->connect (reply, SIGNAL (finished ()), slot);
+  }
+
+  QNetworkRequest m_req;
+  GrooveClient &m_client;
+  QVariantMap jlist;
+};
+
+static void
+operator << (GrooveRequest &request, QVariantOrMap::map const &init)
+{
+  request.jlist << init;
+}
+
 void
 GrooveClient::Private::fetchSessionToken ()
 {
   qDebug () << Q_FUNC_INFO << "fetching";
   QNetworkRequest tokenRequest (QUrl ("https://cowbell.grooveshark.com/service.php"));
-  tokenRequest.setHeader (tokenRequest.ContentTypeHeader, QVariant ("application/json"));
+  tokenRequest.setHeader (tokenRequest.ContentTypeHeader, "application/json");
 
-  /* headers */
-  QVariantMap vmap;
-  vmap.insert ("client", "gslite");
-  vmap.insert ("clientRevision", "20100412.09");
-
-  /* outer map */
+  /* headers and parameters */
+  typedef QVariantOrMap::map map;
   QVariantMap jlist;
-  jlist.insert ("method", "getCommunicationToken");
-  jlist.insertMulti ("header", vmap);
-
-  /* parameters */
-  vmap.clear ();
-  vmap.insert ("secretKey", QCryptographicHash::hash (m_phpCookie.toUtf8 (), QCryptographicHash::Md5).toHex ());
-  jlist.insertMulti ("parameters", vmap);
+  jlist << map {
+    { "method", "getCommunicationToken" },
+    { "header", map {
+        { "client", "gslite" },
+        { "clientRevision", "20100412.09" },
+      },
+    },
+    { "parameters", map {
+        { "secretKey", QCryptographicHash::hash (m_phpCookie.toUtf8 (), QCryptographicHash::Md5).toHex () },
+      },
+    },
+  };
 
   /* send, hook request */
   QJson::Serializer serializer;
@@ -137,7 +187,7 @@ GrooveClient::Private::grooveMessageToken (const QString &method)
 }
 
 QNetworkAccessManager &
-GrooveClient::Private::networkManager ()
+GrooveClient::Private::networkManager () const
 {
   return *m_networkManager;
 }
