@@ -1,0 +1,14 @@
+bin_PROGRAMS += groovy
+
+groovy_SOURCES =			\
+	src/groovy/fetcher.cpp		\
+	src/groovy/groovewindow.cpp	\
+	src/groovy/main.cpp
+
+nodist_groovy_SOURCES =			\
+	include/fetcher.moc.cpp		\
+	include/groovewindow.moc.cpp
+
+groovy_LDADD = libgroove_link.la
+
+BUILT_SOURCES += ui_groovewindow.h
