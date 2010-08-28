@@ -1,2 +1,5 @@
 include src/groovy/Rules.am
 include src/libgroove/Rules.am
+include src/libgroove_client/Rules.am
+include src/libgroove_song/Rules.am
+include src/libgroove_songsmodel/Rules.am

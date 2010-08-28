@@ -24,10 +24,9 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-#include "grooveclient.h"
-#include "grooveclient_p.h"
+#include "groove/client.h"
 #include "groovesearchmodel.h"
-#include "groovesong.h"
+#include "groove/song.h"
 
 GrooveSearchModel::GrooveSearchModel (GrooveClient &client, QObject *parent)
   : GrooveSongsModel (parent)

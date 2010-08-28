@@ -29,13 +29,6 @@ class QNetworkReply;
 
 class GrooveClient;
 
-class LIBGROOVESHARED_EXPORT GrooveSongData
-{
-public:
-  QVariantMap m_data;
-  QAtomicInt m_refCount;
-};
-
 class LIBGROOVESHARED_EXPORT GrooveSong
   : public QObject
 {
@@ -109,10 +102,9 @@ signals:
 private slots:
   void streamingKeyReady ();
 
-  /* XXX: protected for tst_GroovePlaylistModel::testOwnershipRef(), would be nice if we could make this private again. */
-
-protected:
-  GrooveSongData *d;
+private:
+  struct Data;
+  Data *d;
   GrooveClient &m_client;
 };
 

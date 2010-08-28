@@ -22,14 +22,19 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-#include "grooveclient.h"
-#include "grooveclient_p.h"
-#include "groovesong.h"
+#include "groove/client.h"
+#include "groove/song.h"
+
+struct GrooveSong::Data
+{
+  QVariantMap m_data;
+  QAtomicInt m_refCount;
+};
 
 GrooveSong::GrooveSong (GrooveClient &client, QVariantMap const &data)
   : m_client (client)
+  , d (new Data)
 {
-  d = new GrooveSongData;
   d->m_data = data;
   d->m_refCount = QAtomicInt (0);
 

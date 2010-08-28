@@ -22,13 +22,15 @@
 #include <QString>
 #include <QNetworkAccessManager>
 
-class GrooveClientPrivate
+#include "groove/client.h"
+
+class GrooveClient::Private
   : public QObject
 {
   Q_OBJECT
 
 public:
-  explicit GrooveClientPrivate (QObject *parent)
+  explicit Private (QObject *parent)
     : QObject (parent)
     , m_networkManager (new QNetworkAccessManager)
   {

@@ -15,17 +15,16 @@ class Fetcher
   Q_OBJECT
 
   QFile m_file;
-  GrooveSong *m_song;
-  MainWindow *m_parent;
+  GrooveSong &m_song;
   bool m_nowStreaming;
 
 public:
   QString fileName () const;
   bool streaming () const;
-  GrooveSong *song () const;
 
 public:
-  Fetcher (GrooveSong *song, MainWindow *parent);
+  Fetcher (GrooveSong &song);
+  ~Fetcher ();
   void fetch ();
 
 private slots:

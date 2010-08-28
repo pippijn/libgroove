@@ -16,7 +16,7 @@
  */
 
 #include "grooveplaylistmodel.h"
-#include "groovesong.h"
+#include "groove/song.h"
 
 #include <QColor>
 

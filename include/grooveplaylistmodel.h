@@ -20,7 +20,7 @@
 
 #include "libgroove_global.h"
 
-#include "groovesongsmodel.h"
+#include "groove/songsmodel.h"
 class GrooveSong;
 class GrooveClient;
 

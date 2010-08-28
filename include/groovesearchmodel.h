@@ -20,11 +20,11 @@
 
 #include "libgroove_global.h"
 
-#include "groovesong.h"
-#include "groovesongsmodel.h"
+#include "groove/songsmodel.h"
 
 class GrooveSearchModelPrivate;
 class GrooveClient;
+class GrooveSong;
 
 class LIBGROOVESHARED_EXPORT GrooveSearchModel
   : public GrooveSongsModel

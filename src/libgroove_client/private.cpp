@@ -26,11 +26,10 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-#include "grooveclient.h"
-#include "grooveclient_p.h"
+#include "private.h"
 
 void
-GrooveClientPrivate::processPHPSessionId ()
+GrooveClient::Private::processPHPSessionId ()
 {
   qDebug () << Q_FUNC_INFO << "processing";
   QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl ("http://listen.grooveshark.com"));
@@ -49,7 +48,7 @@ GrooveClientPrivate::processPHPSessionId ()
 }
 
 void
-GrooveClientPrivate::fetchSessionToken ()
+GrooveClient::Private::fetchSessionToken ()
 {
   qDebug () << Q_FUNC_INFO << "fetching";
   QNetworkRequest tokenRequest (QUrl ("https://cowbell.grooveshark.com/service.php"));
@@ -77,7 +76,7 @@ GrooveClientPrivate::fetchSessionToken ()
 }
 
 void
-GrooveClientPrivate::processSessionToken ()
+GrooveClient::Private::processSessionToken ()
 {
   QNetworkReply *reply = qobject_cast<QNetworkReply *> (sender ());
 
@@ -98,19 +97,19 @@ GrooveClientPrivate::processSessionToken ()
 }
 
 const QString &
-GrooveClientPrivate::sessionToken () const
+GrooveClient::Private::sessionToken () const
 {
   return m_sessionToken;
 }
 
 const QString &
-GrooveClientPrivate::phpCookie () const
+GrooveClient::Private::phpCookie () const
 {
   return m_phpCookie;
 }
 
 QString
-GrooveClientPrivate::grooveMessageToken (const QString &method)
+GrooveClient::Private::grooveMessageToken (const QString &method)
 {
   if (GROOVE_VERIFY (m_sessionToken.length (), "made a request to create message without session token"))
     return QString ();
@@ -138,7 +137,7 @@ GrooveClientPrivate::grooveMessageToken (const QString &method)
 }
 
 QNetworkAccessManager &
-GrooveClientPrivate::networkManager ()
+GrooveClient::Private::networkManager ()
 {
   return *m_networkManager;
 }

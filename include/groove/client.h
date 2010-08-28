@@ -23,8 +23,6 @@
 #include <QNetworkAccessManager>
 #include <QObject>
 
-class GrooveClientPrivate;
-
 class LIBGROOVESHARED_EXPORT GrooveClient
   : public QObject
 {
@@ -50,7 +48,8 @@ signals:
   void connected ();
 
 private:
-  GrooveClientPrivate *d;
+  class Private;
+  Private *d;
 };
 
 #endif /* GROOVECLIENT_H */

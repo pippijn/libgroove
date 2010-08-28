@@ -1,0 +1,10 @@
+lib_LTLIBRARIES += libgroove_song.la
+
+libgroove_song_la_SOURCES =			\
+	src/libgroove_song/song.cpp
+
+nodist_libgroove_song_la_SOURCES =		\
+	include/groove/song.moc.cpp
+
+libgroove_song_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
+libgroove_song_la_LIBADD = libgroove_client.la

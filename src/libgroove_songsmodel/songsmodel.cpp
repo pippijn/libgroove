@@ -15,8 +15,8 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "groovesong.h"
-#include "groovesongsmodel.h"
+#include "groove/song.h"
+#include "groove/songsmodel.h"
 
 #include <QTime>
 

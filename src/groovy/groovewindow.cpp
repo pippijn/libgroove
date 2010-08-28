@@ -19,10 +19,10 @@
 #include <QMessageBox>
 #include <QTime>
 
-#include "grooveclient.h"
+#include "groove/client.h"
 #include "grooveplaylistmodel.h"
 #include "groovesearchmodel.h"
-#include "groovesong.h"
+#include "groove/song.h"
 
 #include "fetcher.h"
 #include "groovewindow.h"
@@ -129,12 +129,17 @@ MainWindow::fetchPrevSong ()
 Fetcher *
 MainWindow::fetchSong (GrooveSong *song)
 {
+  if (GROOVE_VERIFY (song, "NULL song passed"))
+    return NULL;
+
   Fetcher *fetcher = NULL;
 
   if (m_fetchers.contains (song->songID ()))
     fetcher = m_fetchers[song->songID ()];
   else
-    (fetcher = m_fetchers[song->songID ()] = new Fetcher (song, this))->fetch ();
+    (fetcher = m_fetchers[song->songID ()] = new Fetcher (*song))->fetch ();
+
+  GROOVE_VERIFY_OR_DIE (fetcher, "NULL fetcher in fetcher map");
 
   return fetcher;
 }

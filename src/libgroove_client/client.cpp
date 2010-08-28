@@ -20,12 +20,11 @@
 #include <QNetworkRequest>
 #include <QThreadStorage>
 
-#include "grooveclient.h"
-#include "grooveclient_p.h"
+#include "private.h"
 
 GrooveClient::GrooveClient (QObject *parent)
   : QObject (parent)
-  , d (new GrooveClientPrivate (this))
+  , d (new Private (this))
 {
   connect (d, SIGNAL (connected ()), this, SIGNAL (connected ()));
 }

@@ -1,19 +1,15 @@
 lib_LTLIBRARIES += libgroove.la
 
 libgroove_la_SOURCES =				\
-	src/libgroove/grooveclient.cpp		\
-	src/libgroove/grooveclient_p.cpp	\
 	src/libgroove/grooveplaylistmodel.cpp	\
-	src/libgroove/groovesearchmodel.cpp	\
-	src/libgroove/groovesong.cpp		\
-	src/libgroove/groovesongsmodel.cpp
+	src/libgroove/groovesearchmodel.cpp
 
 nodist_libgroove_la_SOURCES =			\
-	include/grooveclient.moc.cpp		\
-	include/grooveclient_p.moc.cpp		\
 	include/grooveplaylistmodel.moc.cpp	\
-	include/groovesearchmodel.moc.cpp	\
-	include/groovesong.moc.cpp		\
-	include/groovesongsmodel.moc.cpp
+	include/groovesearchmodel.moc.cpp
 
 libgroove_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
+libgroove_la_LIBADD =		\
+	libgroove_client.la	\
+	libgroove_song.la	\
+	libgroove_songsmodel.la

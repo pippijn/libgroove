@@ -24,7 +24,7 @@
 
 class GrooveSong;
 
-class GrooveSongsModel
+class LIBGROOVESHARED_EXPORT GrooveSongsModel
   : public QAbstractItemModel
 {
   Q_OBJECT
