@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU Lesser General Public License,
@@ -17,18 +18,16 @@
 
 #include "common/make_varmap.h"
 
+#include "groove/client.h"
+#include "groove/request.h"
+#include "groovesearchmodel.h"
+#include "groove/song.h"
+
 #include <QDebug>
 #include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QNetworkRequest>
 #include <QVariantMap>
 
 #include <qjson/parser.h>
-#include <qjson/serializer.h>
-
-#include "groove/client.h"
-#include "groovesearchmodel.h"
-#include "groove/song.h"
 
 GrooveSearchModel::GrooveSearchModel (GrooveClient &client, QObject *parent)
   : GrooveSongsModel (parent)
@@ -67,13 +66,10 @@ GrooveSearchModel::searchByHelper (const QString &type, const QString &searchTer
   qDebug () << Q_FUNC_INFO << "Searching by " << type << " for " << searchTerm;
   clear ();
 
-  QNetworkRequest request;
-  request.setUrl (QUrl ("http://cowbell.grooveshark.com/more.php?getSearchResults"));
-  request.setHeader (request.ContentTypeHeader, "application/json");
+  GrooveRequest request (m_client, "more.php?getSearchResults");
 
   typedef QVariantOrMap::map map;
-  QVariantMap jlist;
-  jlist << map {
+  request << map {
     { "method", "getSearchResults" },
     { "header", map {
         { "session", m_client.phpCookie ().toUtf8 () },
@@ -89,9 +85,7 @@ GrooveSearchModel::searchByHelper (const QString &type, const QString &searchTer
     },
   };
 
-  QJson::Serializer serializer;
-  QNetworkReply *reply = m_client.networkManager ().post (request, serializer.serialize (jlist));
-  connect (reply, SIGNAL (finished ()), SLOT (searchCompleted ()));
+  request.post (this, SLOT (searchCompleted ()));
 }
 
 void
@@ -131,7 +125,6 @@ GrooveSearchModel::searchCompleted ()
 GrooveSong *
 GrooveSearchModel::songByIndex (const QModelIndex &index) const
 {
-  //qDebug () << index.row ();
   if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
     return 0;
   if (GROOVE_VERIFY (index.row () < m_songs.count (), "row is higher than the number of songs model contains"))

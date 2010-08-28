@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU Lesser General Public License,
@@ -15,20 +16,18 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "private.h"
+
 #include "common/make_varmap.h"
+#include "groove/request.h"
 
 #include <QCryptographicHash>
 #include <QDebug>
 #include <QNetworkAccessManager>
 #include <QNetworkCookie>
 #include <QNetworkCookieJar>
-#include <QNetworkReply>
-#include <QNetworkRequest>
 
 #include <qjson/parser.h>
-#include <qjson/serializer.h>
-
-#include "private.h"
 
 GrooveClient::Private::Private (GrooveClient *parent)
   : QObject (parent)
@@ -69,44 +68,15 @@ GrooveClient::Private::processPHPSessionId ()
   GROOVE_VERIFY_OR_DIE (m_phpCookie.length (), "PHP cookie couldn't be set");
 }
 
-struct GrooveRequest
-{
-  explicit GrooveRequest (GrooveClient &client, QString service, QString method = QString ())
-    : m_req (QUrl ("https://cowbell.grooveshark.com/" + service))
-    , m_client (client)
-  {
-    m_req.setHeader (m_req.ContentTypeHeader, "application/json");
-  }
-
-  void post (QObject *receiver, char const *slot)
-  {
-    QJson::Serializer serializer;
-    QNetworkReply *reply = m_client.networkManager ().post (m_req, serializer.serialize (jlist));
-    receiver->connect (reply, SIGNAL (finished ()), slot);
-  }
-
-  QNetworkRequest m_req;
-  GrooveClient &m_client;
-  QVariantMap jlist;
-};
-
-static void
-operator << (GrooveRequest &request, QVariantOrMap::map const &init)
-{
-  request.jlist << init;
-}
-
 void
 GrooveClient::Private::fetchSessionToken ()
 {
   qDebug () << Q_FUNC_INFO << "fetching";
-  QNetworkRequest tokenRequest (QUrl ("https://cowbell.grooveshark.com/service.php"));
-  tokenRequest.setHeader (tokenRequest.ContentTypeHeader, "application/json");
+  GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), "service.php");
 
   /* headers and parameters */
   typedef QVariantOrMap::map map;
-  QVariantMap jlist;
-  jlist << map {
+  request << map {
     { "method", "getCommunicationToken" },
     { "header", map {
         { "client", "gslite" },
@@ -120,9 +90,7 @@ GrooveClient::Private::fetchSessionToken ()
   };
 
   /* send, hook request */
-  QJson::Serializer serializer;
-  QNetworkReply *reply = networkManager ().post (tokenRequest, serializer.serialize (jlist));
-  connect (reply, SIGNAL (finished ()), SLOT (processSessionToken ()));
+  request.post (this, SLOT (processSessionToken ()));
 }
 
 void
@@ -159,17 +127,17 @@ GrooveClient::Private::phpCookie () const
 }
 
 QString
-GrooveClient::Private::grooveMessageToken (const QString &method)
+GrooveClient::Private::grooveMessageToken (const QString &method) const
 {
   if (GROOVE_VERIFY (m_sessionToken.length (), "made a request to create message without session token"))
     return QString ();
 
   QString rnum = QString (qrand () % 9 + 48)
-                 + QString (qrand () % 9 + 48)
-                 + QString (qrand () % 9 + 48)
-                 + QString (qrand () % 9 + 48)
-                 + QString (qrand () % 9 + 48)
-                 + QString (qrand () % 9 + 48);
+               + QString (qrand () % 9 + 48)
+               + QString (qrand () % 9 + 48)
+               + QString (qrand () % 9 + 48)
+               + QString (qrand () % 9 + 48)
+               + QString (qrand () % 9 + 48);
 
   QString messageToken;
   messageToken.append (method);

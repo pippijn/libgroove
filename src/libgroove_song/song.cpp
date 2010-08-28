@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU Lesser General Public License,
@@ -17,15 +18,13 @@
 
 #include "common/make_varmap.h"
 
+#include "groove/client.h"
+#include "groove/request.h"
+#include "groove/song.h"
+
 #include <QDebug>
-#include <QNetworkReply>
-#include <QNetworkRequest>
 
 #include <qjson/parser.h>
-#include <qjson/serializer.h>
-
-#include "groove/client.h"
-#include "groove/song.h"
 
 struct GrooveSong::Data
 {
@@ -294,13 +293,10 @@ void
 GrooveSong::startStreaming ()
 {
   qDebug () << Q_FUNC_INFO << "Started streaming for " << songName () << "(id: " << songID () << ")";
-  QNetworkRequest request;
-  request.setUrl (QUrl ("http://cowbell.grooveshark.com/more.php?getStreamKeyFromSongIdEx"));
-  request.setHeader (request.ContentTypeHeader, "application/json");
+  GrooveRequest request (m_client, "more.php?getStreamKeyFromSongIdEx");
 
   typedef QVariantOrMap::map map;
-  QVariantMap jlist;
-  jlist << map {
+  request << map {
     { "method", "getStreamKeyFromSongIDEx" },
     { "header", map {
         { "session", m_client.phpCookie ().toUtf8 () },
@@ -325,9 +321,7 @@ GrooveSong::startStreaming ()
     },
   };
 
-  QJson::Serializer serializer;
-  QNetworkReply *reply = m_client.networkManager ().post (request, serializer.serialize (jlist));
-  connect (reply, SIGNAL (finished ()), SLOT (streamingKeyReady ()));
+  request.post (this, SLOT (streamingKeyReady ()));
   /* TODO: error handling */
 }
 

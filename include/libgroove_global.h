@@ -1,7 +1,7 @@
 /*
  * This file is part of libgroove
  *
- * Copyright (C) 2010 Robin Burchell <viroteck@viroteck.net>
+ * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
  *
  * This software, including documentation, is protected by copyright.
  * All rights are reserved.

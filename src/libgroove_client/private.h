@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU Lesser General Public License,
@@ -38,7 +39,7 @@ public:
   QString const &phpCookie () const;
   QString const &sessionToken () const;
 
-  QString grooveMessageToken (QString const &method);
+  QString grooveMessageToken (QString const &method) const;
   QNetworkAccessManager &networkManager () const;
 
 signals:

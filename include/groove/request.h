@@ -16,45 +16,40 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <QDebug>
-#include <QNetworkReply>
+#pragma once
+
+#include "common/make_varmap.h"
+
+#include "groove/client.h"
+
 #include <QNetworkRequest>
-#include <QThreadStorage>
+#include <QNetworkReply>
 
-#include "private.h"
+#include <qjson/serializer.h>
 
-GrooveClient::GrooveClient (QObject *parent)
-  : QObject (parent)
-  , d (new Private (this))
+struct GrooveRequest
 {
-  connect (d, SIGNAL (connected ()), this, SIGNAL (connected ()));
-}
+  explicit GrooveRequest (GrooveClient &client, QString service, QString method = QString ())
+    : m_req (QUrl ("https://cowbell.grooveshark.com/" + service))
+    , m_client (client)
+  {
+    m_req.setHeader (m_req.ContentTypeHeader, "application/json");
+  }
 
-GrooveClient::~GrooveClient ()
-{
-  delete d;
-}
+  void post (QObject *receiver, char const *slot)
+  {
+    QJson::Serializer serializer;
+    QNetworkReply *reply = m_client.networkManager ().post (m_req, serializer.serialize (jlist));
+    receiver->connect (reply, SIGNAL (finished ()), slot);
+  }
 
-void
-GrooveClient::establishConnection ()
-{
-  d->establishConnection ();
-}
+  QNetworkRequest m_req;
+  GrooveClient &m_client;
+  QVariantMap jlist;
+};
 
-QNetworkAccessManager &
-GrooveClient::networkManager ()
+static inline void
+operator << (GrooveRequest &request, QVariantOrMap::map const &init)
 {
-  return d->networkManager ();
-}
-
-QString
-GrooveClient::phpCookie () const
-{
-  return d->phpCookie ();
-}
-
-QString
-GrooveClient::grooveMessageToken (QString const &method) const
-{
-  return d->grooveMessageToken (method);
+  request.jlist << init;
 }
