@@ -1,3 +1,0 @@
-noinst_HEADERS +=				\
-	include/common/format/private/Parser.h	\
-	include/common/format/private/code.h

@@ -1,5 +1,4 @@
 include src/common/Rules.am
-include src/format/Rules.am
 include src/libgroove_settings/Rules.am
 include src/libgroove_client/Rules.am
 include src/libgroove_song/Rules.am

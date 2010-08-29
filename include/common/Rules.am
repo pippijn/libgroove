@@ -1,3 +1,0 @@
-include include/common/debug/Rules.am
-include include/common/format/Rules.am
-include include/common/util/Rules.am

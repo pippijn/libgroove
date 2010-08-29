@@ -1,5 +1,0 @@
-noinst_HEADERS +=				\
-	include/common/format/Formatter.h	\
-	include/common/format/FormatterBase.h	\
-	include/common/format/Interpreter.h	\
-	include/common/format/Specification.h
