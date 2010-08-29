@@ -21,12 +21,12 @@
 
 #include <QTime>
 
+static const int GrooveSongsModelMaxCols = 3;
+
 GrooveSongsModel::GrooveSongsModel (QObject *parent)
   : QAbstractItemModel (parent)
 {
 }
-
-static const int GrooveSongsModelMaxCols = 3;
 
 QModelIndex
 GrooveSongsModel::index (int row, int column, const QModelIndex &parent) const
@@ -117,7 +117,7 @@ GrooveSongsModel::headerData (int section, Qt::Orientation orientation, int role
         case 2:
           return tr ("Album");
         case 3:
-          return tr ("Est. Duration");
+          return tr ("Duration");
         }
     }
 

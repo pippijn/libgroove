@@ -19,12 +19,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QFile>
-#include <QBuffer>
 #include <QMainWindow>
-#include <QModelIndex>
-#include <QNetworkReply>
 #include <QMap>
+class QModelIndex;
+
 #include <phonon/phonon>
 
 class GrooveSearchModel;
@@ -62,6 +60,7 @@ private slots:
   void playCurrentSong ();
   void playNextSong ();
   void onMediaChanged (Phonon::MediaSource const &newSource);
+  void openPrefs ();
 
   void onBtnPrev ();
   void onBtnPause ();

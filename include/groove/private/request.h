@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "common/make_varmap.h"
+#include "groove/private/make_varmap.h"
 
 #include "groove/client.h"
 

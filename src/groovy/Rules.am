@@ -3,12 +3,15 @@ bin_PROGRAMS += groovy
 groovy_SOURCES =			\
 	src/groovy/fetcher.cpp		\
 	src/groovy/groovewindow.cpp	\
-	src/groovy/main.cpp
+	src/groovy/main.cpp		\
+	src/groovy/preferences.cpp
 
 nodist_groovy_SOURCES =			\
 	include/fetcher.moc.cpp		\
-	include/groovewindow.moc.cpp
+	include/groovewindow.moc.cpp	\
+	include/preferences.moc.cpp
 
 groovy_LDADD = libgroove.la
 
 BUILT_SOURCES += ui_groovewindow.h
+BUILT_SOURCES += ui_preferences.h

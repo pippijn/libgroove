@@ -1,3 +1,5 @@
+#define LIVE 0
+
 /*
  * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
  * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
@@ -18,6 +20,7 @@
 
 #include <QDebug>
 #include <QMessageBox>
+#include <QSettings>
 #include <QTime>
 
 #include "groove/client.h"
@@ -27,6 +30,7 @@
 
 #include "fetcher.h"
 #include "groovewindow.h"
+#include "preferences.h"
 #include "ui_groovewindow.h"
 
 MainWindow::MainWindow (QWidget *parent)
@@ -83,6 +87,13 @@ MainWindow::onMediaChanged (Phonon::MediaSource const &newSource)
 {
   qDebug () << Q_FUNC_INFO << "Now playing: " << newSource.fileName ();
   m_ui->statusbar->showMessage (newSource.fileName ());
+}
+
+void
+MainWindow::openPrefs ()
+{
+  Preferences prefs (this);
+  prefs.exec ();
 }
 
 Fetcher *
@@ -192,7 +203,9 @@ inline void
 MainWindow::initGroove ()
 {
   m_ui->statusbar->showMessage ("Establishing connection...");
+#if LIVE
   m_client->establishConnection ();
+#endif
   connect (m_client, SIGNAL (connected ()), SLOT (onConnected ()));
 }
 

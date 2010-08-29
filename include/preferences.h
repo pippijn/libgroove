@@ -16,23 +16,22 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <QApplication>
+#include <QDialog>
 
-#include "groovewindow.h"
-
-#include "groove/client.h"
-#include "groove/song.h"
-
-int
-main (int argc, char **argv)
+namespace Ui
 {
-  QApplication qca (argc, argv);
-
-  qca.setOrganizationName ("Xinutec");
-  qca.setApplicationName ("Groovy");
-
-  MainWindow mw;
-  mw.show ();
-
-  qca.exec ();
+  class Preferences;
 }
+
+class Preferences
+  : public QDialog
+{
+  Q_OBJECT
+
+public:
+  explicit Preferences (QWidget *parent);
+  ~Preferences ();
+
+private:
+  Ui::Preferences *m_ui;
+};

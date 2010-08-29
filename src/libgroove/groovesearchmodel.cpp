@@ -16,12 +16,11 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "common/make_varmap.h"
-
 #include "groove/client.h"
-#include "groove/request.h"
 #include "groovesearchmodel.h"
 #include "groove/song.h"
+
+#include "groove/private/request.h"
 
 #include <QDebug>
 #include <QNetworkAccessManager>

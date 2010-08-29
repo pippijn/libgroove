@@ -18,8 +18,7 @@
 
 #include "private.h"
 
-#include "common/make_varmap.h"
-#include "groove/request.h"
+#include "groove/private/request.h"
 
 #include <QCryptographicHash>
 #include <QDebug>

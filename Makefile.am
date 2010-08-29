@@ -44,3 +44,6 @@ ui_%.h: %.ui
 
 clean-local:
 	$(RM) -r include ui_*.h
+
+run: groovy
+	./$<
