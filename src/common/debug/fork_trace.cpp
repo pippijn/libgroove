@@ -268,8 +268,6 @@ start_inspector ()
 bool
 fork_trace ()
 {
-  return false;
-
   xassert (stack_end != 0);
 
   child = fork ();

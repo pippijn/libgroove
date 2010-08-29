@@ -3,6 +3,7 @@ bin_PROGRAMS += groovy
 groovy_SOURCES =			\
 	src/groovy/about.cpp		\
 	src/groovy/crash.cpp		\
+	src/groovy/debug.cpp		\
 	src/groovy/groovewindow.cpp	\
 	src/groovy/main.cpp		\
 	src/groovy/preferences.cpp

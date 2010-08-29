@@ -10,7 +10,7 @@
 BEGIN_DECLS
 
 /*
- * XXX: Lift arbitrary limits by allocating enough memory for all files,
+ * TODO: Lift arbitrary limits by allocating enough memory for all files,
  * functions and frame objects in one piece. This would save memory, too.
  * See backtrace_symbols.
  */
@@ -46,9 +46,10 @@ END_DECLS
 
 // Small helper template that relieves client code from the need to cast.
 template<typename R, typename... Args>
-char* resolve_symbol (R sym (Args...))
+char *
+resolve_symbol (R sym (Args...))
 {
-  return resolve_symbol (reinterpret_cast<void const*> (sym));
+  return resolve_symbol (reinterpret_cast<void const *> (sym));
 }
 
 #endif

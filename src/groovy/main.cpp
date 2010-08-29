@@ -16,9 +16,6 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "common/debug/signal.h"
-#include "common/debug/backtrace.h"
-
 #include <QApplication>
 
 #include "groovewindow.h"
@@ -44,45 +41,16 @@ version ()
   puts ("version 2.1, as published by the Free Software Foundation.");
 }
 
-static backtrace_status_fn print_status;
-static void
-print_status (size_t cur, size_t max)
-{
-  fprintf (stdout, "\r==%d== building stack trace: %zu%% (%zu / %zu)", getpid (), cur * 100 / max, cur, max);
-  fflush (stdout);
-  if (cur == max)
-    fputc ('\n', stdout);
-}
-
-#include <sys/resource.h>
-
-static void
-limit ()
-{
-  // 512MiB address space
-  {
-    struct rlimit const rlim = {
-      512 * 1024 * 1024,
-      512 * 1024 * 1024,
-    };
-    setrlimit (RLIMIT_AS, &rlim);
-  }
-  // 8MiB stack
-  {
-    struct rlimit const rlim = {
-      8 * 1024 * 1024,
-      8 * 1024 * 1024,
-    };
-    setrlimit (RLIMIT_STACK, &rlim);
-  }
-}
+extern void init_debuglib ();
+extern void uninit_debuglib ();
 
 int
 main (int argc, char **argv)
 {
-  init_signals ();
-  backtrace_status = print_status;
+  // initialise the unportable debug library
+  init_debuglib ();
 
+  // now start the portable Qt code
   QApplication qca (argc, argv);
 
   qca.setOrganizationName ("Xinutec");
@@ -100,7 +68,8 @@ main (int argc, char **argv)
 
   int retval = qca.exec ();
 
-  uninit_signals ();
+  // uninitialise unportable debug library
+  uninit_debuglib ();
 
   return retval;
 }

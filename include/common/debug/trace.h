@@ -1,11 +1,13 @@
 #pragma once
 
+#include "common/util/common.h"
+
 #include <csignal>
 
-extern unsigned long stack_end;
+extern VISIBLE unsigned long stack_end;
 
-bool fork_trace ();
-void fork_abort (char const *msg);
+VISIBLE bool fork_trace ();
+VISIBLE void fork_abort (char const *msg);
 
 #if __WORDSIZE == 64
 # define init_debug()    \
