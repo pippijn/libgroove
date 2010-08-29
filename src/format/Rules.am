@@ -3,4 +3,4 @@ noinst_PROGRAMS += format_test
 format_test_SOURCES =			\
 	src/format/format_test.cpp
 
-format_test_LDADD = libformat.la
+format_test_LDADD = libcommon_format.la

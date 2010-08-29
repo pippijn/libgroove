@@ -1,4 +1,4 @@
-libdebug_la_SOURCES +=						\
+libcommon_debug_la_SOURCES +=					\
 	src/common/debug/stacktrace/backtrace_symbols.cpp	\
 	src/common/debug/stacktrace/check_bfd.cpp		\
 	src/common/debug/stacktrace/find_address_in_section.cpp	\

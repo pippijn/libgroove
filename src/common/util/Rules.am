@@ -1,5 +1,5 @@
-lib_LTLIBRARIES += libutil.la
+lib_LTLIBRARIES += libcommon_util.la
 
-libutil_la_SOURCES =				\
+libcommon_util_la_SOURCES =			\
 	src/common/util/unimplemented.cpp	\
 	src/common/util/xassert.cpp
