@@ -1,0 +1,17 @@
+lib_LTLIBRARIES += libgroove_fetcher.la
+
+libgroove_fetcher_la_SOURCES =			\
+	src/libgroove_fetcher/fetcher.cpp
+
+nodist_libgroove_fetcher_la_SOURCES =		\
+	include/groove/fetcher.moc.cpp
+
+libgroove_fetcher_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
+libgroove_fetcher_la_CXXFLAGS =	\
+	$(AM_CXXFLAGS)		\
+	$(QTCORE_CXXFLAGS)	\
+	$(QTNETWORK_CXXFLAGS)
+libgroove_fetcher_la_LIBADD =	\
+	libgroove_song.la	\
+	$(QTCORE_LIBS)		\
+	$(QTNETWORK_LIBS)

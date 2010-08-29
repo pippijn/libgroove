@@ -1,17 +1,25 @@
 bin_PROGRAMS += groovy
 
 groovy_SOURCES =			\
-	src/groovy/fetcher.cpp		\
 	src/groovy/groovewindow.cpp	\
 	src/groovy/main.cpp		\
 	src/groovy/preferences.cpp
 
 nodist_groovy_SOURCES =			\
-	include/fetcher.moc.cpp		\
 	include/groovewindow.moc.cpp	\
 	include/preferences.moc.cpp
 
-groovy_LDADD = libgroove.la
+groovy_CXXFLAGS =		\
+	$(AM_CXXFLAGS)		\
+	$(QTCORE_CXXFLAGS)	\
+	$(QTGUI_CXXFLAGS)	\
+	$(PHONON_CXXFLAGS)
+groovy_LDADD =			\
+	libgroove.la		\
+	libgroove_fetcher.la	\
+	$(QTCORE_LIBS)		\
+	$(QTGUI_LIBS)		\
+	$(PHONON_LIBS)
 
 BUILT_SOURCES += ui_groovewindow.h
 BUILT_SOURCES += ui_preferences.h

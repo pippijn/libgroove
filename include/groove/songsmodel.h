@@ -35,7 +35,7 @@ protected:
   GrooveSongsModel (QString const &modelName, QObject *parent);
   ~GrooveSongsModel ();
 
-private:
+protected:
   virtual QModelIndex index (int row, int column, const QModelIndex &parent) const;
   virtual QModelIndex parent (const QModelIndex &child) const;
   virtual int rowCount (const QModelIndex &parent) const;
@@ -63,6 +63,7 @@ public slots:
 protected:
   QList<GrooveSong *> m_songs;
   QStringList m_visible;
+  QString m_modelName;
 };
 
 #endif /* GROOVESONGSMODEL_H */

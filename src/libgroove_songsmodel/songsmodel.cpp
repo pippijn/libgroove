@@ -24,33 +24,61 @@
 
 #include <map>
 
-static std::map<QString, char const *> propNames = {
-  { "songName",         "Title"         },
-  { "albumName",        "Album"         },
-  { "artistName",       "Artist"        },
-  { "year",             "Year"          },
-  { "trackNum",         "Track"         },
-  { "estimateDuration", "Duration"      },
-  { "popularity",       "Popularity"    },
-  { "songPlays",        "Plays"         },
-  { "songClicks",       "Clicks"        },
-  { "score",            "Score"         },
-  { "rank",             "Rank"          },
+static std::map<QString, char const *> const propNames = {
+  { "songID",                   "Song ID"                       },
+  { "albumID",                  "Album ID"                      },
+  { "artistID",                 "Artist ID"                     },
+  { "genreID",                  "Genre ID"                      },
+  { "name",                     "Name"                          },
+  { "songName",                 "Title"                         },
+  { "albumName",                "Album"                         },
+  { "artistName",               "Artist"                        },
+  { "year",                     "Year"                          },
+  { "trackNum",                 "Track"                         },
+  { "coverArtFilename",         "Cover-art filename"            },
+  { "TSAdded",                  "Time added"                    },
+  { "avgRating",                "Average rating"                },
+  { "avgDuration",              "Average duration (s)"          },
+  { "estimateDuration",         "Duration (s)"                  },
+  { "avgDurationMins",          "Average duration"              },
+  { "estimateDurationMins",     "Duration"                      },
+  { "flags",                    "Flags"                         },
+  { "isLowBitrateAvailable",    "Is low bitrate available"      },
+  { "songVerified",             "Song verified"                 },
+  { "albumVerified",            "Album verified"                },
+  { "artistVerified",           "Artist verified"               },
+  { "popularity",               "Popularity"                    },
+  { "albumPopularity",          "Album popularity"              },
+  { "artistPopularity",         "Artist popularity"             },
+  { "songPlays",                "Plays"                         },
+  { "artistPlays",              "Artist plays"                  },
+  { "songClicks",               "Clicks"                        },
+  { "albumClicks",              "Album clicks"                  },
+  { "artistClicks",             "Artist clicks"                 },
+  { "querySongClicks",          "querySongClicks"               },
+  { "queryAlbumClicks",         "queryAlbumClicks"              },
+  { "queryArtistClicks",        "queryArtistClicks"             },
+  { "sphinxWeight",             "Sphinx weight"                 },
+  { "score",                    "Score"                         },
+  { "DSName",                   "DSName"                        },
+  { "DALName",                  "DALName"                       },
+  { "DAName",                   "DAName"                        },
+  { "TSAddedInt",               "TSAddedInt"                    },
+  { "rank",                     "Rank"                          },
 };
 
 GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
   : QAbstractItemModel (parent)
+  , m_modelName (modelName)
 {
   QSettings settings;
-  settings.beginGroup (modelName);
+  settings.beginGroup (m_modelName);
   if (!settings.contains ("columns"))
     {
       m_visible.append ("songName");
       m_visible.append ("albumName");
       m_visible.append ("artistName");
       m_visible.append ("estimateDuration");
-
-      settings.setValue ("columns", m_visible);
     }
   else
     {
@@ -65,6 +93,12 @@ GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
 
 GrooveSongsModel::~GrooveSongsModel ()
 {
+  QSettings settings;
+  settings.beginGroup (m_modelName);
+
+  settings.setValue ("columns", m_visible);
+
+  settings.endGroup ();
 }
 
 QModelIndex
@@ -115,10 +149,20 @@ GrooveSongsModel::data (const QModelIndex &index, int role) const
   if (GROOVE_VERIFY (index.column () < m_visible.size (), "column is higher than m_visible.size ()"))
     return QVariant ();
 
+  GrooveSong *song = m_songs[index.row ()];
+
   switch (role)
     {
     case Qt::DisplayRole:
-      return m_songs[index.row ()]->property (m_visible[index.column ()].toUtf8 ());
+      return song->property (m_visible[index.column ()].toUtf8 ());
+    case Qt::ToolTipRole:
+      return QString ("%1 %2 - %3 (%4) (%5)")
+             .arg (song->trackNum ())
+             .arg (song->artistName ())
+             .arg (song->songName ())
+             .arg (song->albumName ())
+             .arg (song->estimateDurationMins ())
+             ;
     }
 
   return QVariant ();
@@ -138,7 +182,8 @@ GrooveSongsModel::headerData (int section, Qt::Orientation orientation, int role
   switch (role)
     {
     case Qt::DisplayRole:
-      return tr (propNames[m_visible[section]]);
+      GROOVE_VERIFY_OR_DIE (propNames.find (m_visible[section]) != propNames.end (), "invalid section");
+      return tr (propNames.find (m_visible[section])->second);
     }
 
   return QVariant ();

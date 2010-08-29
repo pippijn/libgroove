@@ -16,18 +16,16 @@
  */
 #pragma once
 
+#include "libgroove_global.h"
+
 #include <QFile>
+class QNetworkReply;
 
 class GrooveSong;
-class QNetworkReply;
-class MainWindow;
 
-class Fetcher
+class LIBGROOVESHARED_EXPORT GrooveFetcher
   : public QObject
 {
-  Fetcher (Fetcher const &other) = delete;
-  Fetcher &operator = (Fetcher const &rhs) = delete;
-
   Q_OBJECT
 
   QFile m_file;
@@ -39,8 +37,8 @@ public:
   bool streaming () const;
 
 public:
-  Fetcher (GrooveSong &song);
-  ~Fetcher ();
+  GrooveFetcher (GrooveSong &song);
+  ~GrooveFetcher ();
   void fetch ();
 
 private slots:

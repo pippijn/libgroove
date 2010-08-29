@@ -7,4 +7,9 @@ nodist_libgroove_songsmodel_la_SOURCES =		\
 	include/groove/songsmodel.moc.cpp
 
 libgroove_songsmodel_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
-libgroove_songsmodel_la_LIBADD = libgroove_song.la
+libgroove_songsmodel_la_CXXFLAGS =	\
+	$(AM_CXXFLAGS)			\
+	$(QTCORE_CXXFLAGS)
+libgroove_songsmodel_la_LIBADD =	\
+	libgroove_song.la		\
+	$(QTCORE_LIBS)

@@ -15,8 +15,7 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "fetcher.h"
-
+#include "groove/fetcher.h"
 #include "groove/song.h"
 
 #include <QDebug>
@@ -43,7 +42,7 @@ make_cache (GrooveSong const &song)
 }
 
 
-Fetcher::Fetcher (GrooveSong &song)
+GrooveFetcher::GrooveFetcher (GrooveSong &song)
   : m_file (make_cache (song))
   , m_song (song)
   , m_nowStreaming (false)
@@ -51,26 +50,26 @@ Fetcher::Fetcher (GrooveSong &song)
   m_song.ref ();
 }
 
-Fetcher::~Fetcher ()
+GrooveFetcher::~GrooveFetcher ()
 {
   m_song.deref ();
 }
 
 QString
-Fetcher::fileName () const
+GrooveFetcher::fileName () const
 {
   return m_file.fileName ();
 }
 
 bool
-Fetcher::streaming () const
+GrooveFetcher::streaming () const
 {
   return m_nowStreaming;
 }
 
 
 void
-Fetcher::fetch ()
+GrooveFetcher::fetch ()
 {
   if (m_nowStreaming)
     {
@@ -95,7 +94,7 @@ Fetcher::fetch ()
 }
 
 void
-Fetcher::onStreamingStarted (QNetworkReply *httpStream)
+GrooveFetcher::onStreamingStarted (QNetworkReply *httpStream)
 {
   qDebug () << Q_FUNC_INFO << "Streaming started... :)";
 
@@ -104,7 +103,7 @@ Fetcher::onStreamingStarted (QNetworkReply *httpStream)
 }
 
 void
-Fetcher::onStreamReadReady ()
+GrooveFetcher::onStreamReadReady ()
 {
   QIODevice *httpStream = qobject_cast<QIODevice *> (sender ());
 
@@ -117,7 +116,7 @@ Fetcher::onStreamReadReady ()
 }
 
 void
-Fetcher::onStreamingFinished ()
+GrooveFetcher::onStreamingFinished ()
 {
   qDebug () << Q_FUNC_INFO << "finished";
 

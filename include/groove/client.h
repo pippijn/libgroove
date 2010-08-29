@@ -21,8 +21,8 @@
 
 #include "libgroove_global.h"
 
-#include <QNetworkAccessManager>
 #include <QObject>
+class QNetworkAccessManager;
 
 class LIBGROOVESHARED_EXPORT GrooveClient
   : public QObject

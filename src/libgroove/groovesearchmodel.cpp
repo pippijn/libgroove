@@ -40,19 +40,19 @@ GrooveSearchModel::~GrooveSearchModel ()
 }
 
 void
-GrooveSearchModel::searchByArtist (const QString &artist)
+GrooveSearchModel::searchByArtist (QString const &artist)
 {
   searchByHelper ("Artists", artist);
 }
 
 void
-GrooveSearchModel::searchBySong (const QString &song)
+GrooveSearchModel::searchBySong (QString const &song)
 {
   searchByHelper ("Songs", song);
 }
 
 void
-GrooveSearchModel::searchByAlbum (const QString &album)
+GrooveSearchModel::searchByAlbum (QString const &album)
 {
   searchByHelper ("Albums", album);
 }
@@ -60,12 +60,12 @@ GrooveSearchModel::searchByAlbum (const QString &album)
 /****/
 
 void
-GrooveSearchModel::searchByHelper (const QString &type, const QString &searchTerm)
+GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTerm)
 {
   qDebug () << Q_FUNC_INFO << "Searching by " << type << " for " << searchTerm;
   clear ();
 
-  GrooveRequest request (m_client, "more.php?getSearchResults");
+  GrooveRequest request (m_client, GrooveRequest::more ("getSearchResults"));
 
   typedef QVariantOrMap::map map;
   request << map {
@@ -103,7 +103,7 @@ GrooveSearchModel::searchCompleted ()
     return;
 
   QList<GrooveSong *> newSongList;
-  foreach (const QVariant &song, result["result"].toList ())
+  foreach (QVariant const &song, result["result"].toList ())
     {
       QVariantMap songData = song.toMap ();
 
@@ -122,7 +122,7 @@ GrooveSearchModel::searchCompleted ()
 }
 
 GrooveSong *
-GrooveSearchModel::songByIndex (const QModelIndex &index) const
+GrooveSearchModel::songByIndex (QModelIndex const &index) const
 {
   if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
     return 0;

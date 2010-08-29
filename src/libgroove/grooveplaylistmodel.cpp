@@ -16,10 +16,14 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <algorithm>
+
 #include "grooveplaylistmodel.h"
 #include "groove/song.h"
 
+#if 0
 #include <QColor>
+#endif
 
 GroovePlaylistModel::GroovePlaylistModel (GrooveClient &client, QObject *parent)
   : GrooveSongsModel ("Playlist", parent)
@@ -36,9 +40,9 @@ GroovePlaylistModel::select (const QModelIndex &index)
   if (!song)
     return 0;
 
-  m_currentTrack = index.row () + 0;
+  m_currentTrack = index.row () - 1;
 
-  return song;
+  return next ();
 }
 
 GrooveSong *
@@ -105,9 +109,15 @@ GroovePlaylistModel::indexOf (GrooveSong *song, int from)
   if (GROOVE_VERIFY (from <= m_songs.count (), "from is higher than the playlist length"))
     return -1;
 
+#if 0
   for (int i = from; i != m_songs.count (); ++i)
     if (m_songs.at (i) == song)
       return i;
+#else
+  auto found = std::find (m_songs.begin (), m_songs.end (), song);
+  if (found != m_songs.end ())
+    return found - m_songs.begin ();
+#endif
 
   return -1;
 }
@@ -129,10 +139,10 @@ GroovePlaylistModel::selectLast ()
 GrooveSong *
 GroovePlaylistModel::current () const
 {
-  if (m_currentTrack >= count () || m_currentTrack < 0 || !count ())
+  if (currentTrack () >= count () || currentTrack () < 0 || !count ())
     return 0;
 
-  return m_songs.at (m_currentTrack);
+  return m_songs.at (currentTrack ());
 }
 
 GrooveSong *
@@ -144,7 +154,8 @@ GroovePlaylistModel::next ()
       return 0;
     }
 
-  return m_songs.at (m_currentTrack);
+  emit layoutChanged (); // new colour for active track
+  return current ();
 }
 
 GrooveSong *
@@ -156,11 +167,29 @@ GroovePlaylistModel::previous ()
       return 0;
     }
 
-  return m_songs.at (m_currentTrack);
+  emit layoutChanged (); // new colour for active track
+  return current ();
 }
 
 int
-GroovePlaylistModel::currentTrack ()
+GroovePlaylistModel::currentTrack () const
 {
   return m_currentTrack;
+}
+
+QVariant
+GroovePlaylistModel::data (const QModelIndex &index, int role) const
+{
+  QVariant data = GrooveSongsModel::data (index, role);
+
+  switch (role)
+    {
+#if 0
+    case Qt::BackgroundColorRole:
+      if (songByIndex (index) == current ())
+        return QColor (Qt::green);
+#endif
+    }
+
+  return data;
 }

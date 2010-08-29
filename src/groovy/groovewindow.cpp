@@ -1,4 +1,4 @@
-#define LIVE 0
+#define LIVE 1
 
 /*
  * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
@@ -24,11 +24,11 @@
 #include <QTime>
 
 #include "groove/client.h"
+#include "groove/fetcher.h"
 #include "grooveplaylistmodel.h"
 #include "groovesearchmodel.h"
 #include "groove/song.h"
 
-#include "fetcher.h"
 #include "groovewindow.h"
 #include "preferences.h"
 #include "ui_groovewindow.h"
@@ -96,7 +96,7 @@ MainWindow::openPrefs ()
   prefs.exec ();
 }
 
-Fetcher *
+GrooveFetcher *
 MainWindow::fetchNextSong ()
 {
   GrooveSong *song = m_playlistModel->next ();
@@ -117,7 +117,7 @@ MainWindow::fetchNextSong ()
   return fetchSong (song);
 }
 
-Fetcher *
+GrooveFetcher *
 MainWindow::fetchPrevSong ()
 {
   GrooveSong *song = m_playlistModel->previous ();
@@ -138,18 +138,18 @@ MainWindow::fetchPrevSong ()
   return fetchSong (song);
 }
 
-Fetcher *
+GrooveFetcher *
 MainWindow::fetchSong (GrooveSong *song)
 {
   if (GROOVE_VERIFY (song, "NULL song passed"))
     return NULL;
 
-  Fetcher *fetcher = NULL;
+  GrooveFetcher *fetcher = NULL;
 
   if (m_fetchers.contains (song->songID ()))
     fetcher = m_fetchers[song->songID ()];
   else
-    (fetcher = m_fetchers[song->songID ()] = new Fetcher (*song))->fetch ();
+    (fetcher = m_fetchers[song->songID ()] = new GrooveFetcher (*song))->fetch ();
 
   GROOVE_VERIFY_OR_DIE (fetcher, "NULL fetcher in fetcher map");
 
@@ -157,7 +157,7 @@ MainWindow::fetchSong (GrooveSong *song)
 }
 
 void
-MainWindow::playSong (Fetcher *fetcher, bool change)
+MainWindow::playSong (GrooveFetcher *fetcher, bool change)
 {
   if (!fetcher->streaming ())
     {
@@ -289,7 +289,7 @@ MainWindow::onQueueSong (QModelIndex const &index)
   qDebug () << Q_FUNC_INFO << "Queueing " << song->songName ();
 
   m_playlistModel->append (song);
-  Fetcher *fetcher = fetchSong (song);
+  GrooveFetcher *fetcher = fetchSong (song);
   if (!m_next)
     playSong (fetcher);
 }

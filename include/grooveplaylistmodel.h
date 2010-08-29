@@ -30,6 +30,9 @@ class LIBGROOVESHARED_EXPORT GroovePlaylistModel
 {
   Q_OBJECT
 
+private:
+  virtual QVariant data (const QModelIndex &index, int role) const;
+
 public:
   explicit GroovePlaylistModel (GrooveClient &client, QObject *parent = 0);
 
@@ -91,7 +94,7 @@ public slots:
   /*!
    *  Returns the index of the currently playing track.
    */
-  int currentTrack ();
+  int currentTrack () const;
 
 private:
   GrooveSong *songByIndex (const QModelIndex &index) const;

@@ -33,18 +33,18 @@ static struct property
   char const *prop;
   char const *name;
 } const song_properties[] = {
-  { "songName",         "Title"         },
-  { "albumName",        "Album"         },
-  { "artistName",       "Artist"        },
-  { "year",             "Year"          },
-  { "trackNum",         "Track"         },
-  { "estimateDuration", "Duration"      },
-  { "popularity",       "Popularity"    },
-  { "songPlays",        "Plays"         },
-  { "songClicks",       "Clicks"        },
-  { "score",            "Score"         },
-  { "rank",             "Rank"          },
-  { NULL,               NULL            }
+  { "songName",                 "Title"         },
+  { "albumName",                "Album"         },
+  { "artistName",               "Artist"        },
+  { "year",                     "Year"          },
+  { "trackNum",                 "Track"         },
+  { "estimateDuration",         "Duration (s)"  },
+  { "estimateDurationMins",     "Duration"      },
+  { "popularity",               "Popularity"    },
+  { "songPlays",                "Plays"         },
+  { "songClicks",               "Clicks"        },
+  { "score",                    "Score"         },
+  { "rank",                     "Rank"          },
 };
 
 Preferences::Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &playListModel, QWidget *parent)
@@ -58,8 +58,6 @@ Preferences::Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &p
   BOOST_FOREACH (auto const &prop, song_properties)
     {
       QListWidgetItem *item;
-      if (!prop.name)
-        break;
 
       item = new QListWidgetItem (prop.name, m_ui->lstSearchItems);
       item->setData (Qt::UserRole, prop.prop);

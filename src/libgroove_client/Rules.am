@@ -9,3 +9,12 @@ nodist_libgroove_client_la_SOURCES =		\
 	include/groove/client.moc.cpp
 
 libgroove_client_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
+libgroove_client_la_CXXFLAGS =	\
+	$(AM_CXXFLAGS)		\
+	$(QTCORE_CXXFLAGS)	\
+	$(QTNETWORK_CXXFLAGS)	\
+	$(QJSON_CXXFLAGS)
+libgroove_client_la_LIBADD =	\
+	$(QTCORE_LIBS)		\
+	$(QTNETWORK_LIBS)	\
+	$(QJSON_LIBS)

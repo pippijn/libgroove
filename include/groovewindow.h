@@ -25,11 +25,11 @@ class QModelIndex;
 
 #include <phonon/phonon>
 
-class GrooveSearchModel;
-class GroovePlaylistModel;
-class GrooveSong;
 class GrooveClient;
-class Fetcher;
+class GrooveFetcher;
+class GroovePlaylistModel;
+class GrooveSearchModel;
+class GrooveSong;
 
 namespace Ui
 {
@@ -70,10 +70,10 @@ public:
   void initiatePlay ();
 
 private:
-  Fetcher *fetchPrevSong ();
-  Fetcher *fetchNextSong ();
-  Fetcher *fetchSong (GrooveSong *song);
-  void playSong (Fetcher *fetcher, bool change = false);
+  GrooveFetcher *fetchPrevSong ();
+  GrooveFetcher *fetchNextSong ();
+  GrooveFetcher *fetchSong (GrooveSong *song);
+  void playSong (GrooveFetcher *fetcher, bool change = false);
 
   bool checkConnection () const;
 
@@ -89,8 +89,8 @@ private:
   GrooveSearchModel *m_searchModel;
   GroovePlaylistModel *m_playlistModel;
   Phonon::MediaObject *m_mediaObject;
-  QMap<QString, Fetcher *> m_fetchers;
-  Fetcher *m_next;
+  QMap<QString, GrooveFetcher *> m_fetchers;
+  GrooveFetcher *m_next;
 
   int m_seekTime;
 

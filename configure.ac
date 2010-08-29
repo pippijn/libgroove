@@ -18,11 +18,11 @@ AC_PROG_CXX
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 
 # Qt
-AC_PKG_CHECK([QtCore], 4.4.0)
-AC_PKG_CHECK([QtNetwork], 4.4.0)
-AC_PKG_CHECK([QtGui], 4.4.0)
-AC_PKG_CHECK([QJson], 0.7.1)
-AC_PKG_CHECK([phonon], 4.4.0)
+AC_PKG_CHECK([QtCore], 4.4.0, [QTCORE_])
+AC_PKG_CHECK([QtNetwork], 4.4.0, [QTNETWORK_])
+AC_PKG_CHECK([QtGui], 4.4.0, [QTGUI_])
+AC_PKG_CHECK([QJson], 0.7.1, [QJSON_])
+AC_PKG_CHECK([phonon], 4.4.0, [PHONON_])
 
 AC_MSG_CHECKING([moc location])
 MOC=`$PKG_CONFIG --variable=moc_location QtCore`

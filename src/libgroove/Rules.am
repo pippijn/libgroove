@@ -9,7 +9,15 @@ nodist_libgroove_la_SOURCES =			\
 	include/groovesearchmodel.moc.cpp
 
 libgroove_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
+libgroove_la_CXXFLAGS =		\
+	$(AM_CXXFLAGS)		\
+	$(QTCORE_CXXFLAGS)	\
+	$(QTNETWORK_CXXFLAGS)	\
+	$(QJSON_CXXFLAGS)
 libgroove_la_LIBADD =		\
 	libgroove_client.la	\
 	libgroove_song.la	\
-	libgroove_songsmodel.la
+	libgroove_songsmodel.la	\
+	$(QTCORE_LIBS)		\
+	$(QTNETWORK_LIBS)	\
+	$(QJSON_LIBS)

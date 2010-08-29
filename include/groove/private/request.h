@@ -29,6 +29,22 @@
 
 struct GrooveRequest
 {
+  static QString more (char const *method)
+  {
+    QString page = "more.php";
+    if (method)
+      {
+        page += "?";
+        page += method;
+      }
+    return page;
+  }
+
+  static QString service ()
+  {
+    return "service.php";
+  }
+
   explicit GrooveRequest (GrooveClient &client, QString service, QString method = QString ())
     : m_req (QUrl ("https://cowbell.grooveshark.com/" + service))
     , m_client (client)

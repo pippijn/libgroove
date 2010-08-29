@@ -22,6 +22,7 @@
 #include "groove/private/request.h"
 
 #include <QDebug>
+#include <QTime>
 
 #include <qjson/parser.h>
 
@@ -148,6 +149,18 @@ int
 GrooveSong::estimateDuration () const
 {
   return d->m_data["EstimateDuration"].toInt ();
+}
+
+QString
+GrooveSong::avgDurationMins () const
+{
+  return QTime ().addSecs (avgDuration ()).toString ("m:ss");
+}
+
+QString
+GrooveSong::estimateDurationMins () const
+{
+  return QTime ().addSecs (estimateDuration ()).toString ("m:ss");
 }
 
 int
@@ -292,7 +305,7 @@ void
 GrooveSong::startStreaming ()
 {
   qDebug () << Q_FUNC_INFO << "Started streaming for " << songName () << "(id: " << songID () << ")";
-  GrooveRequest request (m_client, "more.php?getStreamKeyFromSongIdEx");
+  GrooveRequest request (m_client, GrooveRequest::more ("getStreamKeyFromSongIdEx"));
 
   typedef QVariantOrMap::map map;
   request << map {
@@ -342,13 +355,13 @@ GrooveSong::streamingKeyReady ()
   QVariantMap results = result["result"].toMap ();
 
   QNetworkRequest req;
-  req.setUrl (QUrl (QString ("http://") + results["ip"].toString () + "/stream.php"));
+  req.setUrl (QUrl ("http://" + results["ip"].toString () + "/stream.php"));
   req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
 
   qDebug () << Q_FUNC_INFO << "Sending request to " << req.url ().toString () << " to start stream";
 
   QNetworkReply *streamingReply = m_client.networkManager ().post (req,
-                                                                   QString ("streamKey=" +
-                                                                            results["streamKey"].toString ()).toAscii ());
+                                                                   ("streamKey=" +
+                                                                    results["streamKey"].toString ()).toAscii ());
   emit streamingStarted (streamingReply);
 }

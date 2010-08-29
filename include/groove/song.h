@@ -57,6 +57,8 @@ public:
   Q_PROPERTY (int avgRating READ avgRating)                             int avgRating () const;
   Q_PROPERTY (int avgDuration READ avgDuration)                         int avgDuration () const;
   Q_PROPERTY (int estimateDuration READ estimateDuration)               int estimateDuration () const;
+  Q_PROPERTY (QString avgDurationMins READ avgDurationMins)             QString avgDurationMins () const;
+  Q_PROPERTY (QString estimateDurationMins READ estimateDurationMins)   QString estimateDurationMins () const;
   Q_PROPERTY (int flags READ flags)                                     int flags () const;
   Q_PROPERTY (int isLowBitrateAvailable READ isLowBitrateAvailable)     int isLowBitrateAvailable () const;
   Q_PROPERTY (int songVerified READ songVerified)                       int songVerified () const;

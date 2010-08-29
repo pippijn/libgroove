@@ -19,6 +19,9 @@
      <layout class="QHBoxLayout" name="grpSearch">
       <item>
        <widget class="QLineEdit" name="txtSearch">
+        <property name="toolTip">
+         <string>Search term</string>
+        </property>
         <property name="text">
          <string>nine inch nails every day is exactly the same</string>
         </property>
@@ -26,6 +29,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="btnSearch">
+        <property name="toolTip">
+         <string>Commence search</string>
+        </property>
         <property name="text">
          <string>S&amp;earch</string>
         </property>
@@ -39,6 +45,15 @@
        <enum>Qt::Vertical</enum>
       </property>
       <widget class="QTableView" name="tblSearchResults">
+       <property name="toolTip">
+        <string>Search results table</string>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>190</number>
        </attribute>
@@ -53,6 +68,15 @@
        </attribute>
       </widget>
       <widget class="QTableView" name="tblPlaylistView">
+       <property name="toolTip">
+        <string>Playlist table</string>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>190</number>
        </attribute>
@@ -100,6 +124,9 @@
      <layout class="QHBoxLayout" name="grpTime">
       <item>
        <widget class="QLabel" name="lblElapsed">
+        <property name="toolTip">
+         <string>Current time</string>
+        </property>
         <property name="text">
          <string>0:00</string>
         </property>
@@ -107,6 +134,9 @@
       </item>
       <item>
        <widget class="QSlider" name="songProgress">
+        <property name="toolTip">
+         <string>Song time position</string>
+        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -114,6 +144,9 @@
       </item>
       <item>
        <widget class="QLabel" name="lblTotal">
+        <property name="toolTip">
+         <string>Song duration</string>
+        </property>
         <property name="text">
          <string>0:00</string>
         </property>
@@ -236,8 +269,8 @@
    <slot>onQueueSong(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>266</x>
-     <y>281</y>
+     <x>275</x>
+     <y>235</y>
     </hint>
     <hint type="destinationlabel">
      <x>403</x>

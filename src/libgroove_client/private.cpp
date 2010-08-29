@@ -71,7 +71,7 @@ void
 GrooveClient::Private::fetchSessionToken ()
 {
   qDebug () << Q_FUNC_INFO << "fetching";
-  GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), "service.php");
+  GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), GrooveRequest::service ());
 
   /* headers and parameters */
   typedef QVariantOrMap::map map;
@@ -106,7 +106,7 @@ GrooveClient::Private::processSessionToken ()
 
   /* TODO */
   GROOVE_VERIFY_OR_DIE (ok, "couldn't parse reply to session token request");
-  GROOVE_VERIFY_OR_DIE (!result["message"].toString ().length (), qPrintable (result["message"].toString ()));
+  GROOVE_VERIFY_OR_DIE (result["message"].toString ().isEmpty (), qPrintable (result["message"].toString ()));
 
   m_sessionToken = result["result"].toString ();
   qDebug () << Q_FUNC_INFO << "Got session token: " << m_sessionToken;
@@ -136,7 +136,8 @@ GrooveClient::Private::grooveMessageToken (const QString &method) const
                + QString (qrand () % 9 + 48)
                + QString (qrand () % 9 + 48)
                + QString (qrand () % 9 + 48)
-               + QString (qrand () % 9 + 48);
+               + QString (qrand () % 9 + 48)
+               ;
 
   QString messageToken;
   messageToken.append (method);
