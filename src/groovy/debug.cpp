@@ -34,7 +34,7 @@ print_status (size_t cur, size_t max)
   fprintf (stdout, "\r==%d== building stack trace: %zu%% (%zu / %zu)", getpid (), cur * 100 / max, cur, max);
   fflush (stdout);
   if (cur == max)
-    fputc ('\n', stdout);
+    fprintf (stdout, "%50c", '\r');
 }
 
 void

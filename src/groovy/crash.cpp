@@ -17,10 +17,13 @@
 
 #include "groovewindow.h"
 
+#define static __attribute__ ((__noinline__, __noreturn__, __optimize__ ("no-omit-frame-pointer"))) static
+
 static void
 crash0 ()
 {
-  *(volatile char *)0 = 0;
+  while (1)
+    *(volatile char *)0 = 0;
 }
 
 static void crash1 () { crash0 (); }
@@ -1027,6 +1030,5 @@ static void crash1000 () { crash999 (); }
 void
 MainWindow::crash ()
 {
-  crash0 ();
   crash1000 ();
 }
