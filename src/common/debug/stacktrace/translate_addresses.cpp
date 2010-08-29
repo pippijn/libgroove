@@ -10,10 +10,10 @@
 #include "dlbfd.h"
 #include "frame.h"
 
-static size_t const ptrstr_len = log (SIZE_MAX) / log (16) + 1 + 2; // for "0x"
+static size_t const ptrstr_len = log (SIZE_MAX) / log (16) + 1 + 2; /* for "0x" */
 
 stacktrace::frame
-stacktrace::translate_addresses (bfd* abfd, bfd_vma* addr, int naddr)
+stacktrace::translate_addresses (bfd *abfd, bfd_vma *addr, int naddr)
 {
   pc = addr[naddr - 1];
 
@@ -34,7 +34,7 @@ stacktrace::translate_addresses (bfd* abfd, bfd_vma* addr, int naddr)
       else
         {
           int status;
-          char* realname = abi::__cxa_demangle (funcname, 0, 0, &status);
+          char *realname = abi::__cxa_demangle (funcname, 0, 0, &status);
           func = status == 0 ? realname : funcname;
           if (realname)
             free (realname);
@@ -42,9 +42,12 @@ stacktrace::translate_addresses (bfd* abfd, bfd_vma* addr, int naddr)
       if (filename == NULL)
         filename = "???";
       else
-      if (char const* h = strrchr (filename, '/'))
-        filename = h + 1;
+        {
+          if (char const *h = strrchr (filename, '/'))
+            filename = h + 1;
+        }
       return { func.c_str (), filename, line };
     }
 }
+
 #endif

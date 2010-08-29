@@ -5,9 +5,9 @@
 
 #if HAVE_BFD_H
 void
-stacktrace::find_address_in_section (bfd* abfd, asection* section, void* data)
+stacktrace::find_address_in_section (bfd *abfd, asection *section, void *data)
 {
-  stacktrace* self = static_cast<stacktrace*> (data);
+  stacktrace *self = static_cast<stacktrace *> (data);
 
   bfd_vma vma;
   bfd_size_type size;
@@ -29,4 +29,5 @@ stacktrace::find_address_in_section (bfd* abfd, asection* section, void* data)
   self->found = bfd_find_nearest_line (abfd, section, self->syms, self->pc - vma,
                                        &self->filename, &self->funcname, &self->line);
 }
+
 #endif

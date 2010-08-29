@@ -20,4 +20,5 @@ stacktrace::stacktrace ()
   bfd_init ();
   xassert (pthread_mutex_init (&mtx, NULL) == 0);
 }
+
 #endif

@@ -11,4 +11,5 @@ stacktrace::dlbfd::~dlbfd ()
     dlclose (handle);
 #endif
 }
+
 #endif

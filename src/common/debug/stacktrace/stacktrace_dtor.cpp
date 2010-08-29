@@ -10,4 +10,5 @@ stacktrace::~stacktrace ()
 {
   xassert (pthread_mutex_destroy (&mtx) == 0);
 }
+
 #endif

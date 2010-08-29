@@ -10,9 +10,9 @@
 #include "frame.h"
 
 stacktrace::frame
-stacktrace::process_file (char const* file_name, bfd_vma* addr, int naddr)
+stacktrace::process_file (char const *file_name, bfd_vma *addr, int naddr)
 {
-  bfd* abfd = bfd_openr (file_name, NULL);
+  bfd *abfd = bfd_openr (file_name, NULL);
 
   if (abfd == NULL)
     bfd_fatal (file_name);
@@ -20,7 +20,7 @@ stacktrace::process_file (char const* file_name, bfd_vma* addr, int naddr)
   if (bfd_check_format (abfd, bfd_archive))
     fatal ("%s: can not get addresses from archive", file_name);
 
-  char** matching;
+  char **matching;
   if (!bfd_check_format_matches (abfd, bfd_object, &matching))
     {
       bfd_nonfatal (bfd_get_filename (abfd));
@@ -46,4 +46,5 @@ stacktrace::process_file (char const* file_name, bfd_vma* addr, int naddr)
   bfd_close (abfd);
   return frame;
 }
+
 #endif

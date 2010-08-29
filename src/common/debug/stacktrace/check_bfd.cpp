@@ -13,4 +13,5 @@ stacktrace::check_bfd ()
   return true;
 #endif
 }
+
 #endif

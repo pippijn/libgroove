@@ -12,12 +12,15 @@ stacktrace::dlbfd::dlbfd ()
 
   if (!load_bfd (*this, errors))
     {
-      // we tried so hard but failed in the end
-      // that probably means it's not there, so bail out
+      /*
+       * we tried so hard but failed in the end
+       * that probably means it's not there, so bail out
+       */
       fprintf (stderr, "unable to load BFD library, backtrace will not be available:%s\n",
                errors.c_str ());
       handle = 0;
     }
 #endif
 }
+
 #endif

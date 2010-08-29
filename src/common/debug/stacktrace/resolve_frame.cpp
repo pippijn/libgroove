@@ -8,7 +8,7 @@
 #include "frame.h"
 
 stacktrace::frame
-stacktrace::resolve_frame (void const* base)
+stacktrace::resolve_frame (void const *base)
 {
   xassert (base);
   if (!check_bfd ())
@@ -17,7 +17,7 @@ stacktrace::resolve_frame (void const* base)
 #if HAVE_BFD_H
   xassert (pthread_mutex_lock (&mtx) == 0);
 
-  frame frame = resolve_frame_internal (static_cast<char const*> (base));
+  frame frame = resolve_frame_internal (static_cast<char const *> (base));
 
   xassert (pthread_mutex_unlock (&mtx) == 0);
 
