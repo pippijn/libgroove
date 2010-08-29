@@ -16,12 +16,32 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "autoconf.h"
+
 #include <QApplication>
 
 #include "groovewindow.h"
 
 #include "groove/client.h"
 #include "groove/song.h"
+
+static void
+help ()
+{
+  printf ("Usage: %s\n", PACKAGE);
+}
+
+static void
+version ()
+{
+  printf ("%s version %s\n\n", PACKAGE_NAME, PACKAGE_VERSION);
+  puts ("Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>");
+  puts ("Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>");
+  puts ("");
+  puts ("This program is free software; you can redistribute it and/or modify it");
+  puts ("under the terms and conditions of the GNU Lesser General Public License,");
+  puts ("version 2.1, as published by the Free Software Foundation.");
+}
 
 int
 main (int argc, char **argv)
@@ -31,8 +51,15 @@ main (int argc, char **argv)
   qca.setOrganizationName ("Xinutec");
   qca.setApplicationName ("Groovy");
 
+  QStringList args = qca.arguments ();
+
+  if (args.contains ("--help"))
+    return help (), EXIT_SUCCESS;
+  if (args.contains ("--version"))
+    return version (), EXIT_SUCCESS;
+
   MainWindow mw;
   mw.show ();
 
-  qca.exec ();
+  return qca.exec ();
 }

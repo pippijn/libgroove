@@ -15,31 +15,28 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <QDialog>
-class QAbstractButton;
+#include "libgroove_global.h"
 
-class GrooveSearchModel;
-class GroovePlaylistModel;
+#include <QDebug>
+#include <QImage>
+#include <QPixmap>
 
-namespace Ui
+#include "about.h"
+#include "ui_about.h"
+
+About::About (QWidget *parent)
+  : QDialog (parent)
+  , m_ui (new Ui::About)
 {
-  class Preferences;
+  m_ui->setupUi (this);
+
+  QImage image (PKGDATADIR "/grooveshark-icon.png");
+  GROOVE_VERIFY_OR_DIE (!image.isNull (), "could not load grooveshark logo");
+
+  m_ui->lblImage->setPixmap (QPixmap::fromImage (image));
 }
 
-class Preferences
-  : public QDialog
+About::~About ()
 {
-  Q_OBJECT
-
-public:
-  Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &playListModel, QWidget *parent);
-  ~Preferences ();
-
-private slots:
-  void buttonBoxClicked (QAbstractButton *btn);
-
-private:
-  Ui::Preferences *m_ui;
-  GrooveSearchModel &m_searchModel;
-  GroovePlaylistModel &m_playListModel;
-};
+  delete m_ui;
+}

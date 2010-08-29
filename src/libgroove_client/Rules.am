@@ -4,6 +4,9 @@ libgroove_client_la_SOURCES =			\
 	src/libgroove_client/client.cpp		\
 	src/libgroove_client/private.cpp
 
+noinst_HEADERS +=				\
+	src/libgroove_client/private.h
+
 nodist_libgroove_client_la_SOURCES =		\
 	src/libgroove_client/private.moc.cpp	\
 	include/groove/client.moc.cpp

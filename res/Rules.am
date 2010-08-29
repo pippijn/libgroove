@@ -1,0 +1,7 @@
+EXTRA_DIST +=				\
+	res/grooveshark-icon.png	\
+	res/grooveshark.png
+
+pkgdata_DATA +=				\
+	res/grooveshark-icon.png	\
+	res/grooveshark.png

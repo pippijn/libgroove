@@ -1,0 +1,11 @@
+include_HEADERS +=			\
+	include/grooveplaylistmodel.h	\
+	include/groovesearchmodel.h	\
+	include/libgroove_global.h
+
+noinst_HEADERS +=			\
+	include/about.h			\
+	include/groovewindow.h		\
+	include/preferences.h
+
+include include/groove/Rules.am

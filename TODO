@@ -1,3 +1,4 @@
+================================== libgroove =================================
 - Change GrooveSong::streamingStarted() signal to pass the GrooveSong that is
   streaming
 - Unit testing for GrooveSearchModel
@@ -19,3 +20,11 @@
     Store failed search and retry?
 - Fix buildsystem for tests to not require relative path magic, and to
   use the built version of the library when running the test.
+
+
+=================================== groovy ===================================
+- search for title/album/artist
+- filter search results
+- status indicator for unfinished songs
+- grooveshark user login
+- QSettings: cache directory

@@ -1,5 +1,4 @@
 /*
- * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
  * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -76,32 +75,41 @@ Preferences::~Preferences ()
   delete m_ui;
 }
 
-
 void
-Preferences::applyClicked ()
+Preferences::buttonBoxClicked (QAbstractButton *btn)
 {
-  m_searchModel.beginChangeVisible ();
-  foreach (QListWidgetItem *item, m_ui->lstSearchItems->selectedItems ())
-    {
-      GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
-      QString prop = item->data (Qt::UserRole).value<QString> ();
-      m_searchModel.addVisible (prop);
-    }
-  m_searchModel.endChangeVisible ();
+  bool closing = false;
 
-  m_playListModel.beginChangeVisible ();
-  foreach (QListWidgetItem *item, m_ui->lstPlaylistItems->selectedItems ())
+  switch (m_ui->buttonBox->buttonRole (btn))
     {
-      GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
-      QString prop = item->data (Qt::UserRole).value<QString> ();
-      m_playListModel.addVisible (prop);
-    }
-  m_playListModel.endChangeVisible ();
-}
+    case QDialogButtonBox::RejectRole:
+      closing = true;
+      break;
+    case QDialogButtonBox::AcceptRole:
+      closing = true;
+    case QDialogButtonBox::ApplyRole:
+      {
+        m_searchModel.beginChangeVisible ();
+        foreach (QListWidgetItem *item, m_ui->lstSearchItems->selectedItems ())
+          {
+            GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
+            QString prop = item->data (Qt::UserRole).value<QString> ();
+            m_searchModel.addVisible (prop);
+          }
+        m_searchModel.endChangeVisible ();
 
-void
-Preferences::okClicked ()
-{
-  applyClicked ();
-  close ();
+        m_playListModel.beginChangeVisible ();
+        foreach (QListWidgetItem *item, m_ui->lstPlaylistItems->selectedItems ())
+          {
+            GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
+            QString prop = item->data (Qt::UserRole).value<QString> ();
+            m_playListModel.addVisible (prop);
+          }
+        m_playListModel.endChangeVisible ();
+        break;
+      }
+    }
+
+  if (closing)
+    close ();
 }

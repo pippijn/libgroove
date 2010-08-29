@@ -31,7 +31,8 @@ make_cache (GrooveSong const &song)
   path += QDir::separator ();
   path += song.albumName ();
 
-  if (GROOVE_VERIFY (QDir ().mkpath (path), "unable to create path to cache"))
+  qDebug () << Q_FUNC_INFO << "making cache path: " << path;
+  if (GROOVE_VERIFY (QDir ().mkpath (path), "unable to create path to cache: " + path))
     return QString ();
 
   path += QDir::separator ();

@@ -1,0 +1,4 @@
+EXTRA_DIST +=			\
+	src/ui/about.ui		\
+	src/ui/groovewindow.ui	\
+	src/ui/preferences.ui

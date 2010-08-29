@@ -61,6 +61,7 @@ private slots:
   void playNextSong ();
   void onMediaChanged (Phonon::MediaSource const &newSource);
   void openPrefs ();
+  void openAbout ();
 
   void onBtnPrev ();
   void onBtnPause ();

@@ -29,8 +29,10 @@
 #include "groovesearchmodel.h"
 #include "groove/song.h"
 
+#include "about.h"
 #include "groovewindow.h"
 #include "preferences.h"
+
 #include "ui_groovewindow.h"
 
 MainWindow::MainWindow (QWidget *parent)
@@ -94,6 +96,13 @@ MainWindow::openPrefs ()
 {
   Preferences prefs (*m_searchModel, *m_playlistModel, this);
   prefs.exec ();
+}
+
+void
+MainWindow::openAbout ()
+{
+  About about (this);
+  about.exec ();
 }
 
 GrooveFetcher *

@@ -16,30 +16,21 @@
  */
 
 #include <QDialog>
-class QAbstractButton;
-
-class GrooveSearchModel;
-class GroovePlaylistModel;
 
 namespace Ui
 {
-  class Preferences;
+  class About;
 }
 
-class Preferences
+class About
   : public QDialog
 {
   Q_OBJECT
 
 public:
-  Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &playListModel, QWidget *parent);
-  ~Preferences ();
-
-private slots:
-  void buttonBoxClicked (QAbstractButton *btn);
+  About (QWidget *parent);
+  ~About ();
 
 private:
-  Ui::Preferences *m_ui;
-  GrooveSearchModel &m_searchModel;
-  GroovePlaylistModel &m_playListModel;
+  Ui::About *m_ui;
 };

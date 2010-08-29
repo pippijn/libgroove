@@ -1,11 +1,13 @@
 bin_PROGRAMS += groovy
 
 groovy_SOURCES =			\
+	src/groovy/about.cpp		\
 	src/groovy/groovewindow.cpp	\
 	src/groovy/main.cpp		\
 	src/groovy/preferences.cpp
 
 nodist_groovy_SOURCES =			\
+	include/about.moc.cpp		\
 	include/groovewindow.moc.cpp	\
 	include/preferences.moc.cpp
 
@@ -21,5 +23,6 @@ groovy_LDADD =			\
 	$(QTGUI_LIBS)		\
 	$(PHONON_LIBS)
 
+BUILT_SOURCES += ui_about.h
 BUILT_SOURCES += ui_groovewindow.h
 BUILT_SOURCES += ui_preferences.h
