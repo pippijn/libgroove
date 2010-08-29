@@ -23,12 +23,12 @@ bool
 load_bfd_symbols (stacktrace::dlbfd &self, std::string &errors)
 {
   return load_symbol (self.handle, self.init, "bfd_init", errors)
-         && load_symbol (self.handle, self.map_over_sections, "bfd_map_over_sections", errors)
-         && load_symbol (self.handle, self.check_format, "bfd_check_format", errors)
-         && load_symbol (self.handle, self.check_format_matches, "bfd_check_format_matches", errors)
-         && load_symbol (self.handle, self.openr, "bfd_openr", errors)
-         && load_symbol (self.handle, self.close, "bfd_close", errors)
-  ;
+      && load_symbol (self.handle, self.map_over_sections, "bfd_map_over_sections", errors)
+      && load_symbol (self.handle, self.check_format, "bfd_check_format", errors)
+      && load_symbol (self.handle, self.check_format_matches, "bfd_check_format_matches", errors)
+      && load_symbol (self.handle, self.openr, "bfd_openr", errors)
+      && load_symbol (self.handle, self.close, "bfd_close", errors)
+      ;
 }
 
 bool
