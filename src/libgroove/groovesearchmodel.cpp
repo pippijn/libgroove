@@ -29,7 +29,7 @@
 #include <qjson/parser.h>
 
 GrooveSearchModel::GrooveSearchModel (GrooveClient &client, QObject *parent)
-  : GrooveSongsModel (parent)
+  : GrooveSongsModel ("Search", parent)
   , m_client (client)
 {
 }

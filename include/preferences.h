@@ -18,6 +18,9 @@
 
 #include <QDialog>
 
+class GrooveSearchModel;
+class GroovePlaylistModel;
+
 namespace Ui
 {
   class Preferences;
@@ -29,9 +32,15 @@ class Preferences
   Q_OBJECT
 
 public:
-  explicit Preferences (QWidget *parent);
+  Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &playListModel, QWidget *parent);
   ~Preferences ();
+
+private slots:
+  void applyClicked ();
+  void okClicked ();
 
 private:
   Ui::Preferences *m_ui;
+  GrooveSearchModel &m_searchModel;
+  GroovePlaylistModel &m_playListModel;
 };

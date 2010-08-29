@@ -92,7 +92,7 @@ MainWindow::onMediaChanged (Phonon::MediaSource const &newSource)
 void
 MainWindow::openPrefs ()
 {
-  Preferences prefs (this);
+  Preferences prefs (*m_searchModel, *m_playlistModel, this);
   prefs.exec ();
 }
 

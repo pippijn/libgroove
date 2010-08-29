@@ -18,6 +18,8 @@
 
 #include <QDebug>
 
+#include <boost/foreach.hpp>
+
 #include "groove/client.h"
 #include "grooveplaylistmodel.h"
 #include "groovesearchmodel.h"
@@ -26,29 +28,82 @@
 #include "preferences.h"
 #include "ui_preferences.h"
 
-Preferences::Preferences (QWidget *parent)
+static struct property
+{
+  char const *prop;
+  char const *name;
+} const song_properties[] = {
+  { "songName",         "Title"         },
+  { "albumName",        "Album"         },
+  { "artistName",       "Artist"        },
+  { "year",             "Year"          },
+  { "trackNum",         "Track"         },
+  { "estimateDuration", "Duration"      },
+  { "popularity",       "Popularity"    },
+  { "songPlays",        "Plays"         },
+  { "songClicks",       "Clicks"        },
+  { "score",            "Score"         },
+  { "rank",             "Rank"          },
+  { NULL,               NULL            }
+};
+
+Preferences::Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &playListModel, QWidget *parent)
   : QDialog (parent)
   , m_ui (new Ui::Preferences)
+  , m_searchModel (searchModel)
+  , m_playListModel (playListModel)
 {
   m_ui->setupUi (this);
 
-  m_ui->lstSearchAvailable->addItem ("item1");
-  m_ui->lstSearchAvailable->addItem ("item2");
-  m_ui->lstSearchAvailable->addItem ("item3");
-  m_ui->lstSearchAvailable->addItem ("item4");
-  m_ui->lstSearchAvailable->addItem ("item5");
-  m_ui->lstSearchAvailable->addItem ("item6");
-  m_ui->lstSearchAvailable->addItem ("item7");
-  m_ui->lstSearchAvailable->addItem ("item8");
-  m_ui->lstSearchAvailable->addItem ("item9");
-  m_ui->lstSearchAvailable->addItem ("item10");
-  m_ui->lstSearchAvailable->addItem ("item11");
-  m_ui->lstSearchAvailable->addItem ("item12");
-  m_ui->lstSearchAvailable->addItem ("item13");
-  m_ui->lstSearchAvailable->addItem ("item14");
+  BOOST_FOREACH (auto const &prop, song_properties)
+    {
+      QListWidgetItem *item;
+      if (!prop.name)
+        break;
+
+      item = new QListWidgetItem (prop.name, m_ui->lstSearchItems);
+      item->setData (Qt::UserRole, prop.prop);
+      item->setSelected (m_searchModel.isVisible (prop.prop));
+      m_ui->lstSearchItems->addItem (item);
+
+      item = new QListWidgetItem (prop.name, m_ui->lstPlaylistItems);
+      item->setData (Qt::UserRole, prop.prop);
+      item->setSelected (m_playListModel.isVisible (prop.prop));
+      m_ui->lstPlaylistItems->addItem (item);
+    }
 }
 
 Preferences::~Preferences ()
 {
   delete m_ui;
+}
+
+
+void
+Preferences::applyClicked ()
+{
+  m_searchModel.beginChangeVisible ();
+  foreach (QListWidgetItem *item, m_ui->lstSearchItems->selectedItems ())
+    {
+      GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
+      QString prop = item->data (Qt::UserRole).value<QString> ();
+      m_searchModel.addVisible (prop);
+    }
+  m_searchModel.endChangeVisible ();
+
+  m_playListModel.beginChangeVisible ();
+  foreach (QListWidgetItem *item, m_ui->lstPlaylistItems->selectedItems ())
+    {
+      GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
+      QString prop = item->data (Qt::UserRole).value<QString> ();
+      m_playListModel.addVisible (prop);
+    }
+  m_playListModel.endChangeVisible ();
+}
+
+void
+Preferences::okClicked ()
+{
+  applyClicked ();
+  close ();
 }

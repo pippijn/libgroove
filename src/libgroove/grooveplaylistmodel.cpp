@@ -22,7 +22,7 @@
 #include <QColor>
 
 GroovePlaylistModel::GroovePlaylistModel (GrooveClient &client, QObject *parent)
-  : GrooveSongsModel (parent)
+  : GrooveSongsModel ("Playlist", parent)
   , m_client (client)
   , m_currentTrack (-1)
 {

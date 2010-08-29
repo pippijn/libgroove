@@ -22,6 +22,7 @@
 #include "libgroove_global.h"
 
 #include <QAbstractItemModel>
+#include <QStringList>
 
 class GrooveSong;
 
@@ -30,15 +31,23 @@ class LIBGROOVESHARED_EXPORT GrooveSongsModel
 {
   Q_OBJECT
 
-public:
-  explicit GrooveSongsModel (QObject *parent = 0);
+protected:
+  GrooveSongsModel (QString const &modelName, QObject *parent);
+  ~GrooveSongsModel ();
 
+private:
   virtual QModelIndex index (int row, int column, const QModelIndex &parent) const;
   virtual QModelIndex parent (const QModelIndex &child) const;
   virtual int rowCount (const QModelIndex &parent) const;
   virtual int columnCount (const QModelIndex &parent) const;
   virtual QVariant data (const QModelIndex &index, int role) const;
   virtual QVariant headerData (int section, Qt::Orientation orientation, int role) const;
+
+public:
+  void addVisible (QString const &item);
+  void beginChangeVisible ();
+  void endChangeVisible ();
+  bool isVisible (QString const &item);
 
   /*!
    *  Returns the number of tracks in this playlist.
@@ -53,6 +62,7 @@ public slots:
 
 protected:
   QList<GrooveSong *> m_songs;
+  QStringList m_visible;
 };
 
 #endif /* GROOVESONGSMODEL_H */

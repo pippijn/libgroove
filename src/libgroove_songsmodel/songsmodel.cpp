@@ -19,12 +19,51 @@
 #include "groove/song.h"
 #include "groove/songsmodel.h"
 
+#include <QSettings>
 #include <QTime>
 
-static const int GrooveSongsModelMaxCols = 3;
+#include <map>
 
-GrooveSongsModel::GrooveSongsModel (QObject *parent)
+static std::map<QString, char const *> propNames = {
+  { "songName",         "Title"         },
+  { "albumName",        "Album"         },
+  { "artistName",       "Artist"        },
+  { "year",             "Year"          },
+  { "trackNum",         "Track"         },
+  { "estimateDuration", "Duration"      },
+  { "popularity",       "Popularity"    },
+  { "songPlays",        "Plays"         },
+  { "songClicks",       "Clicks"        },
+  { "score",            "Score"         },
+  { "rank",             "Rank"          },
+};
+
+GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
   : QAbstractItemModel (parent)
+{
+  QSettings settings;
+  settings.beginGroup (modelName);
+  if (!settings.contains ("columns"))
+    {
+      m_visible.append ("songName");
+      m_visible.append ("albumName");
+      m_visible.append ("artistName");
+      m_visible.append ("estimateDuration");
+
+      settings.setValue ("columns", m_visible);
+    }
+  else
+    {
+      GROOVE_VERIFY_OR_DIE (settings.value ("columns").canConvert<QStringList> (),
+                            "invalid configuration data for `columns' key");
+
+      m_visible = settings.value ("columns").toStringList ();
+    }
+
+  settings.endGroup ();
+}
+
+GrooveSongsModel::~GrooveSongsModel ()
 {
 }
 
@@ -33,7 +72,8 @@ GrooveSongsModel::index (int row, int column, const QModelIndex &parent) const
 {
   Q_UNUSED (parent);
 
-  if (row < 0 || row >= m_songs.count () || column < 0 || column > GrooveSongsModelMaxCols)
+  /* list size is 0 based */
+  if (row < 0 || row >= m_songs.count () || column < 0 || column > m_visible.size () - 1)
     return QModelIndex ();
 
   return createIndex (row, column);
@@ -60,7 +100,7 @@ GrooveSongsModel::columnCount (const QModelIndex &parent) const
 {
   Q_UNUSED (parent);
 
-  return GrooveSongsModelMaxCols + 1;   /* GrooveSongsModelMaxCols is 0 based */
+  return m_visible.size ();
 }
 
 QVariant
@@ -72,23 +112,13 @@ GrooveSongsModel::data (const QModelIndex &index, int role) const
     return QVariant ();
   if (GROOVE_VERIFY (index.column () >= 0, "column is negative"))
     return QVariant ();
-  if (GROOVE_VERIFY (index.column () <= GrooveSongsModelMaxCols, "column is higher than GrooveSongsModelMaxCols"))
+  if (GROOVE_VERIFY (index.column () < m_visible.size (), "column is higher than m_visible.size ()"))
     return QVariant ();
 
   switch (role)
     {
     case Qt::DisplayRole:
-      switch (index.column ())
-        {
-        case 0:
-          return m_songs[index.row ()]->songName ();
-        case 1:
-          return m_songs[index.row ()]->artistName ();
-        case 2:
-          return m_songs[index.row ()]->albumName ();
-        case 3:
-          return QTime ().addSecs (m_songs[index.row ()]->estimateDuration ()).toString ("m:ss");
-        }
+      return m_songs[index.row ()]->property (m_visible[index.column ()].toUtf8 ());
     }
 
   return QVariant ();
@@ -102,26 +132,42 @@ GrooveSongsModel::headerData (int section, Qt::Orientation orientation, int role
 
   if (GROOVE_VERIFY (section >= 0, "section is negative"))
     return QVariant ();
-  if (GROOVE_VERIFY (section <= GrooveSongsModelMaxCols, "section is higher than GrooveSongsModelMaxCols"))
+  if (GROOVE_VERIFY (section < m_visible.size (), "section is higher than m_visible.size ()"))
     return QVariant ();
 
   switch (role)
     {
     case Qt::DisplayRole:
-      switch (section)
-        {
-        case 0:
-          return tr ("Title");
-        case 1:
-          return tr ("Artist");
-        case 2:
-          return tr ("Album");
-        case 3:
-          return tr ("Duration");
-        }
+      return tr (propNames[m_visible[section]]);
     }
 
   return QVariant ();
+}
+
+void
+GrooveSongsModel::addVisible (QString const &item)
+{
+  m_visible.append (item);
+}
+
+void
+GrooveSongsModel::beginChangeVisible ()
+{
+  emit beginResetModel ();
+
+  m_visible.clear ();
+}
+
+void
+GrooveSongsModel::endChangeVisible ()
+{
+  emit endResetModel ();
+}
+
+bool
+GrooveSongsModel::isVisible (QString const &item)
+{
+  return m_visible.contains (item);
 }
 
 /*****/

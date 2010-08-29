@@ -29,38 +29,58 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Tab 2</string>
+       <string>Visible rows</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QListWidget" name="lstSearchAvailable">
-         <property name="acceptDrops">
-          <bool>true</bool>
-         </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="1" column="0">
+        <widget class="QListWidget" name="lstSearchItems">
          <property name="dragEnabled">
           <bool>true</bool>
          </property>
          <property name="dragDropMode">
-          <enum>QAbstractItemView::DragDrop</enum>
+          <enum>QAbstractItemView::InternalMove</enum>
          </property>
          <property name="defaultDropAction">
           <enum>Qt::MoveAction</enum>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::MultiSelection</enum>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QListWidget" name="lstSearchEnabled">
-         <property name="acceptDrops">
-          <bool>true</bool>
-         </property>
+       <item row="1" column="2">
+        <widget class="QListWidget" name="lstPlaylistItems">
          <property name="dragEnabled">
           <bool>true</bool>
          </property>
          <property name="dragDropMode">
-          <enum>QAbstractItemView::DragDrop</enum>
+          <enum>QAbstractItemView::InternalMove</enum>
          </property>
          <property name="defaultDropAction">
           <enum>Qt::MoveAction</enum>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::MultiSelection</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Search results</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Playlist</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -71,14 +91,14 @@
    <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="1" column="1">
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btnOK">
        <property name="text">
         <string>&amp;OK</string>
        </property>
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="btnCancel">
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -98,7 +118,7 @@
       </spacer>
      </item>
      <item row="1" column="3">
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="btnApply">
        <property name="text">
         <string>&amp;Apply</string>
        </property>
@@ -109,5 +129,58 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnApply</sender>
+   <signal>clicked()</signal>
+   <receiver>Preferences</receiver>
+   <slot>applyClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>620</x>
+     <y>504</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>Preferences</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>534</x>
+     <y>504</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnOK</sender>
+   <signal>clicked()</signal>
+   <receiver>Preferences</receiver>
+   <slot>okClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>448</x>
+     <y>504</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>okClicked()</slot>
+  <slot>applyClicked()</slot>
+ </slots>
 </ui>
