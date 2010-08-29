@@ -105,7 +105,7 @@ GrooveFetcher::fetch ()
 void
 GrooveFetcher::onStreamingStarted (QNetworkReply *httpStream)
 {
-  qDebug () << Q_FUNC_INFO << "Streaming started... :)";
+  qDebug () << Q_FUNC_INFO << "Streaming started";
 
   connect (httpStream, SIGNAL (readyRead ()), SLOT (onStreamReadReady ()));
   connect (httpStream, SIGNAL (finished ()), SLOT (onStreamingFinished ()));

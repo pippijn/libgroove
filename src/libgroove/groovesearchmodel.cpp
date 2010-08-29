@@ -64,7 +64,6 @@ void
 GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTerm)
 {
   qDebug () << Q_FUNC_INFO << "Searching by " << type << " for " << searchTerm;
-  clear ();
 
   GrooveRequest request (m_client, GrooveRequest::more ("getSearchResults"));
 
@@ -96,9 +95,9 @@ GrooveSearchModel::searchCompleted ()
   if (GROOVE_VERIFY (reply, "search returned without a QNetworkReply"))
     return;
 
+  QByteArray response = reply->readAll ();
   QJson::Parser parser;
   bool ok;
-  QByteArray response = reply->readAll ();
   QVariantMap result = parser.parse (response, &ok).toMap ();
   if (GROOVE_VERIFY (ok, "error occurred whilst parsing search results"))
     return;

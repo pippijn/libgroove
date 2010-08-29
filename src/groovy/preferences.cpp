@@ -17,6 +17,7 @@
 
 #include <QDebug>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QSettings>
 
 #include <boost/foreach.hpp>
@@ -87,7 +88,12 @@ Preferences::commitGeneral ()
 {
   QSettings settings;
   
-  settings.setValue (GrooveSettings::CACHEDIR, m_ui->txtCachePath->text ());
+  if (QFile::exists (m_ui->txtCachePath->text ()))
+    settings.setValue (GrooveSettings::CACHEDIR, m_ui->txtCachePath->text ());
+  else
+    QMessageBox::warning (this,
+                          tr ("Invalid path"),
+                          tr ("invalid path: ") + m_ui->txtCachePath->text ());
 }
 
 void

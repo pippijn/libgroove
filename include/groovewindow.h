@@ -50,16 +50,22 @@ protected:
 
 private slots:
   void onConnected ();
+
   void onSearchButtonPress ();
+
   void onPlaySong (QModelIndex const &index);
   void onQueueSong (QModelIndex const &index);
+
   void beginSeekSong (int time);
   void endSeekSong ();
   void songTick (qint64 time);
   void songTotalTimeChanged (qint64 newTotalTime);
+
   void playCurrentSong ();
   void playNextSong ();
+  
   void onMediaChanged (Phonon::MediaSource const &newSource);
+
   void openPrefs ();
   void openAbout ();
 

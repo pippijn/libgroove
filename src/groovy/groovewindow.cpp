@@ -1,4 +1,4 @@
-#define LIVE 0
+#define LIVE 1
 
 /*
  * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
