@@ -5,7 +5,7 @@
 
 template<typename To, typename From>
 static bool
-force_assign (To& target, From source)
+force_assign (To &target, From source)
 {
-  return (target = reinterpret_cast<To> (source));
+  return target = reinterpret_cast<To> (source);
 }

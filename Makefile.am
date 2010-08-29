@@ -3,6 +3,7 @@ ACLOCAL_AMFLAGS		= -I m4/libtool -I m4
 
 lib_LTLIBRARIES		= # empty
 bin_PROGRAMS		= # empty
+noinst_PROGRAMS		= # empty
 pkgdata_DATA		= # empty
 include_HEADERS		= # empty
 noinst_HEADERS		= # empty

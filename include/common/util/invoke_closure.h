@@ -26,7 +26,7 @@ typename closure_traits<TupleT>::return_type
 invoke_closure_helper ( typename closure_traits<TupleT>::function_type function
                       , TupleT t
                       , int_pack<N...> ipack
-                      , ExtraArgs const&... extra_args
+                      , ExtraArgs const &...extra_args
                       )
 {
   return function (std::get<N + Skip> (t)..., extra_args...);
@@ -34,7 +34,7 @@ invoke_closure_helper ( typename closure_traits<TupleT>::function_type function
 
 template<typename TupleT, typename... ExtraArgs>
 typename closure_traits<TupleT>::return_type
-invoke_closure (TupleT const& closure, ExtraArgs const&... extra_args)
+invoke_closure (TupleT const &closure, ExtraArgs const &...extra_args)
 {
   return invoke_closure_helper<1> ( std::get<0> (closure)
                                   , closure

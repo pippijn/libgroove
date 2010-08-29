@@ -27,7 +27,7 @@ va_listN<IntT, Info...>::unpack ()
 {
   auto all = unpack ();
   std::vector<typename std::tuple_element<Index, typename va_listN<IntT, Info...>::info_type>::type> vector;
-  BOOST_FOREACH (auto const& tuple, all)
+  BOOST_FOREACH (auto const &tuple, all)
     {
       vector.push_back (std::get<Index> (tuple));
     }

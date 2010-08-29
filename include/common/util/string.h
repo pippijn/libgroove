@@ -7,7 +7,7 @@
 
 template<size_t N>
 static inline int
-strncmp (char const* s1, char const (&s2)[N])
+strncmp (char const *s1, char const (&s2)[N])
 {
   return strncmp (s1, s2, N - 1);
 }

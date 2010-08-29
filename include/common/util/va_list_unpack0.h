@@ -34,7 +34,7 @@ va_list0<Info...>::unpack ()
 {
   auto all = unpack ();
   std::vector<typename std::tuple_element<Index, typename va_list0<Info...>::info_type>::type> vector;
-  BOOST_FOREACH (auto const& tuple, all)
+  BOOST_FOREACH (auto const &tuple, all)
     {
       vector.push_back (std::get<Index> (tuple));
     }

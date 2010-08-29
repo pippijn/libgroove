@@ -16,8 +16,8 @@ template<template<typename, typename, typename...> class O>
 struct closure
 {
   closure () = default;
-  closure (closure const& rhs) = delete;
-  closure& operator = (closure const& rhs) = delete;
+  closure (closure const &rhs) = delete;
+  closure &operator = (closure const &rhs) = delete;
 
   typedef typename O<void, void ()>::return_type        return_type;
   typedef typename O<void, void ()>::arglist_type       arglist_type;
@@ -25,15 +25,15 @@ struct closure
 
   virtual ~closure () { }
 
-  virtual return_type  invoke  (arglist_type const& arglist) = 0;
+  virtual return_type  invoke  (arglist_type const &arglist) = 0;
   virtual return_type  invoke  () = 0;
-  virtual void const*  symbol  () = 0;
-  virtual frame const* frames  () = 0;
+  virtual void const  *symbol  () = 0;
+  virtual frame const *frames  () = 0;
   virtual int          curried () = 0;
 
   template<typename Curried, typename R, typename... Args>
-  static closure* create (typename O<Curried, R, Args...>::user_data_type& user_data,
-                          std::tuple<R, Args...> const& closure)
+  static closure *create (typename O<Curried, R, Args...>::user_data_type &user_data,
+                          std::tuple<R, Args...> const &closure)
   {
     return new typed_closure<O, Curried, R, Args...> (user_data, closure);
   }
@@ -52,11 +52,11 @@ protected:
   typedef typename operation_type::return_type          return_type;
   typedef typename operation_type::arglist_type         arglist_type;
 
-  user_data_type& user_data;
+  user_data_type &user_data;
   closure_type closure;
-  frame const* stacktrace;
+  frame const *stacktrace;
 
-  typed_closure_base (user_data_type& data, closure_type const& clos)
+  typed_closure_base (user_data_type &data, closure_type const &clos)
     : user_data (data)
     , closure (clos)
     , stacktrace (NULL)
@@ -90,22 +90,22 @@ class typed_closure
   typedef typename base_type::operation_type            operation_type;
   typedef typename base_type::arglist_type              arglist_type;
 
-  typed_closure (user_data_type& data, closure_type const& clos)
+  typed_closure (user_data_type &data, closure_type const &clos)
     : base_type (data, clos)
   {
   }
 
-  void const* symbol ()
+  void const *symbol ()
   {
-    return reinterpret_cast<void const*> (std::get<0> (this->closure));
+    return reinterpret_cast<void const *> (std::get<0> (this->closure));
   }
 
-  frame const* frames ()
+  frame const *frames ()
   {
     return this->stacktrace;
   }
 
-  return_type invoke (arglist_type const& arglist)
+  return_type invoke (arglist_type const &arglist)
   {
     operation_type op;
     uncurry<Curried> (op, arglist, this->user_data, this->closure);
@@ -134,10 +134,10 @@ struct uncurry<int_pack<I, Rest...>, N>
           , typename user_data_type
           , typename closure_type
           >
-  uncurry ( operation_type& op
-          , arglist_type const& arglist
-          , user_data_type& user_data
-          , closure_type& closure
+  uncurry ( operation_type &op
+          , arglist_type const &arglist
+          , user_data_type &user_data
+          , closure_type &closure
           )
   {
     // XXX: gcc bug?
@@ -155,10 +155,10 @@ struct uncurry<int_pack<>, N>
           , typename user_data_type
           , typename closure_type
           >
-  uncurry ( operation_type& op
-          , arglist_type const& arglist
-          , user_data_type& user_data
-          , closure_type& closure
+  uncurry ( operation_type &op
+          , arglist_type const &arglist
+          , user_data_type &user_data
+          , closure_type &closure
           )
   {
   }

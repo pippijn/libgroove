@@ -10,15 +10,15 @@
 #include "common/debug/backtrace.h"
 
 template<typename T>
-static inline std::ostream&
-output (T const& object, std::ostream& os)
+static inline std::ostream &
+output (T const &object, std::ostream &os)
 {
   return os << object;
 }
 
 template<typename T>
-static inline std::ostream&
-output (T const* object, std::ostream& os)
+static inline std::ostream &
+output (T const *object, std::ostream &os)
 {
   if (object)
     os << object;
@@ -27,8 +27,8 @@ output (T const* object, std::ostream& os)
   return os;
 }
 
-static inline std::ostream&
-output (char const* object, std::ostream& os)
+static inline std::ostream &
+output (char const *object, std::ostream &os)
 {
   if (object)
     os << '"' << object << '"';
@@ -38,8 +38,8 @@ output (char const* object, std::ostream& os)
 }
 
 template<typename T, size_t N>
-static inline std::ostream&
-output (T const (&array)[N], std::ostream& os)
+static inline std::ostream &
+output (T const (&array)[N], std::ostream &os)
 {
   os << '{';
   for (size_t i = 0; i < N; ++i)
@@ -54,17 +54,17 @@ output (T const (&array)[N], std::ostream& os)
 
 namespace detail
 {
-  /* This functions is *really* expensive but also quite useful for debugging
+  /* This function is *really* expensive but also quite useful for debugging
    * purposes. Resolving symbols goes through BFD (if available) and has to be
    * done each time this operator is called.
    */
   template<typename R, typename... Args>
-  static inline std::ostream&
-  operator << (std::ostream& os, R func (Args...))
+  static inline std::ostream &
+  operator << (std::ostream &os, R func (Args...))
   {
-    char* sym = resolve_symbol (func);
+    char *sym = resolve_symbol (func);
     os << '<' << sym;
-    //os << '@' << reinterpret_cast<void*> (func);
+    //os << '@' << reinterpret_cast<void *> (func);
     os << '>';
     free (sym);
     return os;
@@ -74,7 +74,7 @@ namespace detail
   struct tuple_formatter
   {
     template<typename... Args>
-    static void output (std::tuple<Args...> const& tuple, std::ostream& os)
+    static void output (std::tuple<Args...> const &tuple, std::ostream &os)
     {
       os << ", " << std::get<N> (tuple);
     }
@@ -84,7 +84,7 @@ namespace detail
   struct tuple_formatter<0, Max>
   {
     template<typename... Args>
-    static void output (std::tuple<Args...> const& tuple, std::ostream& os)
+    static void output (std::tuple<Args...> const &tuple, std::ostream &os)
     {
       os << std::get<0> (tuple);
       tuple_formatter<1, Max>::output (tuple, os);
@@ -95,7 +95,7 @@ namespace detail
   struct tuple_formatter<0, 1>
   {
     template<typename... Args>
-    static void output (std::tuple<Args...> const& tuple, std::ostream& os)
+    static void output (std::tuple<Args...> const &tuple, std::ostream &os)
     {
       os << std::get<0> (tuple);
     }
@@ -105,15 +105,15 @@ namespace detail
   struct tuple_formatter<N, N>
   {
     template<typename... Args>
-    static void output (std::tuple<Args...> const& tuple, std::ostream& os)
+    static void output (std::tuple<Args...> const &tuple, std::ostream &os)
     {
     }
   };
 }
 
 template<typename... Args>
-static inline std::ostream&
-output (std::tuple<Args...> const& tuple, std::ostream& os)
+static inline std::ostream &
+output (std::tuple<Args...> const &tuple, std::ostream &os)
 {
   os << "tuple (";
   detail::tuple_formatter<0, sizeof... (Args)>::output (tuple, os);
@@ -122,8 +122,8 @@ output (std::tuple<Args...> const& tuple, std::ostream& os)
 }
 
 template<typename T1, typename T2>
-static inline std::ostream&
-output (std::pair<T1, T2> const& pair, std::ostream& os)
+static inline std::ostream &
+output (std::pair<T1, T2> const &pair, std::ostream &os)
 {
   os << "pair (";
   output (pair.first, os);
@@ -134,8 +134,8 @@ output (std::pair<T1, T2> const& pair, std::ostream& os)
 }
 
 template<typename T>
-static inline std::ostream&
-output (std::vector<T> const &vector, std::ostream& os)
+static inline std::ostream &
+output (std::vector<T> const &vector, std::ostream &os)
 {
   os << '{';
   for (size_t i = 0; i < vector.size (); ++i)

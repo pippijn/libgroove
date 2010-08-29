@@ -1,0 +1,7 @@
+lib_LTLIBRARIES += libformat.la
+
+libformat_la_SOURCES =				\
+	src/common/format/FormatterBase.cpp	\
+	src/common/format/Interpreter.cpp	\
+	src/common/format/Specification.cpp	\
+	src/common/format/grammar.ypp

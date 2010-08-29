@@ -6,10 +6,10 @@
 template<typename T>
 struct auto_free
 {
-  auto_free (auto_free const& rhs) = delete;
-  auto_free& operator = (auto_free const& rhs) = delete;
+  auto_free (auto_free const &rhs) = delete;
+  auto_free &operator = (auto_free const &rhs) = delete;
 
-  explicit auto_free (T& ptr)
+  explicit auto_free (T &ptr)
     : ptr (ptr)
   {
   }
@@ -20,13 +20,13 @@ struct auto_free
     ptr = NULL;
   }
 
-  auto_free& operator = (T ptr)
+  auto_free &operator = (T ptr)
   {
     this->ptr = ptr;
     return *this;
   }
 
-  T& ptr;
+  T &ptr;
 };
 
 #define auto_free(ptr) auto_free<decltype (ptr)> PASTE (auto_free_, __LINE__) (ptr); PASTE (auto_free_, __LINE__)

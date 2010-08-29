@@ -13,6 +13,7 @@ AM_DEFAULT_VERBOSITY=0
 
 # build tools
 AC_PROG_CXX
+AC_PROG_YACC
 
 # pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)

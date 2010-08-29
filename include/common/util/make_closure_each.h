@@ -13,11 +13,11 @@
 
 template<typename FuncT, typename... Args>
 std::vector<std::tuple<FuncT, Args...>>
-make_closure_tuple_each (std::vector<FuncT> const& funcs, Args... args)
+make_closure_tuple_each (std::vector<FuncT> const &funcs, Args... args)
 {
   std::vector<std::tuple<FuncT, Args...>> closures;
 
-  BOOST_FOREACH (FuncT const& func, funcs)
+  BOOST_FOREACH (FuncT const &func, funcs)
     {
       closures.emplace_back (make_closure (func, args...));
     }

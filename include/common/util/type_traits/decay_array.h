@@ -16,5 +16,5 @@ struct decay_array
 template<typename T, size_t N>
 struct decay_array<T[N]>
 {
-  typedef T const* type;
+  typedef T const *type;
 };

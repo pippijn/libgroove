@@ -11,7 +11,7 @@
 template<int N, int Size, typename TupleT>
 struct va_arg_unpack1
 {
-  static void unpack (TupleT& tuple, va_list& ap)
+  static void unpack (TupleT &tuple, va_list &ap)
   {
     typedef typename std::tuple_element<N, TupleT>::type arg_type;
     std::get<N> (tuple) = va_arg (ap, arg_type);
@@ -22,14 +22,14 @@ struct va_arg_unpack1
 template<int N, typename TupleT>
 struct va_arg_unpack1<N, N, TupleT>
 {
-  static void unpack (TupleT& tuple, va_list& ap)
+  static void unpack (TupleT &tuple, va_list &ap)
   {
   }
 };
 
 template<typename TupleT>
 TupleT
-va_argN (va_list& ap)
+va_argN (va_list &ap)
 {
   TupleT tuple;
   va_arg_unpack1<0, std::tuple_size<TupleT>::value, TupleT>::unpack (tuple, ap);

@@ -10,12 +10,12 @@
 struct VISIBLE assertion_failure
   : std::runtime_error
 {
-  assertion_failure (char const* msg, char const* file, int line, char const* func)
+  assertion_failure (char const *msg, char const *file, int line, char const *func)
     : std::runtime_error (construct (msg, file, line, func))
   {
   }
 
-  std::string construct (char const* msg, char const* file, int line, char const* func);
+  std::string construct (char const *msg, char const *file, int line, char const *func);
 };
 
 #define xassert(cond)                                   \

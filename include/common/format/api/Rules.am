@@ -1,0 +1,3 @@
+noinst_HEADERS +=				\
+	include/common/format/api/printf.h	\
+	include/common/format/api/snprintf.h
