@@ -5,6 +5,7 @@
 extern unsigned long stack_end;
 
 bool fork_trace ();
+void fork_abort (char const *msg);
 
 #if __WORDSIZE == 64
 # define init_debug()    \

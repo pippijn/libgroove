@@ -1,3 +1,10 @@
+#include "common/debug/trace.h"
+
+#include <cstdio>
+#include <cstdlib>
+
+#include <sys/resource.h>
+#include <unistd.h>
 
 void
 fork_abort (char const *msg)
@@ -40,6 +47,5 @@ fork_abort (char const *msg)
       abort ();
     }
 
-  LOG (llevError, "fork abort: %s\n", msg);
+  fprintf (stderr, "fork abort: %s\n", msg);
 }
-
