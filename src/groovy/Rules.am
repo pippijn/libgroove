@@ -18,6 +18,7 @@ groovy_CXXFLAGS =		\
 	$(PHONON_CXXFLAGS)
 groovy_LDADD =			\
 	libgroove.la		\
+	libgroove_client.la	\
 	libgroove_fetcher.la	\
 	$(QTCORE_LIBS)		\
 	$(QTGUI_LIBS)		\

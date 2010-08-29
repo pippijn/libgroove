@@ -16,12 +16,15 @@
  */
 
 #include <QDebug>
+#include <QFileDialog>
+#include <QSettings>
 
 #include <boost/foreach.hpp>
 
 #include "groove/client.h"
 #include "grooveplaylistmodel.h"
 #include "groovesearchmodel.h"
+#include "groove/settings.h"
 #include "groove/song.h"
 
 #include "preferences.h"
@@ -68,11 +71,45 @@ Preferences::Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &p
       item->setSelected (m_playListModel.isVisible (prop.prop));
       m_ui->lstPlaylistItems->addItem (item);
     }
+
+  QSettings settings;
+
+  m_ui->txtCachePath->setText (settings.value (GrooveSettings::CACHEDIR).toString ());
 }
 
 Preferences::~Preferences ()
 {
   delete m_ui;
+}
+
+void
+Preferences::commitGeneral ()
+{
+  QSettings settings;
+  
+  settings.setValue (GrooveSettings::CACHEDIR, m_ui->txtCachePath->text ());
+}
+
+void
+Preferences::commitVisibleRows ()
+{
+  m_searchModel.beginChangeVisible ();
+  foreach (QListWidgetItem *item, m_ui->lstSearchItems->selectedItems ())
+    {
+      GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
+      QString prop = item->data (Qt::UserRole).value<QString> ();
+      m_searchModel.addVisible (prop);
+    }
+  m_searchModel.endChangeVisible ();
+
+  m_playListModel.beginChangeVisible ();
+  foreach (QListWidgetItem *item, m_ui->lstPlaylistItems->selectedItems ())
+    {
+      GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
+      QString prop = item->data (Qt::UserRole).value<QString> ();
+      m_playListModel.addVisible (prop);
+    }
+  m_playListModel.endChangeVisible ();
 }
 
 void
@@ -88,28 +125,24 @@ Preferences::buttonBoxClicked (QAbstractButton *btn)
     case QDialogButtonBox::AcceptRole:
       closing = true;
     case QDialogButtonBox::ApplyRole:
-      {
-        m_searchModel.beginChangeVisible ();
-        foreach (QListWidgetItem *item, m_ui->lstSearchItems->selectedItems ())
-          {
-            GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
-            QString prop = item->data (Qt::UserRole).value<QString> ();
-            m_searchModel.addVisible (prop);
-          }
-        m_searchModel.endChangeVisible ();
-
-        m_playListModel.beginChangeVisible ();
-        foreach (QListWidgetItem *item, m_ui->lstPlaylistItems->selectedItems ())
-          {
-            GROOVE_VERIFY_OR_DIE (item->data (Qt::UserRole).canConvert<QString> (), "invalid user data in list item");
-            QString prop = item->data (Qt::UserRole).value<QString> ();
-            m_playListModel.addVisible (prop);
-          }
-        m_playListModel.endChangeVisible ();
-        break;
-      }
+      commitGeneral ();
+      commitVisibleRows ();
+      break;
     }
 
   if (closing)
     close ();
+}
+
+void
+Preferences::editCachePath ()
+{
+  QFileDialog chooser (this);
+
+  chooser.setFileMode (QFileDialog::Directory);
+  chooser.setOption (QFileDialog::ShowDirsOnly);
+  
+  chooser.exec ();
+
+  m_ui->txtCachePath->setText (chooser.selectedFiles ()[0]);
 }

@@ -43,16 +43,15 @@ void
 GrooveClient::Private::establishConnection () const
 {
   qDebug () << Q_FUNC_INFO << "Making connection";
-  QNetworkRequest loginRequest (QUrl ("http://listen.grooveshark.com"));
-  QNetworkReply *reply = networkManager ().get (loginRequest);
-  connect (reply, SIGNAL (finished ()), SLOT (processPHPSessionId ()));
+  GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), GrooveRequest::LOGIN_URL);
+  request.get (this, SLOT (processPHPSessionId ()));
 }
 
 void
 GrooveClient::Private::processPHPSessionId ()
 {
   qDebug () << Q_FUNC_INFO << "processing";
-  QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl ("http://listen.grooveshark.com"));
+  QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl (GrooveRequest::LOGIN_URL));
 
   foreach (const QNetworkCookie &cookie, cookieList)
     if (cookie.name () == "PHPSESSID")

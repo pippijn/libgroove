@@ -18,6 +18,8 @@
 
 #pragma once
 
+#include "libgroove_global.h"
+
 #include "groove/private/make_varmap.h"
 
 #include "groove/client.h"
@@ -27,45 +29,57 @@
 
 #include <qjson/serializer.h>
 
-struct GrooveRequest
+struct LIBGROOVESHARED_EXPORT GrooveRequest
 {
-  static QString more (char const *method)
+  static QString const API_URL;
+  static QString const ART_BASE_URL;
+  static QString const LOGIN_URL;
+
+  static QString more (QString const &method)
   {
-    QString page = "more.php";
-    if (method)
-      {
-        page += "?";
-        page += method;
-      }
-    return page;
+    return API_URL + "more.php?" + method;
   }
 
   static QString service ()
   {
-    return "service.php";
+    return API_URL + "service.php";
   }
 
-  explicit GrooveRequest (GrooveClient &client, QString service, QString method = QString ())
-    : m_req (QUrl ("https://cowbell.grooveshark.com/" + service))
+  static QString stream (QString const &ip)
+  {
+    return "http://" + ip + "/stream.php";
+  }
+
+  explicit GrooveRequest (GrooveClient &client, QString service)
+    : m_req (QUrl (service))
     , m_client (client)
   {
-    m_req.setHeader (m_req.ContentTypeHeader, "application/json");
   }
 
-  void post (QObject *receiver, char const *slot)
+  void post (QObject const *receiver, char const *slot)
   {
+    m_req.setHeader (m_req.ContentTypeHeader, "application/json");
+
     QJson::Serializer serializer;
-    QNetworkReply *reply = m_client.networkManager ().post (m_req, serializer.serialize (jlist));
+    QNetworkReply *reply = m_client.networkManager ().post (m_req, serializer.serialize (m_jlist));
+    receiver->connect (reply, SIGNAL (finished ()), slot);
+  }
+
+  void get (QObject const *receiver, char const *slot)
+  {
+    m_req.setHeader (m_req.ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    QNetworkReply *reply = m_client.networkManager ().get (m_req);
     receiver->connect (reply, SIGNAL (finished ()), slot);
   }
 
   QNetworkRequest m_req;
   GrooveClient &m_client;
-  QVariantMap jlist;
+  QVariantMap m_jlist;
 };
 
 static inline void
 operator << (GrooveRequest &request, QVariantOrMap::map const &init)
 {
-  request.jlist << init;
+  request.m_jlist << init;
 }

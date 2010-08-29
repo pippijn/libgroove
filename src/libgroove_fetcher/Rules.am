@@ -12,6 +12,7 @@ libgroove_fetcher_la_CXXFLAGS =	\
 	$(QTCORE_CXXFLAGS)	\
 	$(QTNETWORK_CXXFLAGS)
 libgroove_fetcher_la_LIBADD =	\
+	libgroove_settings.la	\
 	libgroove_song.la	\
 	$(QTCORE_LIBS)		\
 	$(QTNETWORK_LIBS)

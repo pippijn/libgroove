@@ -20,14 +20,50 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
        <string>General</string>
       </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="txtCachePath">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="3">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblCachePath">
+         <property name="text">
+          <string>Cache path</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="btnCachePath">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="tabVisibleRows">
       <attribute name="title">
        <string>Visible rows</string>
       </attribute>
@@ -47,7 +83,7 @@
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="lblSearchItems">
          <property name="text">
           <string>Search results</string>
          </property>
@@ -57,7 +93,7 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="lblPlaylistItems">
          <property name="text">
           <string>Playlist</string>
          </property>
@@ -71,7 +107,7 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <layout class="QGridLayout" name="gridLayout_2">
+    <layout class="QGridLayout" name="grpButtons">
      <item row="0" column="0">
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="standardButtons">
@@ -101,8 +137,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnCachePath</sender>
+   <signal>clicked()</signal>
+   <receiver>Preferences</receiver>
+   <slot>editCachePath()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>610</x>
+     <y>56</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>buttonBoxClicked(QAbstractButton*)</slot>
+  <slot>editCachePath()</slot>
  </slots>
 </ui>

@@ -16,16 +16,18 @@
  */
 
 #include "groove/fetcher.h"
+#include "groove/settings.h"
 #include "groove/song.h"
 
 #include <QDebug>
 #include <QDir>
 #include <QNetworkReply>
+#include <QSettings>
 
 static QString
 make_cache (GrooveSong const &song)
 {
-  QString path = "cache";
+  QString path = QSettings ().value (GrooveSettings::CACHEDIR, "cache").toString ();
   path += QDir::separator ();
   path += song.artistName ();
   path += QDir::separator ();
@@ -54,6 +56,12 @@ GrooveFetcher::GrooveFetcher (GrooveSong &song)
 GrooveFetcher::~GrooveFetcher ()
 {
   m_song.deref ();
+}
+
+QString
+GrooveFetcher::name () const
+{
+  return m_song.songName ();
 }
 
 QString
@@ -113,7 +121,9 @@ GrooveFetcher::onStreamReadReady ()
 
   m_file.write (httpStream->readAll ());
 
+#if 0
   qDebug () << Q_FUNC_INFO << "Stream data length: " << m_file.size ();
+#endif
 }
 
 void

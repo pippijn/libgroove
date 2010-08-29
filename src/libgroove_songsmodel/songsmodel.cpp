@@ -16,6 +16,7 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "groove/settings.h"
 #include "groove/song.h"
 #include "groove/songsmodel.h"
 
@@ -73,7 +74,7 @@ GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
 {
   QSettings settings;
   settings.beginGroup (m_modelName);
-  if (!settings.contains ("columns"))
+  if (!settings.contains (GrooveSettings::COLUMNS))
     {
       m_visible.append ("songName");
       m_visible.append ("albumName");
@@ -82,10 +83,10 @@ GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
     }
   else
     {
-      GROOVE_VERIFY_OR_DIE (settings.value ("columns").canConvert<QStringList> (),
+      GROOVE_VERIFY_OR_DIE (settings.value (GrooveSettings::COLUMNS).canConvert<QStringList> (),
                             "invalid configuration data for `columns' key");
 
-      m_visible = settings.value ("columns").toStringList ();
+      m_visible = settings.value (GrooveSettings::COLUMNS).toStringList ();
     }
 
   settings.endGroup ();
@@ -96,7 +97,7 @@ GrooveSongsModel::~GrooveSongsModel ()
   QSettings settings;
   settings.beginGroup (m_modelName);
 
-  settings.setValue ("columns", m_visible);
+  settings.setValue (GrooveSettings::COLUMNS, m_visible);
 
   settings.endGroup ();
 }

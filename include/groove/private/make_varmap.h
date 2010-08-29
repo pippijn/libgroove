@@ -47,22 +47,18 @@ make_varmap (QVariantOrMap::map const &map_value)
 {
   QVariantMap map;
 
-  auto it = map_value.begin ();
-  auto et = map_value.end ();
-  
-  while (it != et)
+  foreach (auto const &value, map_value)
     {
-      if (it->second.scalar_value.isValid ())
+      if (value.second.scalar_value.isValid ())
         {
-          GROOVE_VERIFY_OR_DIE (it->second.map_value.empty (), "both map and scalar are set");
-          map.insert (it->first, it->second.scalar_value);
+          GROOVE_VERIFY_OR_DIE (value.second.map_value.empty (), "both map and scalar are set");
+          map.insert (value.first, value.second.scalar_value);
         }
       else
         {
-          GROOVE_VERIFY_OR_DIE (!it->second.map_value.empty (), "neither map nor scalar are set");
-          map.insertMulti (it->first, make_varmap (it->second.map_value));
+          GROOVE_VERIFY_OR_DIE (!value.second.map_value.empty (), "neither map nor scalar are set");
+          map.insertMulti (value.first, make_varmap (value.second.map_value));
         }
-      ++it;
     }
   return map;
 }

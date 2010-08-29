@@ -354,14 +354,13 @@ GrooveSong::streamingKeyReady ()
     return;
   QVariantMap results = result["result"].toMap ();
 
-  QNetworkRequest req;
-  req.setUrl (QUrl ("http://" + results["ip"].toString () + "/stream.php"));
+  QNetworkRequest req (QUrl (GrooveRequest::stream (results["ip"].toString ())));
   req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
 
   qDebug () << Q_FUNC_INFO << "Sending request to " << req.url ().toString () << " to start stream";
 
-  QNetworkReply *streamingReply = m_client.networkManager ().post (req,
-                                                                   ("streamKey=" +
-                                                                    results["streamKey"].toString ()).toAscii ());
+  QString streamKey = "streamKey=" + results["streamKey"].toString ();
+  QNetworkReply *streamingReply = m_client.networkManager ().post (req, streamKey.toAscii ());
+
   emit streamingStarted (streamingReply);
 }

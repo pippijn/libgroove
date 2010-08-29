@@ -1,4 +1,5 @@
 /*
+ * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
  * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -14,39 +15,9 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#pragma once
 
-#include "libgroove_global.h"
+#include "groove/private/request.h"
 
-#include <QFile>
-class QNetworkReply;
-
-class GrooveSong;
-
-class LIBGROOVESHARED_EXPORT GrooveFetcher
-  : public QObject
-{
-  Q_OBJECT
-
-  QFile m_file;
-  GrooveSong &m_song;
-  bool m_nowStreaming;
-
-public:
-  QString name () const;
-  QString fileName () const;
-  bool streaming () const;
-
-public:
-  GrooveFetcher (GrooveSong &song);
-  ~GrooveFetcher ();
-  void fetch ();
-
-private slots:
-  void onStreamingStarted (QNetworkReply *);
-  void onStreamReadReady ();
-  void onStreamingFinished ();
-
-signals:
-  void songReady ();
-};
+QString const GrooveRequest::API_URL = "https://cowbell.grooveshark.com/";
+QString const GrooveRequest::ART_BASE_URL = "http://beta.grooveshark.com/static/amazonart/m";
+QString const GrooveRequest::LOGIN_URL = "http://listen.grooveshark.com/";

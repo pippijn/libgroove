@@ -35,8 +35,13 @@ public:
   Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &playListModel, QWidget *parent);
   ~Preferences ();
 
+private:
+  void commitGeneral ();
+  void commitVisibleRows ();
+
 private slots:
   void buttonBoxClicked (QAbstractButton *btn);
+  void editCachePath ();
 
 private:
   Ui::Preferences *m_ui;

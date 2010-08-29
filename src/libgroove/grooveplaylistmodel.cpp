@@ -19,6 +19,7 @@
 #include <algorithm>
 
 #include "grooveplaylistmodel.h"
+#include "groove/settings.h"
 #include "groove/song.h"
 
 #if 0
@@ -26,7 +27,7 @@
 #endif
 
 GroovePlaylistModel::GroovePlaylistModel (GrooveClient &client, QObject *parent)
-  : GrooveSongsModel ("Playlist", parent)
+  : GrooveSongsModel (GrooveSettings::section::PLAYLIST, parent)
   , m_client (client)
   , m_currentTrack (-1)
 {

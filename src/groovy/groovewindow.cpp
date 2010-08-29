@@ -1,4 +1,4 @@
-#define LIVE 1
+#define LIVE 0
 
 /*
  * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
@@ -108,43 +108,13 @@ MainWindow::openAbout ()
 GrooveFetcher *
 MainWindow::fetchNextSong ()
 {
-  GrooveSong *song = m_playlistModel->next ();
-
-  qDebug () << Q_FUNC_INFO << "Trying to fetch the next song";
-
-  if (!song)
-    {
-      qDebug () << Q_FUNC_INFO << "End of playlist, repeating.";
-      song = m_playlistModel->selectFirst ();
-      if (!song)
-        {
-          qDebug () << Q_FUNC_INFO << "No songs on playlist.";
-          return 0;
-        }
-    }
-
-  return fetchSong (song);
+  return fetchSong (m_playlistModel->next ());
 }
 
 GrooveFetcher *
 MainWindow::fetchPrevSong ()
 {
-  GrooveSong *song = m_playlistModel->previous ();
-
-  qDebug () << Q_FUNC_INFO << "Trying to fetch the previous song";
-
-  if (!song)
-    {
-      qDebug () << Q_FUNC_INFO << "End of playlist, repeating.";
-      song = m_playlistModel->selectLast ();
-      if (!song)
-        {
-          qDebug () << Q_FUNC_INFO << "No songs on playlist.";
-          return 0;
-        }
-    }
-
-  return fetchSong (song);
+  return fetchSong (m_playlistModel->previous ());
 }
 
 GrooveFetcher *
@@ -168,6 +138,9 @@ MainWindow::fetchSong (GrooveSong *song)
 void
 MainWindow::playSong (GrooveFetcher *fetcher, bool change)
 {
+  if (m_next)
+    disconnect (m_next, SIGNAL (songReady ()), this, SLOT (playCurrentSong ()));
+
   if (!fetcher->streaming ())
     {
       if (change)
@@ -175,17 +148,14 @@ MainWindow::playSong (GrooveFetcher *fetcher, bool change)
       else
         m_mediaObject->enqueue (Phonon::MediaSource (fetcher->fileName ()));
       m_mediaObject->play ();
+      m_next = NULL;
     }
   else
     {
-      if (fetcher == m_next)
-        return;
-
-      if (m_next)
-        disconnect (m_next, SIGNAL (songReady ()), this, SLOT (playCurrentSong ()));
+      qDebug () << Q_FUNC_INFO << "postponed playpack of " << fetcher->name ();
       connect (fetcher, SIGNAL (songReady ()), this, SLOT (playCurrentSong ()));
+      m_next = fetcher;
     }
-  m_next = fetcher;
 }
 
 void
@@ -193,6 +163,7 @@ MainWindow::playCurrentSong ()
 {
   if (GROOVE_VERIFY (m_next, "no song to play"))
     return;
+  qDebug () << Q_FUNC_INFO << "now starting postponed playback of " << m_next->name ();
   playSong (m_next);
 }
 

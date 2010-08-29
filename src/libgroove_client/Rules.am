@@ -2,7 +2,8 @@ lib_LTLIBRARIES += libgroove_client.la
 
 libgroove_client_la_SOURCES =			\
 	src/libgroove_client/client.cpp		\
-	src/libgroove_client/private.cpp
+	src/libgroove_client/private.cpp	\
+	src/libgroove_client/request.cpp
 
 noinst_HEADERS +=				\
 	src/libgroove_client/private.h

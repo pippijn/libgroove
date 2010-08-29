@@ -18,6 +18,7 @@
 
 #include "groove/client.h"
 #include "groovesearchmodel.h"
+#include "groove/settings.h"
 #include "groove/song.h"
 
 #include "groove/private/request.h"
@@ -29,7 +30,7 @@
 #include <qjson/parser.h>
 
 GrooveSearchModel::GrooveSearchModel (GrooveClient &client, QObject *parent)
-  : GrooveSongsModel ("Search", parent)
+  : GrooveSongsModel (GrooveSettings::section::SEARCH, parent)
   , m_client (client)
 {
 }
