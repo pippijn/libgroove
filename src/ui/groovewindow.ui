@@ -190,6 +190,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="action_About"/>
+    <addaction name="action_Crash_Now"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Track"/>
@@ -237,6 +238,11 @@
   <action name="action_About">
    <property name="text">
     <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="action_Crash_Now">
+   <property name="text">
+    <string>&amp;Crash Now!</string>
    </property>
   </action>
  </widget>
@@ -466,6 +472,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>action_Crash_Now</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crash()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>403</x>
+     <y>249</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onSearchButtonPress()</slot>
@@ -480,5 +502,6 @@
   <slot>onBtnPrev()</slot>
   <slot>openPrefs()</slot>
   <slot>openAbout()</slot>
+  <slot>crash()</slot>
  </slots>
 </ui>

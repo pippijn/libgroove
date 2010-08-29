@@ -35,7 +35,7 @@ frame*
 backtrace_frames_current (int skip) throw ()
 {
 #if HAVE_EXECINFO_H
-  static void* buffer[128];
+  static void* buffer[1024];
   size_t size = backtrace (buffer, array_size (buffer));
   return backtrace_frames (buffer + skip, size - skip);
 #else
@@ -51,10 +51,6 @@ print_frames (frame const* const frames, print_fn print) throw ()
   if (frames)
     while (current->file[0])
       {
-        // skip __libc_main and _start
-        if (!current[1].file[0] || !current[2].file[0])
-          break;
-
         printf ( print
                , "%s %s (%s:%d)"
                , current == frames ? "at" : "by"

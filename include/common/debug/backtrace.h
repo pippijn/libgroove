@@ -28,8 +28,10 @@ struct frame
 };
 
 typedef void print_fn (char const* fmt);
+typedef void backtrace_status_fn (size_t cur, size_t max);
 
-VISIBLE print_fn std_print;
+extern VISIBLE print_fn std_print;
+extern VISIBLE backtrace_status_fn *backtrace_status;
 
 VISIBLE char** backtrace_symbols (void* const* buffer, int size) NOTHROW;
 VISIBLE char* resolve_symbol (void const* sym) NOTHROW;

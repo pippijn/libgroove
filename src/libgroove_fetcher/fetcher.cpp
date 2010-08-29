@@ -31,9 +31,8 @@ system (QString const &command)
 }
 
 static void
-downloadCover (GrooveSong const &song)
+downloadCover (GrooveSong const &song, QString path)
 {
-  QString path = QSettings ().value (GrooveSettings::CACHEDIR, "cache").toString ();
   path += QDir::separator ();
   path += ".art";
   if (GROOVE_VERIFY (QDir ().mkpath (path), "unable to create path to cache: " + path))
@@ -51,6 +50,9 @@ static QString
 make_cache (GrooveSong const &song)
 {
   QString path = QSettings ().value (GrooveSettings::CACHEDIR, "cache").toString ();
+
+  downloadCover (song, path);
+
   path += QDir::separator ();
   path += song.artistName ();
   path += QDir::separator ();
@@ -59,8 +61,6 @@ make_cache (GrooveSong const &song)
   qDebug () << Q_FUNC_INFO << "making cache path: " << path;
   if (GROOVE_VERIFY (QDir ().mkpath (path), "unable to create path to cache: " + path))
     return QString ();
-
-  downloadCover (song);
 
   path += QDir::separator ();
   path += song.songName ();

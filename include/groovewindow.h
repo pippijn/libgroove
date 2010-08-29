@@ -20,6 +20,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDialog>
 #include <QMap>
 class QModelIndex;
 
@@ -72,6 +73,8 @@ private slots:
   void onBtnPrev ();
   void onBtnPause ();
   void onBtnNext ();
+  
+  void crash ();
 
 public:
   void initiatePlay ();
