@@ -90,6 +90,8 @@ private:
   void initPlayControls ();
   void initSlider ();
 
+  void resetSlider ();
+
 private:
   Ui::MainWindow *m_ui;
   GrooveClient *m_client;

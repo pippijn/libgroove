@@ -24,6 +24,29 @@
 #include <QNetworkReply>
 #include <QSettings>
 
+static int
+system (QString const &command)
+{
+  return system (command.toStdString ().c_str ());
+}
+
+static void
+downloadCover (GrooveSong const &song)
+{
+  QString path = QSettings ().value (GrooveSettings::CACHEDIR, "cache").toString ();
+  path += QDir::separator ();
+  path += ".art";
+  if (GROOVE_VERIFY (QDir ().mkpath (path), "unable to create path to cache: " + path))
+    return;
+
+  path += QDir::separator ();
+  path += song.coverArtFilename ();
+
+  if (!QFile::exists (path))
+    system ("wget -q http://beta.grooveshark.com/static/amazonart/m" + song.coverArtFilename () +
+            " -O " + path);
+}
+
 static QString
 make_cache (GrooveSong const &song)
 {
@@ -36,6 +59,8 @@ make_cache (GrooveSong const &song)
   qDebug () << Q_FUNC_INFO << "making cache path: " << path;
   if (GROOVE_VERIFY (QDir ().mkpath (path), "unable to create path to cache: " + path))
     return QString ();
+
+  downloadCover (song);
 
   path += QDir::separator ();
   path += song.songName ();

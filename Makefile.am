@@ -28,7 +28,7 @@ WARNINGS		= # empty
 
 AM_CFLAGS		= $(OPTFLAGS) $(WARNINGS)
 AM_CXXFLAGS		= $(OPTFLAGS) $(WARNINGS) -std=c++0x
-AM_CPPFLAGS		= -I$(srcdir)/include -fvisibility=hidden
+AM_CPPFLAGS		= -I$(srcdir)/include -fvisibility=hidden -include autoconf.h
 AM_LDFLAGS		= -Wl,-z,defs
 
 AM_CPPFLAGS		+= -DPKGDATADIR='"$(pkgdatadir)"'

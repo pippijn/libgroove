@@ -16,15 +16,16 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <algorithm>
-
 #include "grooveplaylistmodel.h"
 #include "groove/settings.h"
 #include "groove/song.h"
 
+#include <QSettings>
 #if 0
 #include <QColor>
 #endif
+
+#include <algorithm>
 
 GroovePlaylistModel::GroovePlaylistModel (GrooveClient &client, QObject *parent)
   : GrooveSongsModel (GrooveSettings::section::PLAYLIST, parent)
@@ -34,26 +35,13 @@ GroovePlaylistModel::GroovePlaylistModel (GrooveClient &client, QObject *parent)
 }
 
 GrooveSong *
-GroovePlaylistModel::select (const QModelIndex &index)
-{
-  GrooveSong *song = songByIndex (index);
-
-  if (!song)
-    return 0;
-
-  m_currentTrack = index.row () - 1;
-
-  return next ();
-}
-
-GrooveSong *
 GroovePlaylistModel::songByIndex (const QModelIndex &index) const
 {
   //qDebug () << index.row ();
   if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
-    return 0;
+    return NULL;
   if (GROOVE_VERIFY (index.row () < m_songs.count (), "row is higher than the number of songs model contains"))
-    return 0;
+    return NULL;
 
   return m_songs[index.row ()];
 }
@@ -124,26 +112,41 @@ GroovePlaylistModel::indexOf (GrooveSong *song, int from)
 }
 
 GrooveSong *
-GroovePlaylistModel::selectFirst ()
+GroovePlaylistModel::current () const
 {
-  m_currentTrack = -1;
+  if (currentTrack () >= count () || currentTrack () < 0 || !count ())
+    return NULL;
+
+  return m_songs.at (currentTrack ());
+}
+
+GrooveSong *
+GroovePlaylistModel::select (const QModelIndex &index)
+{
+  GrooveSong *song = songByIndex (index);
+
+  if (!song)
+    return NULL;
+
+  m_currentTrack = index.row () - 1;
+
   return next ();
 }
 
 GrooveSong *
-GroovePlaylistModel::selectLast ()
+GroovePlaylistModel::first ()
 {
-  m_currentTrack = count ();
-  return previous ();
+  m_currentTrack = -1;
+
+  return next ();
 }
 
 GrooveSong *
-GroovePlaylistModel::current () const
+GroovePlaylistModel::last ()
 {
-  if (currentTrack () >= count () || currentTrack () < 0 || !count ())
-    return 0;
+  m_currentTrack = count ();
 
-  return m_songs.at (currentTrack ());
+  return previous ();
 }
 
 GrooveSong *
@@ -152,8 +155,12 @@ GroovePlaylistModel::next ()
   if (++m_currentTrack >= count ())
     {
       m_currentTrack = count () - 1;
-      return 0;
+      qDebug () << Q_FUNC_INFO << "end of playlist reached, current track =" << m_currentTrack;
+      return NULL;
     }
+
+  qDebug () << Q_FUNC_INFO << "reading next track, current track =" << m_currentTrack
+                           << "(" << current ()->songName () << ")";
 
   emit layoutChanged (); // new colour for active track
   return current ();
@@ -165,8 +172,12 @@ GroovePlaylistModel::previous ()
   if (--m_currentTrack < 0 || !count ())
     {
       m_currentTrack = 0;
-      return 0;
+      qDebug () << Q_FUNC_INFO << "beginning of playlist reached, current track =" << m_currentTrack;
+      return NULL;
     }
+
+  qDebug () << Q_FUNC_INFO << "reading next track, current track =" << m_currentTrack
+                           << "(" << current ()->songName () << ")";
 
   emit layoutChanged (); // new colour for active track
   return current ();
@@ -183,8 +194,16 @@ GroovePlaylistModel::data (const QModelIndex &index, int role) const
 {
   QVariant data = GrooveSongsModel::data (index, role);
 
+  GrooveSong *song = m_songs[index.row ()];
+
   switch (role)
     {
+    case Qt::ToolTipRole:
+      if (m_visible[index.column ()] == "albumName")
+        return QString ("<img src='%1/.art/%2'/>")
+               .arg (QSettings ().value (GrooveSettings::CACHEDIR, "cache").toString ())
+               .arg (song->coverArtFilename ())
+               ;
 #if 0
     case Qt::BackgroundColorRole:
       if (songByIndex (index) == current ())

@@ -66,20 +66,8 @@ public slots:
    */
   int indexOf (GrooveSong *song, int from = 0);
 
-  /*!
-   *  Resets the playlist index to 0 and returns the first song.
-   */
-  GrooveSong *selectFirst ();
-
-  /*!
-   *  Resets the playlist index to count () and returns the last song.
-   */
-  GrooveSong *selectLast ();
-
-  /*!
-   *  Returns the currently playing track on this playlist, or 0 if there is no current track.
-   */
-  GrooveSong *current () const;
+  GrooveSong *first ();
+  GrooveSong *last ();
 
   /*!
    *  Returns the next track to be played from this playlist, or 0 if there is no next track.
@@ -98,6 +86,11 @@ public slots:
 
 private:
   GrooveSong *songByIndex (const QModelIndex &index) const;
+
+  /*!
+   *  Returns the currently playing track on this playlist, or 0 if there is no current track.
+   */
+  GrooveSong *current () const;
 
   int m_currentTrack;
   GrooveClient &m_client;

@@ -16,7 +16,7 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "autoconf.h"
+#include "common/debug/signal.h"
 
 #include <QApplication>
 
@@ -46,6 +46,8 @@ version ()
 int
 main (int argc, char **argv)
 {
+  init_signals ();
+
   QApplication qca (argc, argv);
 
   qca.setOrganizationName ("Xinutec");
@@ -61,5 +63,9 @@ main (int argc, char **argv)
   MainWindow mw;
   mw.show ();
 
-  return qca.exec ();
+  int retval = qca.exec ();
+
+  uninit_signals ();
+
+  return retval;
 }

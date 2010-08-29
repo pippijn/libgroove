@@ -1,0 +1,2 @@
+include src/common/util/Rules.am
+include src/common/debug/Rules.am

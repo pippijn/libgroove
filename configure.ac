@@ -34,5 +34,13 @@ UIC=`$PKG_CONFIG --variable=uic_location QtCore`
 AC_SUBST([UIC])
 AC_MSG_RESULT([$UIC])
 
+# debugging
+AC_CHECK_HEADERS([dnl
+   valgrind/valgrind.h dnl
+   valgrind/memcheck.h dnl
+   execinfo.h dnl
+   bfd.h dnl
+])
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

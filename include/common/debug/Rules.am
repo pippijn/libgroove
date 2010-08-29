@@ -1,0 +1,4 @@
+noinst_HEADERS +=				\
+	include/common/debug/backtrace.h	\
+	include/common/debug/signal.h		\
+	include/common/debug/trace.h

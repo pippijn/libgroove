@@ -87,7 +87,7 @@ MainWindow::changeEvent (QEvent *e)
 void
 MainWindow::onMediaChanged (Phonon::MediaSource const &newSource)
 {
-  qDebug () << Q_FUNC_INFO << "Now playing: " << newSource.fileName ();
+  qDebug () << Q_FUNC_INFO << "Now playing:" << newSource.fileName ();
   m_ui->statusbar->showMessage (newSource.fileName ());
 }
 
@@ -120,7 +120,7 @@ MainWindow::fetchPrevSong ()
 GrooveFetcher *
 MainWindow::fetchSong (GrooveSong *song)
 {
-  if (GROOVE_VERIFY (song, "NULL song passed"))
+  if (song == NULL)
     return NULL;
 
   GrooveFetcher *fetcher = NULL;
@@ -138,21 +138,31 @@ MainWindow::fetchSong (GrooveSong *song)
 void
 MainWindow::playSong (GrooveFetcher *fetcher, bool change)
 {
+  if (!fetcher)
+    return;
+
   if (m_next)
     disconnect (m_next, SIGNAL (songReady ()), this, SLOT (playCurrentSong ()));
 
   if (!fetcher->streaming ())
     {
+      resetSlider ();
+
       if (change)
-        m_mediaObject->setCurrentSource (Phonon::MediaSource (fetcher->fileName ()));
+        {
+          m_mediaObject->clearQueue ();
+          m_mediaObject->setCurrentSource (Phonon::MediaSource (fetcher->fileName ()));
+        }
       else
-        m_mediaObject->enqueue (Phonon::MediaSource (fetcher->fileName ()));
+        {
+          m_mediaObject->enqueue (Phonon::MediaSource (fetcher->fileName ()));
+        }
       m_mediaObject->play ();
       m_next = NULL;
     }
   else
     {
-      qDebug () << Q_FUNC_INFO << "postponed playpack of " << fetcher->name ();
+      qDebug () << Q_FUNC_INFO << "postponed playpack of" << fetcher->name ();
       connect (fetcher, SIGNAL (songReady ()), this, SLOT (playCurrentSong ()));
       m_next = fetcher;
     }
@@ -163,7 +173,7 @@ MainWindow::playCurrentSong ()
 {
   if (GROOVE_VERIFY (m_next, "no song to play"))
     return;
-  qDebug () << Q_FUNC_INFO << "now starting postponed playback of " << m_next->name ();
+  qDebug () << Q_FUNC_INFO << "now starting postponed playback of" << m_next->name ();
   playSong (m_next);
 }
 
@@ -171,7 +181,7 @@ void
 MainWindow::playNextSong ()
 {
   qDebug () << Q_FUNC_INFO << "phonon playlist finished, playing next song";
-  playSong (fetchNextSong ());
+  playSong (fetchNextSong (), true);
 }
 
 
@@ -245,7 +255,7 @@ MainWindow::onPlaySong (QModelIndex const &index)
 {
   GrooveSong *song = m_playlistModel->select (index);
 
-  qDebug () << Q_FUNC_INFO << "Playing " << song->songName ();
+  qDebug () << Q_FUNC_INFO << "Playing" << song->songName ();
 
   playSong (fetchSong (song), true);
 }
@@ -266,12 +276,12 @@ MainWindow::onQueueSong (QModelIndex const &index)
 {
   GrooveSong *song = m_searchModel->songByIndex (index);
 
-  qDebug () << Q_FUNC_INFO << "Queueing " << song->songName ();
+  qDebug () << Q_FUNC_INFO << "Queueing" << song->songName ();
 
   m_playlistModel->append (song);
   GrooveFetcher *fetcher = fetchSong (song);
-  if (!m_next)
-    playSong (fetcher);
+  if (!m_next && m_mediaObject->state () != Phonon::PlayingState)
+    playSong (fetchSong (m_playlistModel->last ()));
 }
 
 void
@@ -279,7 +289,7 @@ MainWindow::onSearchButtonPress ()
 {
   if (!checkConnection ())
     return;
-  qDebug () << Q_FUNC_INFO << "Searching for " << m_ui->txtSearch->text ();
+  qDebug () << Q_FUNC_INFO << "Searching for" << m_ui->txtSearch->text ();
   m_searchModel->searchBySong (m_ui->txtSearch->text ());
 }
 
@@ -340,4 +350,11 @@ MainWindow::songTotalTimeChanged (qint64 newTotalTime)
 {
   m_ui->songProgress->setMaximum (newTotalTime);
   m_ui->lblTotal->setText (QTime ().addSecs (newTotalTime / tickInterval).toString ("m:ss"));
+}
+
+void
+MainWindow::resetSlider ()
+{
+  songTotalTimeChanged (0);
+  songTick (0);
 }
