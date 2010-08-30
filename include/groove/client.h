@@ -24,6 +24,8 @@
 #include <QObject>
 class QNetworkAccessManager;
 
+#include <memory>
+
 class LIBGROOVESHARED_EXPORT GrooveClient
   : public QObject
 {
@@ -51,7 +53,7 @@ signals:
 
 private:
   class Private;
-  Private *d;
+  std::auto_ptr<Private> d;
 };
 
 #endif /* GROOVECLIENT_H */

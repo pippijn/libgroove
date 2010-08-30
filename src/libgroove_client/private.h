@@ -19,11 +19,13 @@
 #ifndef GROOVECLIENT_P_H
 #define GROOVECLIENT_P_H
 
+#include "groove/client.h"
+
 #include <QObject>
 #include <QString>
 #include <QNetworkAccessManager>
 
-#include "groove/client.h"
+#include <memory>
 
 class GrooveClient::Private
   : public QObject
@@ -69,7 +71,7 @@ private slots:
 private:
   QString m_phpCookie;
   QString m_sessionToken;
-  QNetworkAccessManager *m_networkManager;
+  std::auto_ptr<QNetworkAccessManager> m_networkManager;
 };
 
 #endif /* GROOVECLIENT_P_H */

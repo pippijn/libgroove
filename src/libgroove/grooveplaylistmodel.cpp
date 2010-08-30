@@ -27,10 +27,10 @@
 
 #include <algorithm>
 
-GroovePlaylistModel::GroovePlaylistModel (GrooveClient &client, QObject *parent)
+GroovePlaylistModel::GroovePlaylistModel (std::shared_ptr<GrooveClient> client, QObject *parent)
   : GrooveSongsModel (GrooveSettings::section::PLAYLIST, parent)
-  , m_client (client)
   , m_currentTrack (-1)
+  , m_client (client)
 {
 }
 

@@ -17,6 +17,8 @@
 
 #include <QDialog>
 
+#include <memory>
+
 namespace Ui
 {
   class About;
@@ -32,5 +34,5 @@ public:
   ~About ();
 
 private:
-  Ui::About *m_ui;
+  std::auto_ptr<Ui::About> m_ui;
 };

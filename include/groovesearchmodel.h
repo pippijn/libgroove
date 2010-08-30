@@ -25,13 +25,15 @@
 class GrooveClient;
 class GrooveSong;
 
+#include <memory>
+
 class LIBGROOVESHARED_EXPORT GrooveSearchModel
   : public GrooveSongsModel
 {
   Q_OBJECT
 
 public:
-  explicit GrooveSearchModel (GrooveClient &client, QObject *parent = 0);
+  explicit GrooveSearchModel (std::shared_ptr<GrooveClient> client, QObject *parent);
   ~GrooveSearchModel ();
 
   /*!
@@ -60,7 +62,7 @@ private slots:
   void searchCompleted ();
 
 private:
-  GrooveClient &m_client;
+  std::shared_ptr<GrooveClient> m_client;
 };
 
 #endif /* GROOVESEARCHREQUEST_H */

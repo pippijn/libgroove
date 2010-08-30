@@ -1,0 +1,204 @@
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   socketcall.sendto(msg)
+   fun:send
+   ...
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:gaih_inet
+   fun:getaddrinfo
+   ...
+   fun:start_thread
+   fun:clone
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN12QApplicationC1ERiPPci
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN13Ui_MainWindow7setupUiEP11QMainWindow
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN8Ui_About7setupUiEP7QDialog
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN14Ui_Preferences7setupUiEP7QDialog
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN6Phonon11AudioOutputC1ENS_8CategoryEP7QObject
+   fun:_ZN10MainWindowC1EP7QWidget
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN6Phonon18AudioOutputPrivate4initENS_8CategoryE
+   fun:_ZN10MainWindowC1EP7QWidget
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:g_main_context_new
+   fun:_ZN27QEventDispatcherGlibPrivateC1EP13_GMainContext
+   fun:_ZN20QEventDispatcherGlibC1EP7QObject
+   fun:_ZN14QThreadPrivate21createEventDispatcherEP11QThreadData
+   fun:_ZN14QThreadPrivate5startEPv
+   fun:start_thread
+   fun:clone
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN6Phonon11MediaObjectC1EP7QObject
+   fun:_ZN10MainWindowC1EP7QWidget
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN9QSettingsC1EP7QObject
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZNK9QSettings8containsERK7QString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN11QMainWindowC2EP7QWidget6QFlagsIN2Qt10WindowTypeEE
+   fun:_ZN10MainWindowC1EP7QWidget
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN6Phonon10createPathEPNS_9MediaNodeES1_
+   fun:_ZN10MainWindowC1EP7QWidget
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   ...
+   fun:g_ptr_array_add
+   fun:g_main_context_check
+   ...
+   fun:g_main_context_iteration
+   fun:_ZN20QEventDispatcherGlib13processEventsE6QFlagsIN10QEventLoop17ProcessEventsFlagEE
+   fun:_ZN23QGuiEventDispatcherGlib13processEventsE6QFlagsIN10QEventLoop17ProcessEventsFlagEE
+   fun:_ZN10QEventLoop13processEventsE6QFlagsINS_17ProcessEventsFlagEE
+   fun:_ZN10QEventLoop4execE6QFlagsINS_17ProcessEventsFlagEE
+   fun:_ZN16QCoreApplication4execEv
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:inflateReset2
+   fun:inflateInit2_
+   fun:png_create_read_struct_2
+   fun:png_create_read_struct
+   fun:_ZN18QPngHandlerPrivate13readPngHeaderEv
+   fun:_ZN18QPngHandlerPrivate12readPngImageEP6QImage
+   fun:_ZN12QImageReader4readEP6QImage
+   fun:_ZN12QImageReader4readEv
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:FcValueSave
+   ...
+   fun:FcFontRenderPrepare
+   fun:FcFontMatch
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:inflateReset2
+   fun:inflateInit2_
+   fun:_ZN24QHttpNetworkReplyPrivate19gunzipBodyPartiallyER10QByteArrayS1_
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:memcpy
+   fun:snd_pcm_area_copy
+   fun:snd_pcm_areas_copy
+   ...
+   fun:start_thread
+   fun:clone
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Value8
+   obj:/usr/lib/libcrypto.so.*
+   fun:AES_cbc_encrypt
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:xine_open
+   ...
+   fun:_ZN6Phonon4Xine10XineThread3runEv
+   fun:_ZN14QThreadPrivate5startEPv
+   fun:start_thread
+   fun:clone
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:dlopen*
+}

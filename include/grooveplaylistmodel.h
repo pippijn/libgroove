@@ -25,6 +25,8 @@
 class GrooveSong;
 class GrooveClient;
 
+#include <memory>
+
 class LIBGROOVESHARED_EXPORT GroovePlaylistModel
   : public GrooveSongsModel
 {
@@ -34,7 +36,7 @@ private:
   virtual QVariant data (const QModelIndex &index, int role) const;
 
 public:
-  explicit GroovePlaylistModel (GrooveClient &client, QObject *parent = 0);
+  explicit GroovePlaylistModel (std::shared_ptr<GrooveClient> client, QObject *parent);
 
   /*!
    *  Retrieve a song for a given \a index.
@@ -93,7 +95,7 @@ private:
   GrooveSong *current () const;
 
   int m_currentTrack;
-  GrooveClient &m_client;
+  std::shared_ptr<GrooveClient> m_client;
 };
 
 #endif /* GROOVEPLAYLISTMODEL_H */

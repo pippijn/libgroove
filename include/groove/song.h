@@ -21,6 +21,8 @@
 
 #include "libgroove_global.h"
 
+class GrooveClient;
+
 #include <QMetaType>
 #include <QSharedData>
 #include <QSharedDataPointer>
@@ -28,7 +30,7 @@
 #include <QVariantMap>
 class QNetworkReply;
 
-class GrooveClient;
+#include <memory>
 
 class LIBGROOVESHARED_EXPORT GrooveSong
   : public QObject
@@ -36,7 +38,7 @@ class LIBGROOVESHARED_EXPORT GrooveSong
   Q_OBJECT
 
 public:
-  explicit GrooveSong (GrooveClient &client, QVariantMap const &data);
+  explicit GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data);
   ~GrooveSong ();
 
   void ref ();
@@ -106,8 +108,8 @@ private slots:
 
 private:
   struct Data;
-  Data *d;
-  GrooveClient &m_client;
+  std::auto_ptr<Data> d;
+  std::shared_ptr<GrooveClient> m_client;
 };
 
 #endif /* GROOVESONG_H */

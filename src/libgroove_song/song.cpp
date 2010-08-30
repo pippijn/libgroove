@@ -32,9 +32,9 @@ struct GrooveSong::Data
   QAtomicInt m_refCount;
 };
 
-GrooveSong::GrooveSong (GrooveClient &client, QVariantMap const &data)
-  : m_client (client)
-  , d (new Data)
+GrooveSong::GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
+  : d (new Data)
+  , m_client (client)
 {
   d->m_data = data;
   d->m_refCount = QAtomicInt (0);
@@ -45,7 +45,6 @@ GrooveSong::GrooveSong (GrooveClient &client, QVariantMap const &data)
 
 GrooveSong::~GrooveSong ()
 {
-  delete d;
 }
 
 void
@@ -305,14 +304,14 @@ void
 GrooveSong::startStreaming ()
 {
   qDebug () << Q_FUNC_INFO << "Started streaming for " << songName () << "(id: " << songID () << ")";
-  GrooveRequest request (m_client, GrooveRequest::more ("getStreamKeyFromSongIdEx"));
+  GrooveRequest request (*m_client, GrooveRequest::more ("getStreamKeyFromSongIdEx"));
 
   typedef QVariantOrMap::map map;
   request << map {
     { "method", "getStreamKeyFromSongIDEx" },
     { "header", map {
-        { "session", m_client.phpCookie ().toUtf8 () },
-        { "token", m_client.grooveMessageToken ("getStreamKeyFromSongIDEx") },
+        { "session", m_client->phpCookie ().toUtf8 () },
+        { "token", m_client->grooveMessageToken ("getStreamKeyFromSongIDEx") },
         { "client", "gslite" },
         { "clientRevision", "20100412.09" },
       },
@@ -360,7 +359,7 @@ GrooveSong::streamingKeyReady ()
   qDebug () << Q_FUNC_INFO << "Sending request to " << req.url ().toString () << " to start stream";
 
   QString streamKey = "streamKey=" + results["streamKey"].toString ();
-  QNetworkReply *streamingReply = m_client.networkManager ().post (req, streamKey.toAscii ());
+  QNetworkReply *streamingReply = m_client->networkManager ().post (req, streamKey.toAscii ());
 
   emit streamingStarted (streamingReply);
 }

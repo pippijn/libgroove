@@ -80,7 +80,6 @@ Preferences::Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &p
 
 Preferences::~Preferences ()
 {
-  delete m_ui;
 }
 
 void
@@ -134,6 +133,8 @@ Preferences::buttonBoxClicked (QAbstractButton *btn)
       commitGeneral ();
       commitVisibleRows ();
       break;
+    default:
+      GROOVE_VERIFY_OR_DIE (false, "invalid button role");
     }
 
   if (closing)

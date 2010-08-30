@@ -29,7 +29,7 @@
 
 #include <qjson/parser.h>
 
-GrooveSearchModel::GrooveSearchModel (GrooveClient &client, QObject *parent)
+GrooveSearchModel::GrooveSearchModel (std::shared_ptr<GrooveClient> client, QObject *parent)
   : GrooveSongsModel (GrooveSettings::section::SEARCH, parent)
   , m_client (client)
 {
@@ -65,14 +65,14 @@ GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTer
 {
   qDebug () << Q_FUNC_INFO << "Searching by " << type << " for " << searchTerm;
 
-  GrooveRequest request (m_client, GrooveRequest::more ("getSearchResults"));
+  GrooveRequest request (*m_client, GrooveRequest::more ("getSearchResults"));
 
   typedef QVariantOrMap::map map;
   request << map {
     { "method", "getSearchResults" },
     { "header", map {
-        { "session", m_client.phpCookie ().toUtf8 () },
-        { "token", m_client.grooveMessageToken ("getSearchResults") },
+        { "session", m_client->phpCookie ().toUtf8 () },
+        { "token", m_client->grooveMessageToken ("getSearchResults") },
         { "client", "gslite" },
         { "clientRevision", "20100412.09" },
       },

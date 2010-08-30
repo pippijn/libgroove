@@ -15,11 +15,13 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+class GrooveSearchModel;
+class GroovePlaylistModel;
+
 #include <QDialog>
 class QAbstractButton;
 
-class GrooveSearchModel;
-class GroovePlaylistModel;
+#include <memory>
 
 namespace Ui
 {
@@ -44,7 +46,7 @@ private slots:
   void editCachePath ();
 
 private:
-  Ui::Preferences *m_ui;
+  std::auto_ptr<Ui::Preferences> m_ui;
   GrooveSearchModel &m_searchModel;
   GroovePlaylistModel &m_playListModel;
 };

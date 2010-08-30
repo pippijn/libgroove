@@ -27,12 +27,11 @@ GrooveClient::GrooveClient (QObject *parent)
   : QObject (parent)
   , d (new Private (this))
 {
-  connect (d, SIGNAL (connected ()), this, SIGNAL (connected ()));
+  connect (d.get (), SIGNAL (connected ()), SIGNAL (connected ()));
 }
 
 GrooveClient::~GrooveClient ()
 {
-  delete d;
 }
 
 void

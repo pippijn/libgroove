@@ -36,7 +36,6 @@ GrooveClient::Private::Private (GrooveClient *parent)
 
 GrooveClient::Private::~Private ()
 {
-  delete m_networkManager;
 }
 
 void

@@ -19,6 +19,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
+#include <map>
+
 #include <QMainWindow>
 #include <QDialog>
 #include <QMap>
@@ -80,10 +83,10 @@ public:
   void initiatePlay ();
 
 private:
-  GrooveFetcher *fetchPrevSong ();
-  GrooveFetcher *fetchNextSong ();
-  GrooveFetcher *fetchSong (GrooveSong *song);
-  void playSong (GrooveFetcher *fetcher, bool change = false);
+  std::shared_ptr<GrooveFetcher> fetchPrevSong ();
+  std::shared_ptr<GrooveFetcher> fetchNextSong ();
+  std::shared_ptr<GrooveFetcher> fetchSong (GrooveSong *song);
+  void playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change = false);
 
   bool checkConnection () const;
 
@@ -96,13 +99,13 @@ private:
   void resetSlider ();
 
 private:
-  Ui::MainWindow *m_ui;
-  GrooveClient *m_client;
-  GrooveSearchModel *m_searchModel;
-  GroovePlaylistModel *m_playlistModel;
-  Phonon::MediaObject *m_mediaObject;
-  QMap<QString, GrooveFetcher *> m_fetchers;
-  GrooveFetcher *m_next;
+  std::auto_ptr<Ui::MainWindow> m_ui;
+  std::shared_ptr<GrooveClient> m_client;
+  std::auto_ptr<GrooveSearchModel> m_searchModel;
+  std::auto_ptr<GroovePlaylistModel> m_playlistModel;
+  std::auto_ptr<Phonon::MediaObject> m_mediaObject;
+  std::map<QString, std::shared_ptr<GrooveFetcher>> m_fetchers;
+  std::shared_ptr<GrooveFetcher> m_next;
 
   int m_seekTime;
 

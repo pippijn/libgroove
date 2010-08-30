@@ -27,6 +27,7 @@
 #include "groove/fetcher.h"
 #include "grooveplaylistmodel.h"
 #include "groovesearchmodel.h"
+#include "groove/settings.h"
 #include "groove/song.h"
 
 #include "about.h"
@@ -39,17 +40,16 @@ MainWindow::MainWindow (QWidget *parent)
   : QMainWindow (parent)
   , m_ui (new Ui::MainWindow)
   , m_client (new GrooveClient (this))
-  , m_searchModel (new GrooveSearchModel (*m_client, this))
-  , m_playlistModel (new GroovePlaylistModel (*m_client, this))
+  , m_searchModel (new GrooveSearchModel (m_client, this))
+  , m_playlistModel (new GroovePlaylistModel (m_client, this))
   , m_mediaObject (new Phonon::MediaObject (this))
-  , m_next (0)
   , m_seekTime (-1)
   , m_connected (false)
 {
   m_ui->setupUi (this);
 
   Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput (Phonon::MusicCategory, this);
-  Phonon::createPath (m_mediaObject, audioOutput);
+  Phonon::createPath (m_mediaObject.get (), audioOutput);
 
 
   initGroove ();
@@ -58,16 +58,19 @@ MainWindow::MainWindow (QWidget *parent)
   initPlayControls ();
   initSlider ();
 
+#if 0
   connect (m_mediaObject, SIGNAL (finished ()), SLOT (playNextSong ()));
   connect (m_mediaObject, SIGNAL (currentSourceChanged (const Phonon::MediaSource &)), SLOT (onMediaChanged (Phonon::MediaSource const &)));
+#endif
 
-  //m_mediaObject->enqueue (Phonon::MediaSource ("cache/Nine Inch Nails/With Teeth/Every Day Is Exactly the Same.mp3"));
-  //m_mediaObject->play ();
+#if 0
+  m_mediaObject->enqueue (Phonon::MediaSource ("/home/mpd/music/albums/Tool/2000 - Salival/07 - Tool - No Quarter.flac"));
+  m_mediaObject->play ();
+#endif
 }
 
 MainWindow::~MainWindow ()
 {
-  delete m_ui;
 }
 
 void
@@ -105,30 +108,30 @@ MainWindow::openAbout ()
   about.exec ();
 }
 
-GrooveFetcher *
+std::shared_ptr<GrooveFetcher>
 MainWindow::fetchNextSong ()
 {
   return fetchSong (m_playlistModel->next ());
 }
 
-GrooveFetcher *
+std::shared_ptr<GrooveFetcher>
 MainWindow::fetchPrevSong ()
 {
   return fetchSong (m_playlistModel->previous ());
 }
 
-GrooveFetcher *
+std::shared_ptr<GrooveFetcher>
 MainWindow::fetchSong (GrooveSong *song)
 {
   if (song == NULL)
-    return NULL;
+    return { };
 
-  GrooveFetcher *fetcher = NULL;
+  std::shared_ptr<GrooveFetcher> fetcher;
 
-  if (m_fetchers.contains (song->songID ()))
-    fetcher = m_fetchers[song->songID ()];
+  if (m_fetchers.find (song->songID ()) == m_fetchers.end ())
+    (fetcher = m_fetchers[song->songID ()] = std::make_shared<GrooveFetcher> (*song))->fetch ();
   else
-    (fetcher = m_fetchers[song->songID ()] = new GrooveFetcher (*song))->fetch ();
+    (fetcher = m_fetchers[song->songID ()]);
 
   GROOVE_VERIFY_OR_DIE (fetcher, "NULL fetcher in fetcher map");
 
@@ -136,13 +139,13 @@ MainWindow::fetchSong (GrooveSong *song)
 }
 
 void
-MainWindow::playSong (GrooveFetcher *fetcher, bool change)
+MainWindow::playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change)
 {
   if (!fetcher)
     return;
 
   if (m_next)
-    disconnect (m_next, SIGNAL (songReady ()), this, SLOT (playCurrentSong ()));
+    disconnect (m_next.get (), SIGNAL (songReady ()), this, SLOT (playCurrentSong ()));
 
   if (!fetcher->streaming ())
     {
@@ -158,12 +161,12 @@ MainWindow::playSong (GrooveFetcher *fetcher, bool change)
           m_mediaObject->enqueue (Phonon::MediaSource (fetcher->fileName ()));
         }
       m_mediaObject->play ();
-      m_next = NULL;
+      m_next.reset ();
     }
   else
     {
       qDebug () << Q_FUNC_INFO << "postponed playpack of" << fetcher->name ();
-      connect (fetcher, SIGNAL (songReady ()), this, SLOT (playCurrentSong ()));
+      connect (fetcher.get (), SIGNAL (songReady ()), SLOT (playCurrentSong ()));
       m_next = fetcher;
     }
 }
@@ -196,7 +199,7 @@ MainWindow::initGroove ()
 #if LIVE
   m_client->establishConnection ();
 #endif
-  connect (m_client, SIGNAL (connected ()), SLOT (onConnected ()));
+  connect (m_client.get (), SIGNAL (connected ()), SLOT (onConnected ()));
 }
 
 
@@ -246,7 +249,7 @@ MainWindow::onBtnNext ()
 inline void
 MainWindow::initPlaylist ()
 {
-  m_ui->tblPlaylistView->setModel (m_playlistModel);
+  m_ui->tblPlaylistView->setModel (m_playlistModel.get ());
   connect (m_ui->tblPlaylistView, SIGNAL (doubleClicked (QModelIndex)), SLOT (onPlaySong (QModelIndex)));
 }
 
@@ -268,7 +271,7 @@ MainWindow::onPlaySong (QModelIndex const &index)
 inline void
 MainWindow::initSearch ()
 {
-  m_ui->tblSearchResults->setModel (m_searchModel);
+  m_ui->tblSearchResults->setModel (m_searchModel.get ());
 }
 
 void
@@ -279,7 +282,7 @@ MainWindow::onQueueSong (QModelIndex const &index)
   qDebug () << Q_FUNC_INFO << "Queueing" << song->songName ();
 
   m_playlistModel->append (song);
-  GrooveFetcher *fetcher = fetchSong (song);
+  std::shared_ptr<GrooveFetcher> fetcher = fetchSong (song);
   if (!m_next && m_mediaObject->state () != Phonon::PlayingState)
     playSong (fetchSong (m_playlistModel->last ()));
 }
@@ -316,8 +319,8 @@ MainWindow::initSlider ()
 {
   m_mediaObject->setTickInterval (tickInterval);
 
-  connect (m_mediaObject, SIGNAL (tick (qint64)), SLOT (songTick (qint64)));
-  connect (m_mediaObject, SIGNAL (totalTimeChanged (qint64)), SLOT (songTotalTimeChanged (qint64)));
+  connect (m_mediaObject.get (), SIGNAL (tick (qint64)), SLOT (songTick (qint64)));
+  connect (m_mediaObject.get (), SIGNAL (totalTimeChanged (qint64)), SLOT (songTotalTimeChanged (qint64)));
 }
 
 

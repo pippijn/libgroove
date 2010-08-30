@@ -16,16 +16,16 @@ CLEANFILES		= # empty
 DISTCLEANFILES		= # empty
 MAINTAINERCLEANFILES	= # empty
 
-OPTFLAGS		= -pipe -O3 -ggdb3
+OPTFLAGS		= -pipe -O3 -ggdb3 -fno-inline
 WARNINGS		= # empty
-#WARNINGS		+= -Wall -Wextra
-#WARNINGS		+= -Wno-unused-parameter
+WARNINGS		+= -Wall -Wextra
+WARNINGS		+= -Wno-unused-parameter
 #WARNINGS		+= -Wpadded
 #WARNINGS		+= -Wpacked
 #WARNINGS		+= -Wconversion
-#WARNINGS		+= -Wstrict-overflow=5
-#WARNINGS		+= -Wstrict-aliasing=1
-#WARNINGS		+= -Werror
+WARNINGS		+= -Wstrict-overflow=4
+WARNINGS		+= -Wstrict-aliasing=3
+WARNINGS		+= -Werror
 
 AM_CFLAGS		= $(OPTFLAGS) $(WARNINGS)
 AM_CXXFLAGS		= $(OPTFLAGS) $(WARNINGS) -std=c++0x
@@ -53,5 +53,14 @@ ui_%.h: %.ui
 clean-local:
 	$(RM) -r include src ui_*.h
 
-run: groovy
-	./$<
+run: all
+	./groovy
+
+valgrind: all
+	valgrind				\
+		--track-origins=yes		\
+		--num-callers=40		\
+		--leak-check=full		\
+		--gen-suppressions=yes		\
+		--suppressions=../suppressions	\
+		.libs/groovy

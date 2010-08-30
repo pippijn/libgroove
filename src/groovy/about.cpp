@@ -38,5 +38,4 @@ About::About (QWidget *parent)
 
 About::~About ()
 {
-  delete m_ui;
 }

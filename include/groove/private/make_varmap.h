@@ -26,9 +26,10 @@
 
 struct QVariantOrMap
 {
-  typedef std::vector<std::pair<QString, QVariantOrMap>> map;
+  typedef std::vector<std::pair<char const *, QVariantOrMap>> map;
 
-  QVariantOrMap (QVariant const &scalar_value)
+  template<typename T>
+  QVariantOrMap (T const &scalar_value)
     : scalar_value (scalar_value)
   {
   }
@@ -47,7 +48,7 @@ make_varmap (QVariantOrMap::map const &map_value)
 {
   QVariantMap map;
 
-  foreach (auto const &value, map_value)
+  foreach (QVariantOrMap::map::const_reference value, map_value)
     {
       if (value.second.scalar_value.isValid ())
         {

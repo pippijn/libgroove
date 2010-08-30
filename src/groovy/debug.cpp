@@ -8,15 +8,15 @@
 static void
 limit ()
 {
-  // 512MiB address space
+  // 2048 MiB address space
   {
     struct rlimit const rlim = {
-      512 * 1024 * 1024,
-      512 * 1024 * 1024,
+      2048u * 1024 * 1024,
+      2048u * 1024 * 1024,
     };
     setrlimit (RLIMIT_AS, &rlim);
   }
-  // 8MiB stack
+  // 8 MiB stack
   {
     struct rlimit const rlim = {
       8 * 1024 * 1024,
