@@ -27,24 +27,12 @@ limit ()
 }
 
 
-static backtrace_status_fn print_status;
-static void
-print_status (size_t cur, size_t max)
-{
-  fprintf (stdout, "\r==%d== building stack trace: %zu%% (%zu / %zu)", getpid (), cur * 100 / max, cur, max);
-  fflush (stdout);
-  if (cur == max)
-    fprintf (stdout, "%50c", '\r');
-}
-
 void
 init_debuglib ()
 {
   init_signals ();
   init_debug ();
   limit ();
-
-  backtrace_status = print_status;
 }
 
 void

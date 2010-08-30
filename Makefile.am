@@ -55,8 +55,3 @@ clean-local:
 
 run: groovy
 	./$<
-
-package: all
-	$(RM) -r $(PACKAGE_TARNAME)-$(PACKAGE_VERSION)
-	$(MAKE) install DESTDIR=$(PWD)/$(PACKAGE_TARNAME)-$(PACKAGE_VERSION)
-	tar zcf $(PACKAGE_TARNAME)-$(PACKAGE_VERSION)_$(host_cpu).tar.gz $(PACKAGE_TARNAME)-$(PACKAGE_VERSION)

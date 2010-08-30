@@ -1,6 +1,7 @@
 include_HEADERS +=			\
 	include/groove/client.h		\
 	include/groove/fetcher.h	\
+	include/groove/settings.h	\
 	include/groove/song.h		\
 	include/groove/songsmodel.h
 
