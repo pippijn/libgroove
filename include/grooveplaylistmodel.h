@@ -33,7 +33,7 @@ class LIBGROOVESHARED_EXPORT GroovePlaylistModel
   Q_OBJECT
 
 private:
-  virtual QVariant data (const QModelIndex &index, int role) const;
+  virtual QVariant data (QModelIndex const &index, int role) const;
 
 public:
   explicit GroovePlaylistModel (std::shared_ptr<GrooveClient> client, QObject *parent);
@@ -43,7 +43,7 @@ public:
    *
    *  Returns a pointer to the song or 0 if there is an error.
    */
-  GrooveSong *select (const QModelIndex &index);
+  GrooveSong *select (QModelIndex const &index);
 
 public slots:
   /*!
@@ -87,7 +87,7 @@ public slots:
   int currentTrack () const;
 
 private:
-  GrooveSong *songByIndex (const QModelIndex &index) const;
+  GrooveSong *songByIndex (QModelIndex const &index) const;
 
   /*!
    *  Returns the currently playing track on this playlist, or 0 if there is no current track.

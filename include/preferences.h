@@ -33,6 +33,8 @@ class Preferences
 {
   Q_OBJECT
 
+  void *operator new (size_t) = delete;
+
 public:
   Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &playListModel, QWidget *parent);
   ~Preferences ();

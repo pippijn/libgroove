@@ -35,7 +35,7 @@ GroovePlaylistModel::GroovePlaylistModel (std::shared_ptr<GrooveClient> client, 
 }
 
 GrooveSong *
-GroovePlaylistModel::songByIndex (const QModelIndex &index) const
+GroovePlaylistModel::songByIndex (QModelIndex const &index) const
 {
   //qDebug () << index.row ();
   if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
@@ -121,7 +121,7 @@ GroovePlaylistModel::current () const
 }
 
 GrooveSong *
-GroovePlaylistModel::select (const QModelIndex &index)
+GroovePlaylistModel::select (QModelIndex const &index)
 {
   GrooveSong *song = songByIndex (index);
 
@@ -190,7 +190,7 @@ GroovePlaylistModel::currentTrack () const
 }
 
 QVariant
-GroovePlaylistModel::data (const QModelIndex &index, int role) const
+GroovePlaylistModel::data (QModelIndex const &index, int role) const
 {
   QVariant data = GrooveSongsModel::data (index, role);
 

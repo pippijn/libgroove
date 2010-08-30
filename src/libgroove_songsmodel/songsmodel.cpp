@@ -103,7 +103,7 @@ GrooveSongsModel::~GrooveSongsModel ()
 }
 
 QModelIndex
-GrooveSongsModel::index (int row, int column, const QModelIndex &parent) const
+GrooveSongsModel::index (int row, int column, QModelIndex const &parent) const
 {
   Q_UNUSED (parent);
 
@@ -115,7 +115,7 @@ GrooveSongsModel::index (int row, int column, const QModelIndex &parent) const
 }
 
 QModelIndex
-GrooveSongsModel::parent (const QModelIndex &child) const
+GrooveSongsModel::parent (QModelIndex const &child) const
 {
   Q_UNUSED (child);
 
@@ -123,7 +123,7 @@ GrooveSongsModel::parent (const QModelIndex &child) const
 }
 
 int
-GrooveSongsModel::rowCount (const QModelIndex &parent) const
+GrooveSongsModel::rowCount (QModelIndex const &parent) const
 {
   Q_UNUSED (parent);
 
@@ -131,7 +131,7 @@ GrooveSongsModel::rowCount (const QModelIndex &parent) const
 }
 
 int
-GrooveSongsModel::columnCount (const QModelIndex &parent) const
+GrooveSongsModel::columnCount (QModelIndex const &parent) const
 {
   Q_UNUSED (parent);
 
@@ -139,7 +139,7 @@ GrooveSongsModel::columnCount (const QModelIndex &parent) const
 }
 
 QVariant
-GrooveSongsModel::data (const QModelIndex &index, int role) const
+GrooveSongsModel::data (QModelIndex const &index, int role) const
 {
   if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
     return QVariant ();

@@ -29,6 +29,8 @@ class About
 {
   Q_OBJECT
 
+  void *operator new (size_t) = delete;
+
 public:
   About (QWidget *parent);
   ~About ();

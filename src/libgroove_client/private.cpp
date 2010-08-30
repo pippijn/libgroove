@@ -52,7 +52,7 @@ GrooveClient::Private::processPHPSessionId ()
   qDebug () << Q_FUNC_INFO << "processing";
   QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl (GrooveRequest::LOGIN_URL));
 
-  foreach (const QNetworkCookie &cookie, cookieList)
+  foreach (QNetworkCookie const &cookie, cookieList)
     if (cookie.name () == "PHPSESSID")
       {
         m_phpCookie = cookie.value ();
@@ -111,20 +111,20 @@ GrooveClient::Private::processSessionToken ()
   emit connected ();
 }
 
-const QString &
+QString const &
 GrooveClient::Private::sessionToken () const
 {
   return m_sessionToken;
 }
 
-const QString &
+QString const &
 GrooveClient::Private::phpCookie () const
 {
   return m_phpCookie;
 }
 
 QString
-GrooveClient::Private::grooveMessageToken (const QString &method) const
+GrooveClient::Private::grooveMessageToken (QString const &method) const
 {
   if (GROOVE_VERIFY (m_sessionToken.length (), "made a request to create message without session token"))
     return QString ();

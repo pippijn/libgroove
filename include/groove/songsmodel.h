@@ -36,11 +36,11 @@ protected:
   ~GrooveSongsModel ();
 
 protected:
-  virtual QModelIndex index (int row, int column, const QModelIndex &parent) const;
-  virtual QModelIndex parent (const QModelIndex &child) const;
-  virtual int rowCount (const QModelIndex &parent) const;
-  virtual int columnCount (const QModelIndex &parent) const;
-  virtual QVariant data (const QModelIndex &index, int role) const;
+  virtual QModelIndex index (int row, int column, QModelIndex const &parent) const;
+  virtual QModelIndex parent (QModelIndex const &child) const;
+  virtual int rowCount (QModelIndex const &parent) const;
+  virtual int columnCount (QModelIndex const &parent) const;
+  virtual QVariant data (QModelIndex const &index, int role) const;
   virtual QVariant headerData (int section, Qt::Orientation orientation, int role) const;
 
 public:

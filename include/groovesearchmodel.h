@@ -41,19 +41,19 @@ public:
    *
    *  Returns a pointer to the song or 0 if there is an error.
    */
-  GrooveSong *songByIndex (const QModelIndex &index) const;
+  GrooveSong *songByIndex (QModelIndex const &index) const;
 
 public slots:
-  void searchByArtist (const QString &artist);  /* XXX: should this really be here? causes problems due to different fields returned? */
-  void searchBySong (const QString &song);
-  void searchByAlbum (const QString &album);  /* XXX: should this really be here? causes problems due to different fields returned? */
+  void searchByArtist (QString const &artist);  /* XXX: should this really be here? causes problems due to different fields returned? */
+  void searchBySong (QString const &song);
+  void searchByAlbum (QString const &album);  /* XXX: should this really be here? causes problems due to different fields returned? */
 
 private:
   /*!
    *  Performs a search of the given \a type for a \a searchTerm on this model instance.
    *  Note that searches are asynchronous.
    */
-  void searchByHelper (const QString &type, const QString &searchTerm);
+  void searchByHelper (QString const &type, QString const &searchTerm);
 
 private slots:
   /*!
