@@ -21,8 +21,8 @@
 
 #include "libgroove_global.h"
 
+#include "groove/songptr.h"
 #include "groove/songsmodel.h"
-class GrooveSong;
 class GrooveClient;
 
 #include <memory>
@@ -43,7 +43,7 @@ public:
    *
    *  Returns a pointer to the song or 0 if there is an error.
    */
-  GrooveSong *select (QModelIndex const &index);
+  GrooveSongPointer select (QModelIndex const &index);
 
 public slots:
   /*!
@@ -51,12 +51,12 @@ public slots:
    *
    *  \sa insert()
    */
-  void append (GrooveSong *song);
+  void append (GrooveSongPointer song);
 
   /*!
    *  Insert a given \a song at a specified \a position into this playlist.
    */
-  void insert (int position, GrooveSong *song);
+  void insert (int position, GrooveSongPointer song);
 
   /*!
    *  Removes track at a given \a songPosition from this playlist.
@@ -66,20 +66,20 @@ public slots:
   /*!
    *  Finds the position of a given \a song in this playlist, searching forward from the index \a from.
    */
-  int indexOf (GrooveSong *song, int from = 0);
+  int indexOf (GrooveSongPointer song, int from = 0);
 
-  GrooveSong *first ();
-  GrooveSong *last ();
+  GrooveSongPointer first ();
+  GrooveSongPointer last ();
 
   /*!
    *  Returns the next track to be played from this playlist, or 0 if there is no next track.
    */
-  GrooveSong *next ();
+  GrooveSongPointer next ();
 
   /*!
    *  Returns the track played previously from this playlist, or 0 if there is no previous track.
    */
-  GrooveSong *previous ();
+  GrooveSongPointer previous ();
 
   /*!
    *  Returns the index of the currently playing track.
@@ -87,15 +87,15 @@ public slots:
   int currentTrack () const;
 
 private:
-  GrooveSong *songByIndex (QModelIndex const &index) const;
+  GrooveSongPointer songByIndex (QModelIndex const &index) const;
 
   /*!
    *  Returns the currently playing track on this playlist, or 0 if there is no current track.
    */
-  GrooveSong *current () const;
+  GrooveSongPointer current () const;
 
-  int m_currentTrack;
   std::shared_ptr<GrooveClient> m_client;
+  int m_currentTrack;
 };
 
 #endif /* GROOVEPLAYLISTMODEL_H */

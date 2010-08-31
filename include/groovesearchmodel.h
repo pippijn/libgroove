@@ -21,9 +21,9 @@
 
 #include "libgroove_global.h"
 
+#include "groove/songptr.h"
 #include "groove/songsmodel.h"
 class GrooveClient;
-class GrooveSong;
 
 #include <memory>
 
@@ -41,7 +41,7 @@ public:
    *
    *  Returns a pointer to the song or 0 if there is an error.
    */
-  GrooveSong *songByIndex (QModelIndex const &index) const;
+  GrooveSongPointer songByIndex (QModelIndex const &index) const;
 
 public slots:
   void searchByArtist (QString const &artist);  /* XXX: should this really be here? causes problems due to different fields returned? */

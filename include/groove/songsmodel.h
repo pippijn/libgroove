@@ -21,10 +21,10 @@
 
 #include "libgroove_global.h"
 
+#include "groove/songptr.h"
+
 #include <QAbstractItemModel>
 #include <QStringList>
-
-class GrooveSong;
 
 class LIBGROOVESHARED_EXPORT GrooveSongsModel
   : public QAbstractItemModel
@@ -35,13 +35,17 @@ protected:
   GrooveSongsModel (QString const &modelName, QObject *parent);
   ~GrooveSongsModel ();
 
-protected:
-  virtual QModelIndex index (int row, int column, QModelIndex const &parent) const;
+private:
+  bool verifyIndex (QModelIndex const &index, int role) const;
+
+public:
+  virtual QModelIndex index (int row, int column, QModelIndex const &parent = QModelIndex ()) const;
   virtual QModelIndex parent (QModelIndex const &child) const;
-  virtual int rowCount (QModelIndex const &parent) const;
-  virtual int columnCount (QModelIndex const &parent) const;
-  virtual QVariant data (QModelIndex const &index, int role) const;
+  virtual int rowCount (QModelIndex const &parent = QModelIndex ()) const;
+  virtual int columnCount (QModelIndex const &parent = QModelIndex ()) const;
+  virtual QVariant data (QModelIndex const &index, int role = Qt::DisplayRole) const;
   virtual QVariant headerData (int section, Qt::Orientation orientation, int role) const;
+  virtual bool setData (QModelIndex const &index, QVariant const &value, int role = Qt::EditRole);
 
 public:
   void addVisible (QString const &item);
@@ -61,9 +65,10 @@ public slots:
   void clear ();
 
 protected:
-  QList<GrooveSong *> m_songs;
-  QStringList m_visible;
   QString m_modelName;
+  QList<GrooveSongPointer> m_songs;
+  QStringList m_visible;
+  QList<QVariantList> m_data;
 };
 
 #endif /* GROOVESONGSMODEL_H */

@@ -21,20 +21,17 @@
 #include "groove/song.h"
 
 #include <QSettings>
-#if 0
-#include <QColor>
-#endif
 
 #include <algorithm>
 
 GroovePlaylistModel::GroovePlaylistModel (std::shared_ptr<GrooveClient> client, QObject *parent)
   : GrooveSongsModel (GrooveSettings::section::PLAYLIST, parent)
-  , m_currentTrack (-1)
   , m_client (client)
+  , m_currentTrack (-1)
 {
 }
 
-GrooveSong *
+GrooveSongPointer
 GroovePlaylistModel::songByIndex (QModelIndex const &index) const
 {
   //qDebug () << index.row ();
@@ -47,17 +44,16 @@ GroovePlaylistModel::songByIndex (QModelIndex const &index) const
 }
 
 void
-GroovePlaylistModel::append (GrooveSong *song)
+GroovePlaylistModel::append (GrooveSongPointer song)
 {
   if (GROOVE_VERIFY (song, "song is NULL"))
     return;
 
-  /* ref is made inside insert() */
   insert (m_songs.count (), song);
 }
 
 void
-GroovePlaylistModel::insert (int position, GrooveSong *song)
+GroovePlaylistModel::insert (int position, GrooveSongPointer song)
 {
   if (GROOVE_VERIFY (song, "song is NULL"))
     return;
@@ -65,9 +61,6 @@ GroovePlaylistModel::insert (int position, GrooveSong *song)
     return;
   if (GROOVE_VERIFY (position <= m_songs.count (), "position is greater than it should be"))
     return;
-
-  /* acquire a ref */
-  song->ref ();
 
   beginInsertRows (QModelIndex (), position, position);
   m_songs.insert (position, song);
@@ -83,13 +76,12 @@ GroovePlaylistModel::removeAt (int songPosition)
     return;
 
   beginRemoveRows (QModelIndex (), songPosition, songPosition);
-  m_songs.at (songPosition)->deref ();
   m_songs.removeAt (songPosition);
   endRemoveRows ();
 }
 
 int
-GroovePlaylistModel::indexOf (GrooveSong *song, int from)
+GroovePlaylistModel::indexOf (GrooveSongPointer song, int from)
 {
   if (GROOVE_VERIFY (song, "song is NULL"))
     return -1;
@@ -111,7 +103,7 @@ GroovePlaylistModel::indexOf (GrooveSong *song, int from)
   return -1;
 }
 
-GrooveSong *
+GrooveSongPointer
 GroovePlaylistModel::current () const
 {
   if (currentTrack () >= count () || currentTrack () < 0 || !count ())
@@ -120,10 +112,10 @@ GroovePlaylistModel::current () const
   return m_songs.at (currentTrack ());
 }
 
-GrooveSong *
+GrooveSongPointer
 GroovePlaylistModel::select (QModelIndex const &index)
 {
-  GrooveSong *song = songByIndex (index);
+  GrooveSongPointer song = songByIndex (index);
 
   if (!song)
     return NULL;
@@ -133,7 +125,7 @@ GroovePlaylistModel::select (QModelIndex const &index)
   return next ();
 }
 
-GrooveSong *
+GrooveSongPointer
 GroovePlaylistModel::first ()
 {
   m_currentTrack = -1;
@@ -141,7 +133,7 @@ GroovePlaylistModel::first ()
   return next ();
 }
 
-GrooveSong *
+GrooveSongPointer
 GroovePlaylistModel::last ()
 {
   m_currentTrack = count ();
@@ -149,7 +141,7 @@ GroovePlaylistModel::last ()
   return previous ();
 }
 
-GrooveSong *
+GrooveSongPointer
 GroovePlaylistModel::next ()
 {
   if (++m_currentTrack >= count ())
@@ -162,11 +154,10 @@ GroovePlaylistModel::next ()
   qDebug () << Q_FUNC_INFO << "reading next track, current track =" << m_currentTrack
                            << "(" << current ()->songName () << ")";
 
-  emit layoutChanged (); // new colour for active track
   return current ();
 }
 
-GrooveSong *
+GrooveSongPointer
 GroovePlaylistModel::previous ()
 {
   if (--m_currentTrack < 0 || !count ())
@@ -179,7 +170,6 @@ GroovePlaylistModel::previous ()
   qDebug () << Q_FUNC_INFO << "reading next track, current track =" << m_currentTrack
                            << "(" << current ()->songName () << ")";
 
-  emit layoutChanged (); // new colour for active track
   return current ();
 }
 
@@ -194,7 +184,7 @@ GroovePlaylistModel::data (QModelIndex const &index, int role) const
 {
   QVariant data = GrooveSongsModel::data (index, role);
 
-  GrooveSong *song = m_songs[index.row ()];
+  GrooveSongPointer song = m_songs[index.row ()];
 
   switch (role)
     {
@@ -204,11 +194,6 @@ GroovePlaylistModel::data (QModelIndex const &index, int role) const
                .arg (QSettings ().value (GrooveSettings::CACHEDIR, "cache").toString ())
                .arg (song->coverArtFilename ())
                ;
-#if 0
-    case Qt::BackgroundColorRole:
-      if (songByIndex (index) == current ())
-        return QColor (Qt::green);
-#endif
     }
 
   return data;

@@ -15,6 +15,7 @@ nodist_groovy_SOURCES =			\
 
 groovy_CXXFLAGS =		\
 	$(AM_CXXFLAGS)		\
+	-Wno-conversion		\
 	$(QTCORE_CXXFLAGS)	\
 	$(QTGUI_CXXFLAGS)	\
 	$(PHONON_CXXFLAGS)

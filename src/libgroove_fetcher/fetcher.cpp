@@ -70,23 +70,21 @@ make_cache (GrooveSong const &song)
 }
 
 
-GrooveFetcher::GrooveFetcher (GrooveSong &song)
-  : m_file (make_cache (song))
+GrooveFetcher::GrooveFetcher (GrooveSongPointer song)
+  : m_file (make_cache (*song))
   , m_song (song)
   , m_nowStreaming (false)
 {
-  m_song.ref ();
 }
 
 GrooveFetcher::~GrooveFetcher ()
 {
-  m_song.deref ();
 }
 
 QString
 GrooveFetcher::name () const
 {
-  return m_song.songName ();
+  return m_song->songName ();
 }
 
 QString
@@ -107,21 +105,21 @@ GrooveFetcher::fetch ()
 {
   if (m_nowStreaming)
     {
-      qDebug () << Q_FUNC_INFO << "Already streaming " << m_song.songName () << ", ignoring request";
+      qDebug () << Q_FUNC_INFO << "Already streaming " << m_song->songName () << ", ignoring request";
       return;
     }
 
   if (!m_file.exists ())
     {
-      qDebug () << Q_FUNC_INFO << "Fetching " << m_song.songName ();
+      qDebug () << Q_FUNC_INFO << "Fetching " << m_song->songName ();
 
       if (GROOVE_VERIFY (m_file.open (QIODevice::WriteOnly), "could not open output file"))
         return;
 
       m_nowStreaming = true;
 
-      connect (&m_song, SIGNAL (streamingStarted (QNetworkReply *)), SLOT (onStreamingStarted (QNetworkReply *)));
-      m_song.startStreaming ();
+      connect (m_song.get (), SIGNAL (streamingStarted (QNetworkReply *)), SLOT (onStreamingStarted (QNetworkReply *)));
+      m_song->startStreaming ();
     }
   else
     emit songReady ();

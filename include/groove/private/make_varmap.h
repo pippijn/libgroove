@@ -31,11 +31,13 @@ struct QVariantOrMap
   template<typename T>
   QVariantOrMap (T const &scalar_value)
     : scalar_value (scalar_value)
+    , map_value ()
   {
   }
 
   QVariantOrMap (map const &map_value)
-    : map_value (map_value)
+    : scalar_value ()
+    , map_value (map_value)
   {
   }
 

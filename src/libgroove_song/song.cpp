@@ -28,36 +28,45 @@
 
 struct GrooveSong::Data
 {
+  std::shared_ptr<GrooveClient> m_client;
   QVariantMap m_data;
   QAtomicInt m_refCount;
+
+  Data (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
+    : m_client (client)
+    , m_data (data)
+    , m_refCount (0)
+  {
+  }
 };
 
-GrooveSong::GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
-  : d (new Data)
-  , m_client (client)
+inline GrooveSong::GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
+  : d (new Data (client, data))
 {
-  d->m_data = data;
-  d->m_refCount = QAtomicInt (0);
-
-  /* initial refcount on creation */
-  ref ();
 }
 
 GrooveSong::~GrooveSong ()
 {
+  printf ("bye %p\n", this);
 }
 
-void
+inline void
 GrooveSong::ref ()
 {
   d->m_refCount.ref ();
 }
 
-void
+inline void
 GrooveSong::deref ()
 {
   if (!d->m_refCount.deref ())
     deleteLater ();
+}
+
+GrooveSongPointer
+GrooveSong::make (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
+{
+  return new GrooveSong (client, data);
 }
 
 QString
@@ -304,14 +313,14 @@ void
 GrooveSong::startStreaming ()
 {
   qDebug () << Q_FUNC_INFO << "Started streaming for " << songName () << "(id: " << songID () << ")";
-  GrooveRequest request (*m_client, GrooveRequest::more ("getStreamKeyFromSongIdEx"));
+  GrooveRequest request (*d->m_client, GrooveRequest::more ("getStreamKeyFromSongIdEx"));
 
   typedef QVariantOrMap::map map;
   request << map {
     { "method", "getStreamKeyFromSongIDEx" },
     { "header", map {
-        { "session", m_client->phpCookie ().toUtf8 () },
-        { "token", m_client->grooveMessageToken ("getStreamKeyFromSongIDEx") },
+        { "session", d->m_client->phpCookie ().toUtf8 () },
+        { "token", d->m_client->grooveMessageToken ("getStreamKeyFromSongIDEx") },
         { "client", "gslite" },
         { "clientRevision", "20100412.09" },
       },
@@ -359,7 +368,19 @@ GrooveSong::streamingKeyReady ()
   qDebug () << Q_FUNC_INFO << "Sending request to " << req.url ().toString () << " to start stream";
 
   QString streamKey = "streamKey=" + results["streamKey"].toString ();
-  QNetworkReply *streamingReply = m_client->networkManager ().post (req, streamKey.toAscii ());
+  QNetworkReply *streamingReply = d->m_client->networkManager ().post (req, streamKey.toAscii ());
 
   emit streamingStarted (streamingReply);
+}
+
+void
+intrusive_ptr_add_ref (GrooveSong *song)
+{
+  song->ref ();
+}
+
+void
+intrusive_ptr_release (GrooveSong *song)
+{
+  song->deref ();
 }

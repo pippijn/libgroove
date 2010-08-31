@@ -1,4 +1,5 @@
 /*
+ * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
  * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -14,39 +15,16 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
+
 #pragma once
 
 #include "libgroove_global.h"
 
-#include "groove/songptr.h"
+class GrooveSong;
 
-#include <QFile>
-class QNetworkReply;
+#include <boost/intrusive_ptr.hpp>
 
-class LIBGROOVESHARED_EXPORT GrooveFetcher
-  : public QObject
-{
-  Q_OBJECT
+typedef boost::intrusive_ptr<GrooveSong> GrooveSongPointer;
 
-  QFile m_file;
-  GrooveSongPointer m_song;
-  bool m_nowStreaming;
-
-public:
-  QString name () const;
-  QString fileName () const;
-  bool streaming () const;
-
-public:
-  GrooveFetcher (GrooveSongPointer song);
-  ~GrooveFetcher ();
-  void fetch ();
-
-private slots:
-  void onStreamingStarted (QNetworkReply *);
-  void onStreamReadReady ();
-  void onStreamingFinished ();
-
-signals:
-  void songReady ();
-};
+LIBGROOVESHARED_EXPORT void intrusive_ptr_add_ref (GrooveSong *song);
+LIBGROOVESHARED_EXPORT void intrusive_ptr_release (GrooveSong *song);

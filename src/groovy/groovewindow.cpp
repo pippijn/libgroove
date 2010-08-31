@@ -18,10 +18,11 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <QDebug>
-#include <QMessageBox>
-#include <QSettings>
-#include <QTime>
+#include "ui_groovewindow.h"
+
+#include "about.h"
+#include "groovewindow.h"
+#include "preferences.h"
 
 #include "groove/client.h"
 #include "groove/fetcher.h"
@@ -30,11 +31,12 @@
 #include "groove/settings.h"
 #include "groove/song.h"
 
-#include "about.h"
-#include "groovewindow.h"
-#include "preferences.h"
+#include <QDebug>
+#include <QMessageBox>
+#include <QSettings>
+#include <QTime>
 
-#include "ui_groovewindow.h"
+#include <functional>
 
 MainWindow::MainWindow (QWidget *parent)
   : QMainWindow (parent)
@@ -43,6 +45,8 @@ MainWindow::MainWindow (QWidget *parent)
   , m_searchModel (new GrooveSearchModel (m_client, this))
   , m_playlistModel (new GroovePlaylistModel (m_client, this))
   , m_mediaObject (new Phonon::MediaObject (this))
+  , m_fetchers ()
+  , m_next (nullptr)
   , m_seekTime (-1)
   , m_connected (false)
 {
@@ -58,10 +62,8 @@ MainWindow::MainWindow (QWidget *parent)
   initPlayControls ();
   initSlider ();
 
-#if 0
-  connect (m_mediaObject, SIGNAL (finished ()), SLOT (playNextSong ()));
-  connect (m_mediaObject, SIGNAL (currentSourceChanged (const Phonon::MediaSource &)), SLOT (onMediaChanged (Phonon::MediaSource const &)));
-#endif
+  connect (m_mediaObject.get (), SIGNAL (finished ()), SLOT (playNextSong ()));
+  connect (m_mediaObject.get (), SIGNAL (currentSourceChanged (const Phonon::MediaSource &)), SLOT (onMediaChanged (Phonon::MediaSource const &)));
 
 #if 0
   m_mediaObject->enqueue (Phonon::MediaSource ("/home/mpd/music/albums/Tool/2000 - Salival/07 - Tool - No Quarter.flac"));
@@ -108,20 +110,49 @@ MainWindow::openAbout ()
   about.exec ();
 }
 
+struct scoped_action
+{
+  scoped_action (std::function<void ()> action)
+    : m_action (action)
+  {
+  }
+
+  ~scoped_action ()
+  {
+    m_action ();
+  }
+
+  std::function<void ()> m_action;
+};
+
+template<typename T>
+inline auto
+MainWindow::switchSong (T action)
+    -> decltype (action ())
+{
+  auto setter = [=] (QVariant const &value = QVariant ()) {
+    m_playlistModel->setData (m_playlistModel->index (m_playlistModel->currentTrack (), 0),
+                              value, Qt::BackgroundColorRole);
+  };
+  setter ();
+  scoped_action sa { [setter] { setter (QColor (Qt::green)); } };
+  return action ();
+}
+
 std::shared_ptr<GrooveFetcher>
 MainWindow::fetchNextSong ()
 {
-  return fetchSong (m_playlistModel->next ());
+  return switchSong ([=] { return fetchSong (m_playlistModel->next ()); });
 }
 
 std::shared_ptr<GrooveFetcher>
 MainWindow::fetchPrevSong ()
 {
-  return fetchSong (m_playlistModel->previous ());
+  return switchSong ([=] { return fetchSong (m_playlistModel->previous ()); });
 }
 
 std::shared_ptr<GrooveFetcher>
-MainWindow::fetchSong (GrooveSong *song)
+MainWindow::fetchSong (GrooveSongPointer song)
 {
   if (song == NULL)
     return { };
@@ -129,7 +160,7 @@ MainWindow::fetchSong (GrooveSong *song)
   std::shared_ptr<GrooveFetcher> fetcher;
 
   if (m_fetchers.find (song->songID ()) == m_fetchers.end ())
-    (fetcher = m_fetchers[song->songID ()] = std::make_shared<GrooveFetcher> (*song))->fetch ();
+    (fetcher = m_fetchers[song->songID ()] = std::make_shared<GrooveFetcher> (song))->fetch ();
   else
     (fetcher = m_fetchers[song->songID ()]);
 
@@ -256,7 +287,7 @@ MainWindow::initPlaylist ()
 void
 MainWindow::onPlaySong (QModelIndex const &index)
 {
-  GrooveSong *song = m_playlistModel->select (index);
+  GrooveSongPointer song = switchSong ([=] () -> GrooveSongPointer { return m_playlistModel->select (index); });
 
   qDebug () << Q_FUNC_INFO << "Playing" << song->songName ();
 
@@ -277,14 +308,14 @@ MainWindow::initSearch ()
 void
 MainWindow::onQueueSong (QModelIndex const &index)
 {
-  GrooveSong *song = m_searchModel->songByIndex (index);
+  GrooveSongPointer song = m_searchModel->songByIndex (index);
 
   qDebug () << Q_FUNC_INFO << "Queueing" << song->songName ();
 
   m_playlistModel->append (song);
   std::shared_ptr<GrooveFetcher> fetcher = fetchSong (song);
   if (!m_next && m_mediaObject->state () != Phonon::PlayingState)
-    playSong (fetchSong (m_playlistModel->last ()));
+    switchSong ([=] { playSong (fetchSong (m_playlistModel->last ())); });
 }
 
 void

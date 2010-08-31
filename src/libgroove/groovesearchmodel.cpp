@@ -102,12 +102,12 @@ GrooveSearchModel::searchCompleted ()
   if (GROOVE_VERIFY (ok, "error occurred whilst parsing search results"))
     return;
 
-  QList<GrooveSong *> newSongList;
+  QList<GrooveSongPointer > newSongList;
   foreach (QVariant const &song, result["result"].toList ())
     {
       QVariantMap songData = song.toMap ();
 
-      newSongList.append (new GrooveSong (m_client, songData));
+      newSongList.append (GrooveSong::make (m_client, songData));
     }
 
   if (!newSongList.count ())
@@ -121,7 +121,7 @@ GrooveSearchModel::searchCompleted ()
   qDebug () << Q_FUNC_INFO << "Search found " << m_songs.count () << " songs";
 }
 
-GrooveSong *
+GrooveSongPointer
 GrooveSearchModel::songByIndex (QModelIndex const &index) const
 {
   if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))

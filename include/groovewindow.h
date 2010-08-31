@@ -22,18 +22,16 @@
 #include <memory>
 #include <map>
 
-#include <QMainWindow>
-#include <QDialog>
-#include <QMap>
-class QModelIndex;
-
-#include <phonon/phonon>
-
+#include "groove/songptr.h"
 class GrooveClient;
 class GrooveFetcher;
 class GroovePlaylistModel;
 class GrooveSearchModel;
-class GrooveSong;
+
+#include <phonon/phonon>
+
+#include <QMainWindow>
+class QModelIndex;
 
 namespace Ui
 {
@@ -83,9 +81,11 @@ public:
   void initiatePlay ();
 
 private:
+  template<typename T>
+  auto switchSong (T action) -> decltype (action ());
   std::shared_ptr<GrooveFetcher> fetchPrevSong ();
   std::shared_ptr<GrooveFetcher> fetchNextSong ();
-  std::shared_ptr<GrooveFetcher> fetchSong (GrooveSong *song);
+  std::shared_ptr<GrooveFetcher> fetchSong (GrooveSongPointer song);
   void playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change = false);
 
   bool checkConnection () const;

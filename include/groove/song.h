@@ -21,6 +21,7 @@
 
 #include "libgroove_global.h"
 
+#include "groove/songptr.h"
 class GrooveClient;
 
 #include <QMetaType>
@@ -37,12 +38,17 @@ class LIBGROOVESHARED_EXPORT GrooveSong
 {
   Q_OBJECT
 
-public:
-  explicit GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data);
+  friend void intrusive_ptr_add_ref (GrooveSong *song);
+  friend void intrusive_ptr_release (GrooveSong *song);
+
+  GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data);
   ~GrooveSong ();
 
   void ref ();
   void deref ();
+
+public:
+  static GrooveSongPointer make (std::shared_ptr<GrooveClient> client, QVariantMap const &data);
 
   Q_PROPERTY (QString songID READ songID)                               QString songID () const;
   Q_PROPERTY (int albumID READ albumID)                                 int albumID () const;
@@ -109,7 +115,6 @@ private slots:
 private:
   struct Data;
   std::auto_ptr<Data> d;
-  std::shared_ptr<GrooveClient> m_client;
 };
 
 #endif /* GROOVESONG_H */

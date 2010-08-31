@@ -3,6 +3,7 @@ include_HEADERS +=			\
 	include/groove/fetcher.h	\
 	include/groove/settings.h	\
 	include/groove/song.h		\
+	include/groove/songptr.h	\
 	include/groove/songsmodel.h
 
 include include/groove/private/Rules.am

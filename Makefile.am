@@ -18,11 +18,16 @@ MAINTAINERCLEANFILES	= # empty
 
 OPTFLAGS		= -pipe -O3 -ggdb3 -fno-inline
 WARNINGS		= # empty
+WARNINGS		+= -isystem /usr/include/qt4/QtCore
+WARNINGS		+= -isystem /usr/include/qt4/QtGui
+WARNINGS		+= -isystem /usr/include/qt4
+WARNINGS		+= -isystem .
 WARNINGS		+= -Wall -Wextra
 WARNINGS		+= -Wno-unused-parameter
-#WARNINGS		+= -Wpadded
+#WARNINGS		+= -Wpadded -Wno-error=padded
 #WARNINGS		+= -Wpacked
-#WARNINGS		+= -Wconversion
+WARNINGS		+= -Wconversion
+WARNINGS		+= -Weffc++
 WARNINGS		+= -Wstrict-overflow=4
 WARNINGS		+= -Wstrict-aliasing=3
 WARNINGS		+= -Werror

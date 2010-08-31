@@ -71,6 +71,9 @@ static std::map<QString, char const *> const propNames = {
 GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
   : QAbstractItemModel (parent)
   , m_modelName (modelName)
+  , m_songs ()
+  , m_visible ()
+  , m_data ()
 {
   QSettings settings;
   settings.beginGroup (m_modelName);
@@ -101,6 +104,22 @@ GrooveSongsModel::~GrooveSongsModel ()
 
   settings.endGroup ();
 }
+
+
+bool
+GrooveSongsModel::verifyIndex (QModelIndex const &index, int role) const
+{
+  if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
+    return false;
+  if (GROOVE_VERIFY (index.row () < m_songs.count (), "row is higher than the number of songs I have"))
+    return false;
+  if (GROOVE_VERIFY (index.column () >= 0, "column is negative"))
+    return false;
+  if (GROOVE_VERIFY (index.column () < m_visible.size (), "column is higher than m_visible.size ()"))
+    return false;
+  return true;
+}
+
 
 QModelIndex
 GrooveSongsModel::index (int row, int column, QModelIndex const &parent) const
@@ -141,16 +160,10 @@ GrooveSongsModel::columnCount (QModelIndex const &parent) const
 QVariant
 GrooveSongsModel::data (QModelIndex const &index, int role) const
 {
-  if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
-    return QVariant ();
-  if (GROOVE_VERIFY (index.row () < m_songs.count (), "row is higher than the number of songs I have"))
-    return QVariant ();
-  if (GROOVE_VERIFY (index.column () >= 0, "column is negative"))
-    return QVariant ();
-  if (GROOVE_VERIFY (index.column () < m_visible.size (), "column is higher than m_visible.size ()"))
+  if (!verifyIndex (index, role))
     return QVariant ();
 
-  GrooveSong *song = m_songs[index.row ()];
+  GrooveSongPointer song = m_songs[index.row ()];
 
   switch (role)
     {
@@ -164,6 +177,16 @@ GrooveSongsModel::data (QModelIndex const &index, int role) const
              .arg (song->albumName ())
              .arg (song->estimateDurationMins ())
              ;
+    }
+
+#if 0
+  qDebug () << Q_FUNC_INFO << "getting data at" << index << "for role" << role << "out of" << data.size ();
+#endif
+  if (index.row () < m_data.size ())
+    {
+      QVariantList const &data = m_data[index.row ()];
+      if (0 <= role && role < data.size ())
+        return data[role];
     }
 
   return QVariant ();
@@ -188,6 +211,32 @@ GrooveSongsModel::headerData (int section, Qt::Orientation orientation, int role
     }
 
   return QVariant ();
+}
+
+bool
+GrooveSongsModel::setData (QModelIndex const &index, QVariant const &value, int role)
+{
+  if (index.row () == -1)
+    return false;
+  if (!verifyIndex (index, role))
+    return false;
+
+  qDebug () << Q_FUNC_INFO << "setting" << index << "to" << value << "for role" << role;
+
+  if (index.row () >= m_data.size ())
+    m_data.push_back ({ });
+  QVariantList &data = m_data[index.row ()];
+  while (role >= data.size ())
+    data.push_back ({ });
+  data[role] = value;
+
+#if 0
+  qDebug () << Q_FUNC_INFO << "columnCount =" << columnCount ();
+#endif
+  emit dataChanged (this->index (index.row (), 0),
+                    this->index (index.row (), columnCount () - 1));
+
+  return true;
 }
 
 void
@@ -229,10 +278,6 @@ void
 GrooveSongsModel::clear ()
 {
   emit beginResetModel ();
-
-  /* Decrement reference count on all our songs (this will automatically delete ones with no references left) */
-  foreach (GrooveSong *song, m_songs)
-    song->deref ();
 
   m_songs.clear ();
 

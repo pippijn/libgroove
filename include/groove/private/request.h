@@ -56,6 +56,7 @@ struct LIBGROOVESHARED_EXPORT GrooveRequest
   explicit GrooveRequest (GrooveClient &client, QString service)
     : m_req (QUrl (service))
     , m_client (client)
+    , m_jlist ()
   {
   }
 

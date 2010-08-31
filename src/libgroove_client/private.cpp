@@ -30,6 +30,8 @@
 
 GrooveClient::Private::Private (GrooveClient *parent)
   : QObject (parent)
+  , m_phpCookie ()
+  , m_sessionToken ()
   , m_networkManager (new QNetworkAccessManager)
 {
 }
