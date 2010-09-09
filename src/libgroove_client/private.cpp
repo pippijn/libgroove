@@ -79,7 +79,7 @@ GrooveClient::Private::fetchSessionToken ()
     { "method", "getCommunicationToken" },
     { "header", map {
         { "client", "gslite" },
-        { "clientRevision", "20100412.09" },
+        { "clientRevision", GrooveRequest::REVISION },
       },
     },
     { "parameters", map {

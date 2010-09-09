@@ -322,7 +322,7 @@ GrooveSong::startStreaming ()
         { "session", d->m_client->phpCookie ().toUtf8 () },
         { "token", d->m_client->grooveMessageToken ("getStreamKeyFromSongIDEx") },
         { "client", "gslite" },
-        { "clientRevision", "20100412.09" },
+        { "clientRevision", GrooveRequest::REVISION },
       },
     },
     { "parameters", map {

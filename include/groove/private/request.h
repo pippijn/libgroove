@@ -37,6 +37,7 @@ struct LIBGROOVESHARED_EXPORT GrooveRequest
   static QString const API_URL;
   static QString const ART_BASE_URL;
   static QString const LOGIN_URL;
+  static QString const REVISION;
 
   static QString more (QString const &method)
   {

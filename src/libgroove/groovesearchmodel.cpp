@@ -74,7 +74,7 @@ GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTer
         { "session", m_client->phpCookie ().toUtf8 () },
         { "token", m_client->grooveMessageToken ("getSearchResults") },
         { "client", "gslite" },
-        { "clientRevision", "20100412.09" },
+        { "clientRevision", GrooveRequest::REVISION },
       },
     },
     { "parameters", map {

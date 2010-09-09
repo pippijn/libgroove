@@ -1,6 +1,7 @@
+#if HAVE_DEBUGLIB
 #include "common/debug/backtrace.h"
-#include "common/debug/signal.h"
 #include "common/debug/trace.h"
+#endif
 
 #include <sys/resource.h>
 #include <unistd.h>
@@ -30,13 +31,13 @@ limit ()
 void
 init_debuglib ()
 {
-  init_signals ();
-  init_debug ();
   limit ();
+#if HAVE_DEBUGLIB
+  init_debug ();
+#endif
 }
 
 void
 uninit_debuglib ()
 {
-  uninit_signals ();
 }

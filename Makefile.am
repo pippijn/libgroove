@@ -1,20 +1,4 @@
-AUTOMAKE_OPTIONS	= -Wall -Wno-portability
-ACLOCAL_AMFLAGS		= -I m4/libtool -I m4
-
-lib_LTLIBRARIES		= # empty
-bin_PROGRAMS		= # empty
-noinst_PROGRAMS		= # empty
-pkgdata_DATA		= # empty
-include_HEADERS		= # empty
-noinst_HEADERS		= # empty
-
-BUILT_SOURCES		= # empty
-
-EXTRA_DIST		= # empty
-
-CLEANFILES		= # empty
-DISTCLEANFILES		= # empty
-MAINTAINERCLEANFILES	= # empty
+include src/common/common.am
 
 OPTFLAGS		= -pipe -O3 -ggdb3 -fno-inline
 WARNINGS		= # empty
@@ -30,7 +14,7 @@ WARNINGS		+= -Wconversion
 WARNINGS		+= -Weffc++
 WARNINGS		+= -Wstrict-overflow=4
 WARNINGS		+= -Wstrict-aliasing=3
-WARNINGS		+= -Werror
+#WARNINGS		+= -Werror
 
 AM_CFLAGS		= $(OPTFLAGS) $(WARNINGS)
 AM_CXXFLAGS		= $(OPTFLAGS) $(WARNINGS) -std=c++0x
