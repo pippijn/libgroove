@@ -23,6 +23,10 @@ AC_PROG_YACC
 # pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 
+if test x$PKG_CONFIG = xno; then
+   AC_MSG_ERROR([Could not find pkg-config])
+fi
+
 # Qt
 AC_PKG_CHECK([QtCore], 4.4.0, [QTCORE_])
 AC_PKG_CHECK([QtNetwork], 4.4.0, [QTNETWORK_])
