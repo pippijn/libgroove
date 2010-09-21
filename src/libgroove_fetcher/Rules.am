@@ -5,6 +5,7 @@ libgroove_fetcher_la_SOURCES =			\
 
 nodist_libgroove_fetcher_la_SOURCES =		\
 	include/groove/fetcher.moc.cpp
+CLEANFILES += $(nodist_libgroove_fetcher_la_SOURCES)
 
 libgroove_fetcher_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
 libgroove_fetcher_la_CXXFLAGS =	\

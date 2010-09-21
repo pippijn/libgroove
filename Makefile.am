@@ -37,9 +37,6 @@ VPATH += $(srcdir)/src/ui
 ui_%.h: %.ui
 	$(UIC) $< -o $@
 
-clean-local:
-	$(RM) -r include src ui_*.h
-
 run: all
 	./groovy
 

@@ -5,6 +5,7 @@ libgroove_songsmodel_la_SOURCES =			\
 
 nodist_libgroove_songsmodel_la_SOURCES =		\
 	include/groove/songsmodel.moc.cpp
+CLEANFILES += $(nodist_libgroove_songsmodel_la_SOURCES)
 
 libgroove_songsmodel_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
 libgroove_songsmodel_la_CXXFLAGS =	\

@@ -12,6 +12,7 @@ nodist_groovy_SOURCES =			\
 	include/about.moc.cpp		\
 	include/groovewindow.moc.cpp	\
 	include/preferences.moc.cpp
+CLEANFILES += $(nodist_groovy_SOURCES)
 
 groovy_CXXFLAGS =		\
 	$(AM_CXXFLAGS)		\
@@ -30,6 +31,10 @@ groovy_LDADD =			\
 	$(QTGUI_LIBS)		\
 	$(PHONON_LIBS)
 
-BUILT_SOURCES += ui_about.h
-BUILT_SOURCES += ui_groovewindow.h
-BUILT_SOURCES += ui_preferences.h
+groovy_UI =			\
+	ui_about.h		\
+	ui_groovewindow.h	\
+	ui_preferences.h
+
+BUILT_SOURCES += $(groovy_UI)
+CLEANFILES += $(groovy_UI)

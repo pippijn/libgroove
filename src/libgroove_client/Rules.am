@@ -11,6 +11,7 @@ noinst_HEADERS +=				\
 nodist_libgroove_client_la_SOURCES =		\
 	src/libgroove_client/private.moc.cpp	\
 	include/groove/client.moc.cpp
+CLEANFILES += $(nodist_libgroove_client_la_SOURCES)
 
 libgroove_client_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
 libgroove_client_la_CXXFLAGS =	\
