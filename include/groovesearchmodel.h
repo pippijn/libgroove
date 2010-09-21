@@ -33,7 +33,7 @@ class LIBGROOVESHARED_EXPORT GrooveSearchModel
   Q_OBJECT
 
 public:
-  explicit GrooveSearchModel (std::shared_ptr<GrooveClient> client, QObject *parent);
+  GrooveSearchModel (std::shared_ptr<GrooveClient> client, QObject *parent);
   ~GrooveSearchModel ();
 
   /*!
