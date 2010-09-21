@@ -30,8 +30,10 @@ groovy_LDADD =			\
 	$(QTGUI_LIBS)		\
 	$(PHONON_LIBS)
 
-#groovy_LDADD +=			\
-	#libcommon_debug.la
+if LIBCOMMON
+groovy_LDADD +=			\
+	libcommon_debug.la
+endif
 
 BUILT_SOURCES += ui_about.h
 BUILT_SOURCES += ui_groovewindow.h

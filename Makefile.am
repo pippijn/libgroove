@@ -1,4 +1,4 @@
-include src/common/common.am
+include src/common.am
 
 OPTFLAGS		= -pipe -O3 -ggdb3 -fno-inline
 WARNINGS		= # empty

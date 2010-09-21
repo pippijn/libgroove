@@ -8,5 +8,7 @@ noinst_HEADERS +=			\
 	include/groovewindow.h		\
 	include/preferences.h
 
+if LIBCOMMON
 include include/common/Rules.am
+endif
 include include/groove/Rules.am
