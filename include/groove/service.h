@@ -50,10 +50,6 @@ private: // types
   typedef QVariantOrMap::map map;
   typedef QVariantOrMap::array array;
 
-  typedef uint UserID;
-  typedef uint SongID;
-  typedef uint AlbumID;
-
 private: // functions
   pair country () const;
   map header (char const *method) const;
@@ -110,24 +106,24 @@ public: // functions
   void markSongAsDownloaded ();
   void markSongComplete ();
   void markSongQueueSongPlayed ();
-  void markSongSkipped ();
-  void markStreamKeyOver30Seconds ();
-  void overwriteExistingPlaylist ();
-  void playlistGetFans ();
-  void popularGetSongs ();
+  void markSongSkipped (uint songQueueID, uint songQueueSongID);
+  void markStreamKeyOver30Seconds (uint songQueueID, uint songQueueSongID, uint streamServerID, QString streamKey, uint songID);
+  void overwriteExistingPlaylist (uint playlistID, QList<uint> songIDs);
+  void playlistGetFans (uint playlistID);
+  void popularGetSongs (QString type);
   void registerUserEx ();
-  void removeSongsFromQueueExte ();
-  void renamePlaylist ();
+  void removeSongsFromQueueExte (bool userRemoved, QList<uint> songQueueSongIDs, uint songQueueID);
+  void renamePlaylist (uint playlistID, QString playlistName);
   void reportBroadcast ();
-  void setPlaylistAbout ();
-  void unFavorite ();
-  void updateLastfmService ();
-  void updateStreamKeyLength ();
+  void setPlaylistAbout (uint playlistID, QString about);
+  void unFavorite (uint id, QString what);
+  void updateLastfmService (QString token, int flagsRemove, QString username, QString session, int flagsAdd);
+  void updateStreamKeyLength (uint streamServerID, uint songID, QString streamKey, float length);
   void userAddSongToLibrary ();
   void userGetFans ();
   void userGetLibraryTSModified ();
-  void userGetPlaylists ();
-  void userGetSongsInLibrary ();
+  void userGetPlaylists (uint userID);
+  void userGetSongsInLibrary (QString page, uint userID);
 
 private: // data
   std::shared_ptr<GrooveClient> m_client;
