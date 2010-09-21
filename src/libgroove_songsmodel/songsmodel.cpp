@@ -180,7 +180,7 @@ GrooveSongsModel::data (QModelIndex const &index, int role) const
     }
 
 #if 0
-  llog << DEBUG << "getting data at " << index << " for role " << role << " out of " << data.size ();
+  llog << DEBUG << LOG_FUNC << "getting data at " << index << " for role " << role << " out of " << data.size ();
 #endif
   if (index.row () < m_data.size ())
     {
@@ -222,7 +222,7 @@ GrooveSongsModel::setData (QModelIndex const &index, QVariant const &value, int 
     return false;
 
 #if 0
-  llog << DEBUG << "setting " << index << " to " << value << " for role " << role;
+  llog << DEBUG << LOG_FUNC << "setting " << index << " to " << value << " for role " << role;
 #endif
 
   if (index.row () >= m_data.size ())
@@ -233,7 +233,7 @@ GrooveSongsModel::setData (QModelIndex const &index, QVariant const &value, int 
   data[role] = value;
 
 #if 0
-  llog << DEBUG << "columnCount = " << columnCount ();
+  llog << DEBUG << LOG_FUNC << "columnCount = " << columnCount ();
 #endif
   emit dataChanged (this->index (index.row (), 0),
                     this->index (index.row (), columnCount () - 1));

@@ -31,17 +31,19 @@ struct GrooveSong::Data
   std::shared_ptr<GrooveClient> m_client;
   QVariantMap m_data;
   QAtomicInt m_refCount;
+  GrooveService m_service;
 
-  Data (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
+  Data (std::shared_ptr<GrooveClient> client, QVariantMap const &data, GrooveSong *song)
     : m_client (client)
     , m_data (data)
     , m_refCount (0)
+    , m_service (client, "(null)", song)
   {
   }
 };
 
 inline GrooveSong::GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
-  : d (new Data (client, data))
+  : d (new Data (client, data, this))
 {
 }
 
@@ -312,35 +314,23 @@ GrooveSong::rank () const
 void
 GrooveSong::startStreaming ()
 {
-  llog << DEBUG << "Started streaming for " << songName () << " (id: " << songID () << ")";
+  llog << DEBUG << LOG_FUNC << "Started streaming for " << songName () << " (id: " << songID () << ")";
   /* TODO: error handling */
-  GrooveService (d->m_client, SLOT (streamingKeyReady ()), this)
-    .getStreamKeyFromSongIDEx (false, false, songID ().toInt ());
+  connect (&d->m_service, SIGNAL (streamKeyReady (QString, QString)), this, SLOT (streamKeyReady (QString, QString)));
+  d->m_service.getStreamKeyFromSongIDEx (false, false, songID ().toInt ());
 }
 
 void
-GrooveSong::streamingKeyReady ()
+GrooveSong::streamKeyReady (QString ip, QString streamKey)
 {
-  llog << DEBUG << "Ready for " << songName ();
-  QNetworkReply *reply = qobject_cast<QNetworkReply *> (sender ());
-  if (GROOVE_VERIFY (reply, "reply with streaming key, without a QNetworkReply"))
-    return;
+  llog << DEBUG << LOG_FUNC << "Ready for " << songName ();
 
-  QJson::Parser parser;
-  bool ok;
-  QByteArray response = reply->readAll ();
-  QVariantMap result = parser.parse (response, &ok).toMap ();
-  llog << DEBUG << response;
-  if (GROOVE_VERIFY (ok, "error occured whilst parsing streaming key reply"))
-    return;
-  QVariantMap results = result["result"].toMap ();
-
-  QNetworkRequest req (QUrl (GrooveRequest::stream (results["ip"].toString ())));
+  QNetworkRequest req (QUrl (GrooveRequest::stream (ip)));
   req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
 
-  llog << DEBUG << "Sending request to " << req.url ().toString () << " to start stream";
+  llog << DEBUG << LOG_FUNC << "Sending request to " << req.url ().toString () << " to start stream";
 
-  QString streamKey = "streamKey=" + results["streamKey"].toString ();
+  streamKey = "streamKey=" + streamKey;
   QNetworkReply *streamingReply = d->m_client->networkManager ().post (req, streamKey.toAscii ());
 
   emit streamingStarted (streamingReply);

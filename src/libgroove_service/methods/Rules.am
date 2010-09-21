@@ -1,0 +1,11 @@
+libgroove_service_la_SOURCES +=				\
+	src/libgroove_service/methods/methods.cpp	\
+	src/libgroove_service/methods/request.h
+
+EXTRA_DIST +=								\
+	src/libgroove_service/methods/addSongsToQueueExt.cpp		\
+	src/libgroove_service/methods/artistGetFans.cpp			\
+	src/libgroove_service/methods/authenticateUserEx.cpp		\
+	src/libgroove_service/methods/getSearchResults.cpp		\
+	src/libgroove_service/methods/getStreamKeyFromSongIDEx.cpp	\
+	src/libgroove_service/methods/logoutUser.cpp

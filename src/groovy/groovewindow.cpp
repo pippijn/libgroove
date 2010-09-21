@@ -95,7 +95,7 @@ MainWindow::changeEvent (QEvent *e)
 void
 MainWindow::onMediaChanged (Phonon::MediaSource const &newSource)
 {
-  llog << DEBUG << "Now playing: " << newSource.fileName ();
+  llog << DEBUG << LOG_FUNC << "Now playing: " << newSource.fileName ();
   m_ui->statusbar->showMessage (newSource.fileName ());
 }
 
@@ -199,7 +199,7 @@ MainWindow::playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change)
     }
   else
     {
-      llog << DEBUG << "postponed playpack of " << fetcher->name ();
+      llog << DEBUG << LOG_FUNC << "postponed playpack of " << fetcher->name ();
       connect (fetcher.get (), SIGNAL (songReady ()), SLOT (playCurrentSong ()));
       m_next = fetcher;
     }
@@ -210,14 +210,14 @@ MainWindow::playCurrentSong ()
 {
   if (GROOVE_VERIFY (m_next, "no song to play"))
     return;
-  llog << DEBUG << "now starting postponed playback of " << m_next->name ();
+  llog << DEBUG << LOG_FUNC << "now starting postponed playback of " << m_next->name ();
   playSong (m_next);
 }
 
 void
 MainWindow::playNextSong ()
 {
-  llog << DEBUG << "phonon playlist finished, playing next song";
+  llog << DEBUG << LOG_FUNC << "phonon playlist finished, playing next song";
   playSong (fetchNextSong (), true);
 }
 
@@ -294,7 +294,7 @@ MainWindow::onPlaySong (QModelIndex const &index)
 {
   GrooveSongPointer song = switchSong ([=] () -> GrooveSongPointer { return m_playlistModel->select (index); });
 
-  llog << DEBUG << "Playing " << song->songName ();
+  llog << DEBUG << LOG_FUNC << "Playing " << song->songName ();
 
   playSong (fetchSong (song), true);
 }
@@ -315,7 +315,7 @@ MainWindow::onQueueSong (QModelIndex const &index)
 {
   GrooveSongPointer song = m_searchModel->songByIndex (index);
 
-  llog << DEBUG << "Queueing " << song->songName ();
+  llog << DEBUG << LOG_FUNC << "Queueing " << song->songName ();
 
   m_playlistModel->append (song);
   std::shared_ptr<GrooveFetcher> fetcher = fetchSong (song);
@@ -328,7 +328,7 @@ MainWindow::onSearchButtonPress ()
 {
   if (!checkConnection ())
     return;
-  llog << DEBUG << "Searching for " << m_ui->txtSearch->text ();
+  llog << DEBUG << LOG_FUNC << "Searching for " << m_ui->txtSearch->text ();
   m_searchModel->searchBySong (m_ui->txtSearch->text ());
 }
 

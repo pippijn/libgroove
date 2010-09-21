@@ -37,8 +37,10 @@ namespace
 # define LIBGROOVESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#define GROOVE_VERIFY(x, y) (!(x) && ((llog << WARN << Q_FUNC_INFO << y), Q_ASSERT (x), true))
-#define GROOVE_VERIFY_OR_DIE(x, y) if (!(x)) { llog << FATAL << Q_FUNC_INFO << ": " << y; }
+#define LOG_FUNC Q_FUNC_INFO << ": "
+
+#define GROOVE_VERIFY(x, y) (!(x) && ((llog << WARN << LOG_FUNC << y), Q_ASSERT (x), true))
+#define GROOVE_VERIFY_OR_DIE(x, y) if (!(x)) { llog << FATAL << LOG_FUNC << y; }
 
 static inline std::ostream &
 operator << (std::ostream &cs, QByteArray const &b)

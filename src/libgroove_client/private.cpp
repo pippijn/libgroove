@@ -44,7 +44,7 @@ GrooveClient::Private::~Private ()
 void
 GrooveClient::Private::establishConnection () const
 {
-  llog << DEBUG << "Making connection";
+  llog << DEBUG << LOG_FUNC << "Making connection";
   GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), GrooveRequest::LOGIN_URL);
   request.get (this, SLOT (processPHPSessionId ()));
 }
@@ -52,14 +52,14 @@ GrooveClient::Private::establishConnection () const
 void
 GrooveClient::Private::processPHPSessionId ()
 {
-  llog << DEBUG << "processing";
+  llog << DEBUG << LOG_FUNC << "processing";
   QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl (GrooveRequest::LOGIN_URL));
 
   foreach (QNetworkCookie const &cookie, cookieList)
     if (cookie.name () == "PHPSESSID")
       {
         m_phpCookie = cookie.value ();
-        llog << DEBUG << "Got PHP cookie: " << qPrintable (m_phpCookie);
+        llog << DEBUG << LOG_FUNC << "Got PHP cookie: " << qPrintable (m_phpCookie);
         fetchSessionToken ();
         return;
       }
@@ -71,7 +71,7 @@ GrooveClient::Private::processPHPSessionId ()
 void
 GrooveClient::Private::fetchSessionToken ()
 {
-  llog << DEBUG << "fetching";
+  llog << DEBUG << LOG_FUNC << "fetching";
   GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), GrooveRequest::service ());
 
   /* headers and parameters */
@@ -110,7 +110,7 @@ GrooveClient::Private::processSessionToken ()
   GROOVE_VERIFY_OR_DIE (result["message"].toString ().isEmpty (), qPrintable (result["message"].toString ()));
 
   m_sessionToken = result["result"].toString ();
-  llog << DEBUG << "Got session token: " << m_sessionToken;
+  llog << DEBUG << LOG_FUNC << "Got session token: " << m_sessionToken;
   emit connected ();
 }
 
@@ -151,7 +151,7 @@ GrooveClient::Private::grooveMessageToken (QString const &method) const
   rs.append (rnum);
   rs.append (QCryptographicHash::hash (messageToken.toAscii (), QCryptographicHash::Sha1).toHex ());
 
-  llog << DEBUG << "Produced token: " << rs;
+  llog << DEBUG << LOG_FUNC << "Produced token: " << rs;
   return rs;
 }
 

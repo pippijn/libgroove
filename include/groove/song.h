@@ -110,7 +110,7 @@ signals:
   void streamingStarted (QNetworkReply *httpStream);
 
 private slots:
-  void streamingKeyReady ();
+  void streamKeyReady (QString ip, QString streamKey);
 
 private:
   struct Data;

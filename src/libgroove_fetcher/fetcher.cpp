@@ -43,7 +43,7 @@ make_cache (GrooveSong const &song)
   path += QDir::separator ();
   path += song.albumName ();
 
-  llog << DEBUG << "making cache path: " << path;
+  llog << DEBUG << LOG_FUNC << "making cache path: " << path;
   if (GROOVE_VERIFY (QDir ().mkpath (path), "unable to create path to cache: " + path))
     return QString ();
 
@@ -90,13 +90,13 @@ GrooveFetcher::fetch ()
 {
   if (m_nowStreaming)
     {
-      llog << DEBUG << "Already streaming " << m_song->songName () << ", ignoring request";
+      llog << DEBUG << LOG_FUNC << "Already streaming " << m_song->songName () << ", ignoring request";
       return;
     }
 
   if (!m_file.exists ())
     {
-      llog << DEBUG << "Fetching " << m_song->songName ();
+      llog << DEBUG << LOG_FUNC << "Fetching " << m_song->songName ();
 
       if (GROOVE_VERIFY (m_file.open (QIODevice::WriteOnly), "could not open output file"))
         return;
@@ -113,7 +113,7 @@ GrooveFetcher::fetch ()
 void
 GrooveFetcher::onStreamingStarted (QNetworkReply *httpStream)
 {
-  llog << DEBUG << "Streaming started";
+  llog << DEBUG << LOG_FUNC << "Streaming started";
 
   connect (httpStream, SIGNAL (readyRead ()), SLOT (onStreamReadReady ()));
   connect (httpStream, SIGNAL (finished ()), SLOT (onStreamingFinished ()));
@@ -130,14 +130,14 @@ GrooveFetcher::onStreamReadReady ()
   m_file.write (httpStream->readAll ());
 
 #if 0
-  llog << DEBUG << "Stream data length: " << m_file.size ();
+  llog << DEBUG << LOG_FUNC << "Stream data length: " << m_file.size ();
 #endif
 }
 
 void
 GrooveFetcher::onStreamingFinished ()
 {
-  llog << DEBUG << "finished";
+  llog << DEBUG << LOG_FUNC << "finished";
 
   m_file.close ();
 

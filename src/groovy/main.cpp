@@ -57,8 +57,6 @@ main (int argc, char **argv)
   llog.setPriority (DEBUG);
   llog.setAppender (app);
 
-  llog << DEBUG << "initialising...";
-
   // initialise the unportable debug library
   init_debuglib ();
 
@@ -75,6 +73,8 @@ main (int argc, char **argv)
   if (args.contains ("--version"))
     return version (), EXIT_SUCCESS;
 
+  llog << DEBUG << LOG_FUNC << "initialising...";
+
   MainWindow mw;
   mw.show ();
 
@@ -83,7 +83,7 @@ main (int argc, char **argv)
   // uninitialise unportable debug library
   uninit_debuglib ();
 
-  llog << DEBUG << "terminating...";
+  llog << DEBUG << LOG_FUNC << "terminating...";
 
   return retval;
 }

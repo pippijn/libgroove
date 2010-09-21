@@ -147,12 +147,12 @@ GroovePlaylistModel::next ()
   if (++m_currentTrack >= count ())
     {
       m_currentTrack = count () - 1;
-      llog << DEBUG << "end of playlist reached, current track = " << m_currentTrack;
+      llog << DEBUG << LOG_FUNC << "end of playlist reached, current track = " << m_currentTrack;
       return NULL;
     }
 
-  llog << DEBUG << "reading next track, current track = " << m_currentTrack
-                << " (" << current ()->songName () << ")";
+  llog << DEBUG << LOG_FUNC << "reading next track, current track = " << m_currentTrack
+                            << " (" << current ()->songName () << ")";
 
   return current ();
 }
@@ -163,12 +163,12 @@ GroovePlaylistModel::previous ()
   if (--m_currentTrack < 0 || !count ())
     {
       m_currentTrack = 0;
-      llog << DEBUG << "beginning of playlist reached, current track = " << m_currentTrack;
+      llog << DEBUG << LOG_FUNC << "beginning of playlist reached, current track = " << m_currentTrack;
       return NULL;
     }
 
-  llog << DEBUG << "reading next track, current track = " << m_currentTrack
-                << " (" << current ()->songName () << ")";
+  llog << DEBUG << LOG_FUNC << "reading next track, current track = " << m_currentTrack
+                            << " (" << current ()->songName () << ")";
 
   return current ();
 }

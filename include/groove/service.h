@@ -53,13 +53,82 @@ private: // types
   typedef QVariantOrMap::map map;
   typedef QVariantOrMap::array array;
 
+public: // ctor/dtor
+  GrooveService (std::shared_ptr<GrooveClient> client, char const *slot, QObject *parent);
+  ~GrooveService ();
+
 private: // functions
   pair country () const;
   map header (char const *method) const;
 
-public: // ctor/dtor
-  GrooveService (std::shared_ptr<GrooveClient> client, char const *slot, QObject *parent);
-  ~GrooveService ();
+  QVariantMap getReply () const;
+
+private slots:
+  void addSongsToQueueExt_responded ();
+  void artistGetFans_responded ();
+  void artistGetSimilarArtists_responded ();
+  void artistGetSongs_responded ();
+  void authenticateUserEx_responded ();
+  void autoplayGetSong_responded ();
+  void autoplayRemoveVoteDownEx_responded ();
+  void autoplayRemoveVoteUpEx_responded ();
+  void autoplayVoteDownEx_responded ();
+  void autoplayVoteUpEx_responded ();
+  void broadcastSong_responded ();
+  void createWidgetIDFromSongIDs_responded ();
+  void deletePlaylist_responded ();
+  void favorite_responded ();
+  void forgotPassword_responded ();
+  void getAffiliateDownloadURLs_responded ();
+  void getArtistAutocomplete_responded ();
+  void getArtistByID_responded ();
+  void getArtistsForTag_responded ();
+  void getAutoCoolPlaylistName_responded ();
+  void getCombinedFeedData_responded ();
+  void getCommunicationToken_responded ();
+  void getContactInfoForFollowedUsers_responded ();
+  void getCountryFromRequestIP_responded ();
+  void getDetailsForBroadcast_responded ();
+  void getEmailAddress_responded ();
+  void getFavouriteIDs_responded ();
+  void getFavourites_responded ();
+  void getPlaylistByID_responded ();
+  void getQueueSongListFromSongIDs_responded ();
+  void getRecentlyActiveUsers_responded ();
+  void getSearchResults_responded ();
+  void getSimilarUsers_responded ();
+  void getSongForAutoplayExt_responded ();
+  void getStationByID_responded ();
+  void getStreamKeyFromSongID_responded ();
+  void getStreamKeyFromSongIDEx_responded ();
+  void getTokenForSong_responded ();
+  void getUserByID_responded ();
+  void getUserSettings_responded ();
+  void getUserSidebar_responded ();
+  void initiateQueueEx_responded ();
+  void logoutUser_responded ();
+  void logTargetedThemeImpression_responded ();
+  void markSongAsDownloaded_responded ();
+  void markSongComplete_responded ();
+  void markSongQueueSongPlayed_responded ();
+  void markSongSkipped_responded ();
+  void markStreamKeyOver30Seconds_responded ();
+  void overwriteExistingPlaylist_responded ();
+  void playlistGetFans_responded ();
+  void popularGetSongs_responded ();
+  void registerUserEx_responded ();
+  void removeSongsFromQueueExte_responded ();
+  void renamePlaylist_responded ();
+  void reportBroadcast_responded ();
+  void setPlaylistAbout_responded ();
+  void unFavorite_responded ();
+  void updateLastfmService_responded ();
+  void updateStreamKeyLength_responded ();
+  void userAddSongToLibrary_responded ();
+  void userGetFans_responded ();
+  void userGetLibraryTSModified_responded ();
+  void userGetPlaylists_responded ();
+  void userGetSongsInLibrary_responded ();
 
 public slots: // functions
   void addSongsToQueueExt (uint songQueueID, map songIDsArtistIDs);
@@ -131,4 +200,7 @@ public slots: // functions
 private: // data
   std::shared_ptr<GrooveClient> m_client;
   char const *m_slot;
+
+signals:
+  void streamKeyReady (QString ip, QString streamKey);
 };

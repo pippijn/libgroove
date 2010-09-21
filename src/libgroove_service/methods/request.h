@@ -15,7 +15,7 @@ struct GrooveRequest
   static QString const API_URL;
   static QString const REVISION;
 
-  GrooveRequest (GrooveClient &client, QString service)
+  GrooveRequest (std::shared_ptr<GrooveClient> client, QString service)
     : m_req (QUrl (service))
     , m_client (client)
     , m_jlist ()
@@ -28,13 +28,13 @@ struct GrooveRequest
 
     QJson::Serializer serializer;
     QByteArray request = serializer.serialize (m_jlist);
-    llog << DEBUG << "request: " << request;
-    QNetworkReply *reply = m_client.networkManager ().post (m_req, request);
+    llog << DEBUG << LOG_FUNC << "request: " << request;
+    QNetworkReply *reply = m_client->networkManager ().post (m_req, request);
     receiver->connect (reply, SIGNAL (finished ()), slot);
   }
 
   QNetworkRequest m_req;
-  GrooveClient &m_client;
+  std::shared_ptr<GrooveClient> m_client;
   QVariantMap m_jlist;
 };
 

@@ -3,6 +3,8 @@ lib_LTLIBRARIES += libgroove_service.la
 libgroove_service_la_SOURCES =				\
 	src/libgroove_service/grooveservice.cpp
 
+include src/libgroove_service/methods/Rules.am
+
 nodist_libgroove_service_la_SOURCES =			\
 	include/groove/service.moc.cpp
 CLEANFILES += $(nodist_libgroove_service_la_SOURCES)
