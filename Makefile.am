@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS		= -I m4/libtool -I m4
+
 include src/common.am
 
 OPTFLAGS		= -pipe -O3 -ggdb3 -fno-inline

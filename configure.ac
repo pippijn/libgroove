@@ -13,6 +13,9 @@ AM_INIT_AUTOMAKE([silent-rules gnits])
 AM_SILENT_RULES
 AM_DEFAULT_VERBOSITY=0
 
+# settings
+AM_CONDITIONAL([LIBCOMMON], false)
+
 # build tools
 AC_PROG_CXX
 AC_PROG_YACC

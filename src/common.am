@@ -1,5 +1,4 @@
 AUTOMAKE_OPTIONS		= -Wall -Wno-portability
-ACLOCAL_AMFLAGS			= -I m4/libtool -I m4
 DISTCHECK_CONFIGURE_FLAGS	= --disable-static CC=$(CC) CXX=$(CXX)
 
 lib_LTLIBRARIES			= # empty
