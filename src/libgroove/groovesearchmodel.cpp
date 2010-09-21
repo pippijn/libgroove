@@ -17,14 +17,13 @@
  */
 
 #include "groove/client.h"
+#include "groove/service.h"
 #include "groovesearchmodel.h"
 #include "groove/settings.h"
 #include "groove/song.h"
 
-#include "groove/private/request.h"
-
-#include <QDebug>
 #include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QVariantMap>
 
 #include <qjson/parser.h>
@@ -63,28 +62,8 @@ GrooveSearchModel::searchByAlbum (QString const &album)
 void
 GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTerm)
 {
-  qDebug () << Q_FUNC_INFO << "Searching by " << type << " for " << searchTerm;
-
-  GrooveRequest request (*m_client, GrooveRequest::more ("getSearchResults"));
-
-  typedef QVariantOrMap::map map;
-  request << map {
-    { "method", "getSearchResults" },
-    { "header", map {
-        { "session", m_client->phpCookie ().toUtf8 () },
-        { "token", m_client->grooveMessageToken ("getSearchResults") },
-        { "client", "gslite" },
-        { "clientRevision", GrooveRequest::REVISION },
-      },
-    },
-    { "parameters", map {
-        { "type", type },
-        { "query", searchTerm },
-      },
-    },
-  };
-
-  request.post (this, SLOT (searchCompleted ()));
+  llog << DEBUG << "Searching by " << type << " for " << searchTerm;
+  GrooveService (m_client, SLOT (searchCompleted ()), this).getSearchResults (searchTerm, type);
 }
 
 void
@@ -118,7 +97,7 @@ GrooveSearchModel::searchCompleted ()
   m_songs = newSongList;
   endInsertRows ();
 
-  qDebug () << Q_FUNC_INFO << "Search found " << m_songs.count () << " songs";
+  llog << DEBUG << "Search found " << m_songs.count () << " songs";
 }
 
 GrooveSongPointer

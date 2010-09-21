@@ -20,6 +20,7 @@ WARNINGS		+= -Wstrict-aliasing=3
 
 AM_CFLAGS		= $(OPTFLAGS) $(WARNINGS)
 AM_CXXFLAGS		= $(OPTFLAGS) $(WARNINGS) -std=c++0x
+AM_LDFLAGS		+= $(LOG4CPP_LIBS)
 
 include include/Rules.am
 include res/Rules.am

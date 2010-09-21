@@ -16,12 +16,16 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <QApplication>
-
 #include "groovewindow.h"
 
 #include "groove/client.h"
 #include "groove/song.h"
+
+#include <QApplication>
+
+#include <log4cpp/OstreamAppender.hh>
+
+#include <iostream>
 
 static void
 help ()
@@ -47,6 +51,14 @@ extern void uninit_debuglib ();
 int
 main (int argc, char **argv)
 {
+  auto app = new log4cpp::OstreamAppender ("stdout", &std::cerr);
+  auto layout = new log4cpp::BasicLayout;
+  app->setLayout (layout);
+  llog.setPriority (DEBUG);
+  llog.setAppender (app);
+
+  llog << DEBUG << "initialising...";
+
   // initialise the unportable debug library
   init_debuglib ();
 
@@ -70,6 +82,8 @@ main (int argc, char **argv)
 
   // uninitialise unportable debug library
   uninit_debuglib ();
+
+  llog << DEBUG << "terminating...";
 
   return retval;
 }

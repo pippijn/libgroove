@@ -16,8 +16,20 @@
 #ifndef LIBGROOVE_GLOBAL_H
 #define LIBGROOVE_GLOBAL_H
 
-#include <QDebug>
+#include <log4cpp/Category.hh>
 #include <QtCore/qglobal.h>
+
+#include <QString>
+#include <QByteArray>
+
+namespace
+{
+  static __attribute__ ((__unused__)) log4cpp::Category &llog = log4cpp::Category::getRoot ();
+
+  static __attribute__ ((__unused__)) auto const FATAL = log4cpp::Priority::FATAL;
+  static __attribute__ ((__unused__)) auto const WARN = log4cpp::Priority::WARN;
+  static __attribute__ ((__unused__)) auto const DEBUG = log4cpp::Priority::DEBUG;
+}
 
 #if defined(LIBGROOVE_LIBRARY)
 # define LIBGROOVESHARED_EXPORT Q_DECL_EXPORT
@@ -25,7 +37,19 @@
 # define LIBGROOVESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#define GROOVE_VERIFY(x, y) (!(x) && ((qWarning () << Q_FUNC_INFO << y), Q_ASSERT (x), true))
-#define GROOVE_VERIFY_OR_DIE(x, y) if (!(x)) { qFatal ("%s: %s", Q_FUNC_INFO, y); }
+#define GROOVE_VERIFY(x, y) (!(x) && ((llog << WARN << Q_FUNC_INFO << y), Q_ASSERT (x), true))
+#define GROOVE_VERIFY_OR_DIE(x, y) if (!(x)) { llog << FATAL << Q_FUNC_INFO << ": " << y; }
+
+static inline std::ostream &
+operator << (std::ostream &cs, QByteArray const &b)
+{
+  return cs << b.data ();
+}
+
+static inline std::ostream &
+operator << (std::ostream &cs, QString const &s)
+{
+  return cs << s.toUtf8 ();
+}
 
 #endif /* LIBGROOVE_GLOBAL_H */

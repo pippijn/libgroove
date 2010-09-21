@@ -27,7 +27,9 @@ struct GrooveRequest
     m_req.setHeader (m_req.ContentTypeHeader, "application/json");
 
     QJson::Serializer serializer;
-    QNetworkReply *reply = m_client.networkManager ().post (m_req, serializer.serialize (m_jlist));
+    QByteArray request = serializer.serialize (m_jlist);
+    llog << DEBUG << "request: " << request;
+    QNetworkReply *reply = m_client.networkManager ().post (m_req, request);
     receiver->connect (reply, SIGNAL (finished ()), slot);
   }
 

@@ -1,3 +1,4 @@
+#include <iostream>
 /*
  * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
  * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
@@ -43,7 +44,7 @@ GrooveClient::Private::~Private ()
 void
 GrooveClient::Private::establishConnection () const
 {
-  qDebug () << Q_FUNC_INFO << "Making connection";
+  llog << DEBUG << "Making connection";
   GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), GrooveRequest::LOGIN_URL);
   request.get (this, SLOT (processPHPSessionId ()));
 }
@@ -51,14 +52,14 @@ GrooveClient::Private::establishConnection () const
 void
 GrooveClient::Private::processPHPSessionId ()
 {
-  qDebug () << Q_FUNC_INFO << "processing";
+  llog << DEBUG << "processing";
   QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl (GrooveRequest::LOGIN_URL));
 
   foreach (QNetworkCookie const &cookie, cookieList)
     if (cookie.name () == "PHPSESSID")
       {
         m_phpCookie = cookie.value ();
-        qDebug () << Q_FUNC_INFO << "Got PHP cookie: " << qPrintable (m_phpCookie);
+        llog << DEBUG << "Got PHP cookie: " << qPrintable (m_phpCookie);
         fetchSessionToken ();
         return;
       }
@@ -70,7 +71,7 @@ GrooveClient::Private::processPHPSessionId ()
 void
 GrooveClient::Private::fetchSessionToken ()
 {
-  qDebug () << Q_FUNC_INFO << "fetching";
+  llog << DEBUG << "fetching";
   GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), GrooveRequest::service ());
 
   /* headers and parameters */
@@ -109,7 +110,7 @@ GrooveClient::Private::processSessionToken ()
   GROOVE_VERIFY_OR_DIE (result["message"].toString ().isEmpty (), qPrintable (result["message"].toString ()));
 
   m_sessionToken = result["result"].toString ();
-  qDebug () << Q_FUNC_INFO << "Got session token: " << m_sessionToken;
+  llog << DEBUG << "Got session token: " << m_sessionToken;
   emit connected ();
 }
 
@@ -150,7 +151,7 @@ GrooveClient::Private::grooveMessageToken (QString const &method) const
   rs.append (rnum);
   rs.append (QCryptographicHash::hash (messageToken.toAscii (), QCryptographicHash::Sha1).toHex ());
 
-  qDebug () << Q_FUNC_INFO << "Produced token " << rs;
+  llog << DEBUG << "Produced token: " << rs;
   return rs;
 }
 

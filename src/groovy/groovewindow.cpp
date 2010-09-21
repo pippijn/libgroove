@@ -35,7 +35,6 @@
 #include <phonon/MediaObject>
 #include <phonon/MediaSource>
 
-#include <QDebug>
 #include <QMessageBox>
 #include <QSettings>
 #include <QTime>
@@ -96,7 +95,7 @@ MainWindow::changeEvent (QEvent *e)
 void
 MainWindow::onMediaChanged (Phonon::MediaSource const &newSource)
 {
-  qDebug () << Q_FUNC_INFO << "Now playing:" << newSource.fileName ();
+  llog << DEBUG << "Now playing: " << newSource.fileName ();
   m_ui->statusbar->showMessage (newSource.fileName ());
 }
 
@@ -200,7 +199,7 @@ MainWindow::playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change)
     }
   else
     {
-      qDebug () << Q_FUNC_INFO << "postponed playpack of" << fetcher->name ();
+      llog << DEBUG << "postponed playpack of " << fetcher->name ();
       connect (fetcher.get (), SIGNAL (songReady ()), SLOT (playCurrentSong ()));
       m_next = fetcher;
     }
@@ -211,14 +210,14 @@ MainWindow::playCurrentSong ()
 {
   if (GROOVE_VERIFY (m_next, "no song to play"))
     return;
-  qDebug () << Q_FUNC_INFO << "now starting postponed playback of" << m_next->name ();
+  llog << DEBUG << "now starting postponed playback of " << m_next->name ();
   playSong (m_next);
 }
 
 void
 MainWindow::playNextSong ()
 {
-  qDebug () << Q_FUNC_INFO << "phonon playlist finished, playing next song";
+  llog << DEBUG << "phonon playlist finished, playing next song";
   playSong (fetchNextSong (), true);
 }
 
@@ -230,6 +229,7 @@ MainWindow::playNextSong ()
 inline void
 MainWindow::initGroove ()
 {
+  m_ui->btnSearch->setEnabled (false);
   m_ui->statusbar->showMessage ("Establishing connection...");
 #if LIVE
   m_client->establishConnection ();
@@ -242,6 +242,7 @@ void
 MainWindow::onConnected ()
 {
   m_connected = true;
+  m_ui->btnSearch->setEnabled (true);
   m_ui->statusbar->showMessage ("Connection established");
 }
 
@@ -293,7 +294,7 @@ MainWindow::onPlaySong (QModelIndex const &index)
 {
   GrooveSongPointer song = switchSong ([=] () -> GrooveSongPointer { return m_playlistModel->select (index); });
 
-  qDebug () << Q_FUNC_INFO << "Playing" << song->songName ();
+  llog << DEBUG << "Playing " << song->songName ();
 
   playSong (fetchSong (song), true);
 }
@@ -314,7 +315,7 @@ MainWindow::onQueueSong (QModelIndex const &index)
 {
   GrooveSongPointer song = m_searchModel->songByIndex (index);
 
-  qDebug () << Q_FUNC_INFO << "Queueing" << song->songName ();
+  llog << DEBUG << "Queueing " << song->songName ();
 
   m_playlistModel->append (song);
   std::shared_ptr<GrooveFetcher> fetcher = fetchSong (song);
@@ -327,7 +328,7 @@ MainWindow::onSearchButtonPress ()
 {
   if (!checkConnection ())
     return;
-  qDebug () << Q_FUNC_INFO << "Searching for" << m_ui->txtSearch->text ();
+  llog << DEBUG << "Searching for " << m_ui->txtSearch->text ();
   m_searchModel->searchBySong (m_ui->txtSearch->text ());
 }
 

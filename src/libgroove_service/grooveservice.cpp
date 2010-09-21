@@ -8,11 +8,14 @@
 #include <QDebug>
 #include <QNetworkAccessManager>
 #include <QVariantMap>
+#include <QUuid>
 
 #include <qjson/parser.h>
 
-GrooveService::GrooveService (std::shared_ptr<GrooveClient> client, QObject *parent)
-  : m_client (client)
+GrooveService::GrooveService (std::shared_ptr<GrooveClient> client, char const *slot, QObject *parent)
+  : QObject (parent)
+  , m_client (client)
+  , m_slot (slot)
 {
 }
 
@@ -37,6 +40,10 @@ GrooveService::country () const
 GrooveService::map
 GrooveService::header (char const *method) const
 {
+#if 0
+  QString uuid = QUuid::createUuid ().toString ().toUpper ().mid (1, 36);
+  llog << DEBUG << uuid;
+#endif
   return map {
     { "method", method },
     { "header", map {
@@ -44,6 +51,10 @@ GrooveService::header (char const *method) const
         { "token", m_client->grooveMessageToken (method) },
         { "client", "gslite" },
         { "clientRevision", GrooveRequest::REVISION },
+#if 0
+        { "privacy", 0 },
+        { "uuid", uuid },
+#endif
         country (),
       },
     },
@@ -79,7 +90,7 @@ GrooveService::addSongsToQueueExt (uint songQueueID, map songIDsArtistIDs)
     },
   };
 
-  request.post (this, SLOT (searchCompleted ()));
+  request.post (parent (), m_slot);
 }
 
 void
@@ -100,6 +111,20 @@ GrooveService::artistGetSongs (uint offset, uint artistID, bool isVerified)
 void
 GrooveService::authenticateUserEx (QString password, QString username)
 {
+  static char const *method = __func__;
+
+  GrooveRequest request (*m_client, more (method));
+
+  request << header (method);
+  request << map {
+    { "parameters", map {
+        { "password", password },
+        { "username", username },
+      },
+    },
+  };
+
+  request.post (parent (), m_slot);
 }
 
 void
@@ -256,7 +281,7 @@ GrooveService::getSearchResults (QString query, QString type)
     },
   };
 
-  request.post (this, SLOT (searchCompleted ()));
+  request.post (parent (), m_slot);
 }
 
 void
@@ -296,7 +321,7 @@ GrooveService::getStreamKeyFromSongIDEx (bool mobile, bool prefetch, uint songID
 {
   static char const *method = __func__;
 
-  GrooveRequest request (*m_client, more (method));
+  GrooveRequest request (*m_client, more ("getStreamKeyFromSongIdEx"));
 
   request << header (method);
   request << map {
@@ -309,7 +334,7 @@ GrooveService::getStreamKeyFromSongIDEx (bool mobile, bool prefetch, uint songID
     },
   };
 
-  request.post (this, SLOT (searchCompleted ()));
+  request.post (parent (), m_slot);
 }
 
 void
@@ -340,6 +365,16 @@ GrooveService::initiateQueueEx ()
 void
 GrooveService::logoutUser ()
 {
+  static char const *method = __func__;
+
+  GrooveRequest request (*m_client, service (method));
+
+  request << header (method);
+  request << map {
+    { "parameters", "service.php" },
+  };
+
+  request.post (parent (), m_slot);
 }
 
 void

@@ -45,6 +45,9 @@ class LIBGROOVESHARED_EXPORT GrooveService
 {
   Q_OBJECT
 
+  GrooveService (GrooveService const &rhs) = delete;
+  GrooveService &operator = (GrooveService const &rhs) = delete;
+
 private: // types
   typedef QVariantOrMap::pair pair;
   typedef QVariantOrMap::map map;
@@ -55,7 +58,7 @@ private: // functions
   map header (char const *method) const;
 
 public: // ctor/dtor
-  GrooveService (std::shared_ptr<GrooveClient> client, QObject *parent);
+  GrooveService (std::shared_ptr<GrooveClient> client, char const *slot, QObject *parent);
   ~GrooveService ();
 
 public slots: // functions
@@ -127,4 +130,5 @@ public slots: // functions
 
 private: // data
   std::shared_ptr<GrooveClient> m_client;
+  char const *m_slot;
 };

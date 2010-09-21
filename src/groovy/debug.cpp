@@ -1,6 +1,8 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
+#include "libgroove_global.h"
+
 #include <sys/resource.h>
 #include <unistd.h>
 

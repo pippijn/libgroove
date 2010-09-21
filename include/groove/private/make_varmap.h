@@ -6,6 +6,7 @@
 #include "libgroove_global.h"
 
 #include <QVariant>
+#include <QVector>
 
 #include <vector>
 #include <utility>
