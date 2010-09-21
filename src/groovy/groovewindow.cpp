@@ -31,6 +31,8 @@
 #include "groove/settings.h"
 #include "groove/song.h"
 
+#include <phonon/audiooutput.h>
+
 #include <QDebug>
 #include <QMessageBox>
 #include <QSettings>
