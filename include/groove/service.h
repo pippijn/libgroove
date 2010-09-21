@@ -58,8 +58,8 @@ public: // ctor/dtor
   GrooveService (std::shared_ptr<GrooveClient> client, QObject *parent);
   ~GrooveService ();
 
-public: // functions
-  void addSongsToQueueExt (uint songQueueID, map songQueueSongIDs);
+public slots: // functions
+  void addSongsToQueueExt (uint songQueueID, map songIDsArtistIDs);
   void artistGetFans (uint offset, uint artistID);
   void artistGetSimilarArtists (uint artistID);
   void artistGetSongs (uint offset, uint artistID, bool isVerified);

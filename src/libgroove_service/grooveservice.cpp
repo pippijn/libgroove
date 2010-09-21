@@ -64,7 +64,7 @@ GrooveService::header (char const *method) const
  * \c songID: the song ID
  */
 void
-GrooveService::addSongsToQueueExt (uint songQueueID, map songQueueSongIDs)
+GrooveService::addSongsToQueueExt (uint songQueueID, map songIDsArtistIDs)
 {
   static char const *method = __func__;
 
@@ -74,12 +74,162 @@ GrooveService::addSongsToQueueExt (uint songQueueID, map songQueueSongIDs)
   request << map {
     { "parameters", map {
         { "songQueueID", songQueueID },
-        { "songQueueSongIDs", songQueueSongIDs },
+        { "songIDsArtistIDs", songIDsArtistIDs },
       },
     },
   };
 
   request.post (this, SLOT (searchCompleted ()));
+}
+
+void
+GrooveService::artistGetFans (uint offset, uint artistID)
+{
+}
+
+void
+GrooveService::artistGetSimilarArtists (uint artistID)
+{
+}
+
+void
+GrooveService::artistGetSongs (uint offset, uint artistID, bool isVerified)
+{
+}
+
+void
+GrooveService::authenticateUserEx (QString password, QString username)
+{
+}
+
+void
+GrooveService::autoplayGetSong ()
+{
+}
+
+void
+GrooveService::autoplayRemoveVoteDownEx (uint songQueueID, uint songQueueSongID)
+{
+}
+
+void
+GrooveService::autoplayRemoveVoteUpEx (uint songQueueID, uint songQueueSongID)
+{
+}
+
+void
+GrooveService::autoplayVoteDownEx (uint songQueueID, uint songQueueSongID)
+{
+}
+
+void
+GrooveService::autoplayVoteUpEx (uint songQueueID, uint songQueueSongID)
+{
+}
+
+void
+GrooveService::broadcastSong (QString message, QString link, QString username, QString password, uint songID, QString service, bool saveCredentials)
+{
+}
+
+void
+GrooveService::createWidgetIDFromSongIDs (QList<uint> songIDs)
+{
+}
+
+void
+GrooveService::deletePlaylist (uint playlistID)
+{
+}
+
+void
+GrooveService::favorite (uint id, QString what)
+{
+}
+
+void
+GrooveService::forgotPassword (void)
+{
+}
+
+void
+GrooveService::getAffiliateDownloadURLs (QString songName, QString artistName)
+{
+}
+
+void
+GrooveService::getArtistAutocomplete ()
+{
+}
+
+void
+GrooveService::getArtistByID (uint artistID)
+{
+}
+
+void
+GrooveService::getArtistsForTag (TagID tagID)
+{
+}
+
+void
+GrooveService::getAutoCoolPlaylistName ()
+{
+}
+
+void
+GrooveService::getCombinedFeedData (uint loggedInUserID, QDate day, QList<uint> userIDs)
+{
+}
+
+void
+GrooveService::getCommunicationToken ()
+{
+}
+
+void
+GrooveService::getContactInfoForFollowedUsers ()
+{
+}
+
+void
+GrooveService::getCountryFromRequestIP ()
+{
+}
+
+void
+GrooveService::getDetailsForBroadcast (uint songID)
+{
+}
+
+void
+GrooveService::getEmailAddress ()
+{
+}
+
+void
+GrooveService::getFavouriteIDs (uint userID, QString ofWhat)
+{
+}
+
+void
+GrooveService::getFavourites (uint userID, QString ofWhat)
+{
+}
+
+void
+GrooveService::getPlaylistByID ()
+{
+}
+
+void
+GrooveService::getQueueSongListFromSongIDs (QList<uint> songIDs)
+{
+}
+
+void
+GrooveService::getRecentlyActiveUsers ()
+{
 }
 
 
@@ -108,6 +258,27 @@ GrooveService::getSearchResults (QString query, QString type)
 
   request.post (this, SLOT (searchCompleted ()));
 }
+
+void
+GrooveService::getSimilarUsers ()
+{
+}
+
+void
+GrooveService::getSongForAutoplayExt ()
+{
+}
+
+void
+GrooveService::getStationByID ()
+{
+}
+
+void
+GrooveService::getStreamKeyFromSongID (bool mobile, bool prefetch, uint songID)
+{
+}
+
 
 /**
  * This method gets the streamKey needed to request the download link to the MP3.
@@ -139,4 +310,144 @@ GrooveService::getStreamKeyFromSongIDEx (bool mobile, bool prefetch, uint songID
   };
 
   request.post (this, SLOT (searchCompleted ()));
+}
+
+void
+GrooveService::getTokenForSong (uint songID)
+{
+}
+
+void
+GrooveService::getUserByID ()
+{
+}
+
+void
+GrooveService::getUserSettings ()
+{
+}
+
+void
+GrooveService::getUserSidebar ()
+{
+}
+
+void
+GrooveService::initiateQueueEx ()
+{
+}
+
+void
+GrooveService::logoutUser ()
+{
+}
+
+void
+GrooveService::logTargetedThemeImpression ()
+{
+}
+
+void
+GrooveService::markSongAsDownloaded (uint streamServerID, QString streamKey, uint songID)
+{
+}
+
+void
+GrooveService::markSongComplete (uint streamServerID, QString streamKey, uint songID)
+{
+}
+
+void
+GrooveService::markSongQueueSongPlayed (uint songQueueID, uint songQueueSongID, uint streamServerID, QString streamKey, uint songID)
+{
+}
+
+void
+GrooveService::markSongSkipped (uint songQueueID, uint songQueueSongID)
+{
+}
+
+void
+GrooveService::markStreamKeyOver30Seconds (uint songQueueID, uint songQueueSongID, uint streamServerID, QString streamKey, uint songID)
+{
+}
+
+void
+GrooveService::overwriteExistingPlaylist (uint playlistID, QList<uint> songIDs)
+{
+}
+
+void
+GrooveService::playlistGetFans (uint playlistID)
+{
+}
+
+void
+GrooveService::popularGetSongs (QString type)
+{
+}
+
+void
+GrooveService::registerUserEx ()
+{
+}
+
+void
+GrooveService::removeSongsFromQueueExte (bool userRemoved, QList<uint> songQueueSongIDs, uint songQueueID)
+{
+}
+
+void
+GrooveService::renamePlaylist (uint playlistID, QString playlistName)
+{
+}
+
+void
+GrooveService::reportBroadcast ()
+{
+}
+
+void
+GrooveService::setPlaylistAbout (uint playlistID, QString about)
+{
+}
+
+void
+GrooveService::unFavorite (uint id, QString what)
+{
+}
+
+void
+GrooveService::updateLastfmService (QString token, int flagsRemove, QString username, QString session, int flagsAdd)
+{
+}
+
+void
+GrooveService::updateStreamKeyLength (uint streamServerID, uint songID, QString streamKey, float length)
+{
+}
+
+void
+GrooveService::userAddSongToLibrary ()
+{
+}
+
+void
+GrooveService::userGetFans ()
+{
+}
+
+void
+GrooveService::userGetLibraryTSModified ()
+{
+}
+
+void
+GrooveService::userGetPlaylists (uint userID)
+{
+}
+
+void
+GrooveService::userGetSongsInLibrary (QString page, uint userID)
+{
 }
