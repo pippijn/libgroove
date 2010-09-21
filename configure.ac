@@ -1,3 +1,5 @@
+dnl Copyright © 2010 Pippijn van Steenhoven
+dnl See COPYING.AGPL for licence information.
 AC_PREREQ(2.61)
 AC_INIT([Groovy], [0.1], [groovy@xinutec.org])
 AC_CONFIG_AUX_DIR(autoconf)

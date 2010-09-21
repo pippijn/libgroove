@@ -1,3 +1,5 @@
+dnl Copyright © 2010 Pippijn van Steenhoven
+dnl See COPYING.AGPL for licence information.
 AC_DEFUN([AC_PKG_CHECK],[
    AC_MSG_CHECKING($1 >= $2)
    if $PKG_CONFIG $1 --atleast-version $2; then
