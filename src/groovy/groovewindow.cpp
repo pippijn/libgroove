@@ -31,7 +31,9 @@
 #include "groove/settings.h"
 #include "groove/song.h"
 
-#include <phonon/audiooutput.h>
+#include <phonon/AudioOutput>
+#include <phonon/MediaObject>
+#include <phonon/MediaSource>
 
 #include <QDebug>
 #include <QMessageBox>
@@ -48,7 +50,7 @@ MainWindow::MainWindow (QWidget *parent)
   , m_playlistModel (new GroovePlaylistModel (m_client, this))
   , m_mediaObject (new Phonon::MediaObject (this))
   , m_fetchers ()
-  , m_next (nullptr)
+  , m_next (NULL)
   , m_seekTime (-1)
   , m_connected (false)
 {

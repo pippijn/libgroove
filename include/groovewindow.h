@@ -28,8 +28,11 @@ class GrooveFetcher;
 class GroovePlaylistModel;
 class GrooveSearchModel;
 
-#include <phonon/mediaobject.h>
-#include <phonon/mediasource.h>
+namespace Phonon
+{
+  class MediaObject;
+  class MediaSource;
+}
 
 #include <QMainWindow>
 class QModelIndex;
