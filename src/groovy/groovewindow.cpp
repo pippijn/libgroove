@@ -50,7 +50,7 @@ MainWindow::MainWindow (QWidget *parent)
   , m_playlistModel (new GroovePlaylistModel (m_client, this))
   , m_mediaObject (new Phonon::MediaObject (this))
   , m_fetchers ()
-  , m_next (NULL)
+  , m_next ()
   , m_seekTime (-1)
   , m_connected (false)
 {
