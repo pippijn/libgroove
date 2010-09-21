@@ -25,7 +25,6 @@ GrooveService::addSongsToQueueExt (uint songQueueID, map songIDsArtistIDs)
   };
 
   request.post (this, SLOT (addSongsToQueueExt_responded ()));
-  //request.post (parent (), m_slot);
 }
 
 void

@@ -1,5 +1,5 @@
 void
-GrooveService::artistGetFans (uint offset, uint artistID)
+GrooveService::autoplayRemoveVoteUpEx (uint songQueueID, uint songQueueSongID)
 {
   static char const *method = __func__;
 
@@ -10,10 +10,10 @@ GrooveService::artistGetFans (uint offset, uint artistID)
      { "XXX", "XXX" },
   };
 
-  request.post (this, SLOT (artistGetFans_responded ()));
+  request.post (this, SLOT (autoplayRemoveVoteUpEx_responded ()));
 }
 
 void
-GrooveService::artistGetFans_responded ()
+GrooveService::autoplayRemoveVoteUpEx_responded ()
 {
 }

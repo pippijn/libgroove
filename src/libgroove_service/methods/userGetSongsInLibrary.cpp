@@ -1,5 +1,5 @@
 void
-GrooveService::artistGetFans (uint offset, uint artistID)
+GrooveService::userGetSongsInLibrary (QString page, uint userID)
 {
   static char const *method = __func__;
 
@@ -10,10 +10,10 @@ GrooveService::artistGetFans (uint offset, uint artistID)
      { "XXX", "XXX" },
   };
 
-  request.post (this, SLOT (artistGetFans_responded ()));
+  request.post (this, SLOT (userGetSongsInLibrary_responded ()));
 }
 
 void
-GrooveService::artistGetFans_responded ()
+GrooveService::userGetSongsInLibrary_responded ()
 {
 }

@@ -1,5 +1,5 @@
 void
-GrooveService::artistGetFans (uint offset, uint artistID)
+GrooveService::unFavorite (uint id, QString what)
 {
   static char const *method = __func__;
 
@@ -10,10 +10,10 @@ GrooveService::artistGetFans (uint offset, uint artistID)
      { "XXX", "XXX" },
   };
 
-  request.post (this, SLOT (artistGetFans_responded ()));
+  request.post (this, SLOT (unFavorite_responded ()));
 }
 
 void
-GrooveService::artistGetFans_responded ()
+GrooveService::unFavorite_responded ()
 {
 }

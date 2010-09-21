@@ -1,5 +1,5 @@
 void
-GrooveService::artistGetFans (uint offset, uint artistID)
+GrooveService::getCountryFromRequestIP ()
 {
   static char const *method = __func__;
 
@@ -10,10 +10,10 @@ GrooveService::artistGetFans (uint offset, uint artistID)
      { "XXX", "XXX" },
   };
 
-  request.post (this, SLOT (artistGetFans_responded ()));
+  request.post (this, SLOT (getCountryFromRequestIP_responded ()));
 }
 
 void
-GrooveService::artistGetFans_responded ()
+GrooveService::getCountryFromRequestIP_responded ()
 {
 }

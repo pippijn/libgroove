@@ -1,5 +1,5 @@
 void
-GrooveService::artistGetFans (uint offset, uint artistID)
+GrooveService::artistGetSimilarArtists (uint artistID)
 {
   static char const *method = __func__;
 
@@ -10,10 +10,10 @@ GrooveService::artistGetFans (uint offset, uint artistID)
      { "XXX", "XXX" },
   };
 
-  request.post (this, SLOT (artistGetFans_responded ()));
+  request.post (this, SLOT (artistGetSimilarArtists_responded ()));
 }
 
 void
-GrooveService::artistGetFans_responded ()
+GrooveService::artistGetSimilarArtists_responded ()
 {
 }
