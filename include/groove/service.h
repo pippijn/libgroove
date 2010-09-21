@@ -99,7 +99,7 @@ public: // functions
   void getSongForAutoplayExt ();
   void getStationByID ();
   void getStreamKeyFromSongID ();
-  void getStreamKeyFromSongIdEx (bool mobile, bool prefetch, uint songID);
+  void getStreamKeyFromSongIDEx (bool mobile, bool prefetch, uint songID);
   void getTokenForSong ();
   void getUserByID ();
   void getUserSettings ();

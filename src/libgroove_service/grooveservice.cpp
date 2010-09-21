@@ -121,7 +121,7 @@ GrooveService::getSearchResults (QString query, QString type)
  * \param songID: the songID of the song you want to download.
  */
 void
-GrooveService::getStreamKeyFromSongIdEx (bool mobile, bool prefetch, uint songID)
+GrooveService::getStreamKeyFromSongIDEx (bool mobile, bool prefetch, uint songID)
 {
   static char const *method = __func__;
 
