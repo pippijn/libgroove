@@ -42,6 +42,9 @@ UIC=`$PKG_CONFIG --variable=uic_location QtCore`
 AC_SUBST([UIC])
 AC_MSG_RESULT([$UIC])
 
+# Boost
+AC_CHECK_HEADER(boost/intrusive_ptr.hpp,[],[AC_MSG_ERROR([Boost C++ library is required.])])
+
 # debugging
 AC_CHECK_HEADERS([dnl
    valgrind/valgrind.h dnl
