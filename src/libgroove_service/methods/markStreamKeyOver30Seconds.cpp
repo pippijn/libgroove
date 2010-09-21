@@ -7,7 +7,7 @@ GrooveService::markStreamKeyOver30Seconds (uint songQueueID, uint songQueueSongI
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (markStreamKeyOver30Seconds_responded ()));

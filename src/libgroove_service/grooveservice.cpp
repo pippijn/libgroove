@@ -1,7 +1,7 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
-#include "methods/request.h"
+#include "request.h"
 
 #include "groove/client.h"
 #include "groove/service.h"

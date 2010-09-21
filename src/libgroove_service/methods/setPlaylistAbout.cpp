@@ -7,7 +7,7 @@ GrooveService::setPlaylistAbout (uint playlistID, QString about)
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (setPlaylistAbout_responded ()));

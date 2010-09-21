@@ -1,7 +1,9 @@
 lib_LTLIBRARIES += libgroove_service.la
 
-libgroove_service_la_SOURCES =				\
-	src/libgroove_service/grooveservice.cpp
+libgroove_service_la_SOURCES =			\
+	src/libgroove_service/grooveservice.cpp	\
+	src/libgroove_service/methods.cpp	\
+	src/libgroove_service/request.h
 
 include src/libgroove_service/methods/Rules.am
 

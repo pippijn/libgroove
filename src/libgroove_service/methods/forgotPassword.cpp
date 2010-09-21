@@ -7,7 +7,7 @@ GrooveService::forgotPassword (void)
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (forgotPassword_responded ()));

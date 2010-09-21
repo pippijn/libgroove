@@ -1,5 +1,5 @@
 void
-GrooveService::getFavourites (uint userID, QString ofWhat)
+GrooveService::getAlbumByID ()
 {
   static char const *method = __func__;
 
@@ -7,13 +7,13 @@ GrooveService::getFavourites (uint userID, QString ofWhat)
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
-  request.post (this, SLOT (getFavourites_responded ()));
+  request.post (this, SLOT (getAlbumByID_responded ()));
 }
 
 void
-GrooveService::getFavourites_responded ()
+GrooveService::getAlbumByID_responded ()
 {
 }

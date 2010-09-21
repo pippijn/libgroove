@@ -7,7 +7,7 @@ GrooveService::autoplayRemoveVoteDownEx (uint songQueueID, uint songQueueSongID)
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (autoplayRemoveVoteDownEx_responded ()));

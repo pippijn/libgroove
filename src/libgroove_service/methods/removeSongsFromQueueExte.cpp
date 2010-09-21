@@ -7,7 +7,7 @@ GrooveService::removeSongsFromQueueExte (bool userRemoved, QList<uint> songQueue
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (removeSongsFromQueueExte_responded ()));

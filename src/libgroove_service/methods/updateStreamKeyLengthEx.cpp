@@ -7,7 +7,7 @@ GrooveService::updateStreamKeyLengthEx (QString streamKey, uint streamServerID, 
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (updateStreamKeyLengthEx_responded ()));

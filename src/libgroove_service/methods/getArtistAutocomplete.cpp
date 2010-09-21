@@ -7,7 +7,7 @@ GrooveService::getArtistAutocomplete ()
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (getArtistAutocomplete_responded ()));

@@ -1,5 +1,5 @@
 void
-GrooveService::unFavorite (uint id, QString what)
+GrooveService::getLoggedInUserEx ()
 {
   static char const *method = __func__;
 
@@ -7,13 +7,13 @@ GrooveService::unFavorite (uint id, QString what)
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
-  request.post (this, SLOT (unFavorite_responded ()));
+  request.post (this, SLOT (getLoggedInUserEx_responded ()));
 }
 
 void
-GrooveService::unFavorite_responded ()
+GrooveService::getLoggedInUserEx_responded ()
 {
 }

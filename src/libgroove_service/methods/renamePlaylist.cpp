@@ -7,7 +7,7 @@ GrooveService::renamePlaylist (uint playlistID, QString playlistName)
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (renamePlaylist_responded ()));

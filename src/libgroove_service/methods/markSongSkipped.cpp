@@ -7,7 +7,7 @@ GrooveService::markSongSkipped (uint songQueueID, uint songQueueSongID)
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (markSongSkipped_responded ()));

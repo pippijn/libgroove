@@ -7,7 +7,7 @@ GrooveService::getCommunicationToken ()
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (getCommunicationToken_responded ()));

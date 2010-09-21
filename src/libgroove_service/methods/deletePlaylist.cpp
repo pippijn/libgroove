@@ -7,7 +7,7 @@ GrooveService::deletePlaylist (uint playlistID)
 
   request << header (method);
   request.parameters () << map {
-     { "XXX", "XXX" },
+      { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (deletePlaylist_responded ()));
