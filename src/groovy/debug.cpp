@@ -1,11 +1,6 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
-#if HAVE_DEBUGLIB
-#include "common/debug/backtrace.h"
-#include "common/debug/trace.h"
-#endif
-
 #include <sys/resource.h>
 #include <unistd.h>
 
@@ -35,9 +30,6 @@ void
 init_debuglib ()
 {
   limit ();
-#if HAVE_DEBUGLIB
-  init_debug ();
-#endif
 }
 
 void
