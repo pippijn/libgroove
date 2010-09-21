@@ -24,6 +24,7 @@
 
 #include "groove/songptr.h"
 class GrooveClient;
+class GrooveService;
 class GrooveFetcher;
 class GroovePlaylistModel;
 class GrooveSearchModel;
@@ -105,6 +106,7 @@ private:
 private:
   std::auto_ptr<Ui::MainWindow> m_ui;
   std::shared_ptr<GrooveClient> m_client;
+  std::shared_ptr<GrooveService> m_service;
   std::auto_ptr<GrooveSearchModel> m_searchModel;
   std::auto_ptr<GroovePlaylistModel> m_playlistModel;
   std::auto_ptr<Phonon::MediaObject> m_mediaObject;

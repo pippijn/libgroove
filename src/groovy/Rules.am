@@ -24,6 +24,7 @@ groovy_LDADD =			\
 	libgroove.la		\
 	libgroove_client.la	\
 	libgroove_fetcher.la	\
+	libgroove_service.la	\
 	libgroove_settings.la	\
 	libgroove_song.la	\
 	libgroove_songsmodel.la	\

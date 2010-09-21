@@ -28,6 +28,7 @@
 #include "groove/fetcher.h"
 #include "grooveplaylistmodel.h"
 #include "groovesearchmodel.h"
+#include "groove/service.h"
 #include "groove/settings.h"
 #include "groove/song.h"
 
@@ -45,6 +46,7 @@ MainWindow::MainWindow (QWidget *parent)
   : QMainWindow (parent)
   , m_ui (new Ui::MainWindow)
   , m_client (new GrooveClient (this))
+  , m_service (new GrooveService (m_client, "(null)", this))
   , m_searchModel (new GrooveSearchModel (m_client, this))
   , m_playlistModel (new GroovePlaylistModel (m_client, this))
   , m_mediaObject (new Phonon::MediaObject (this))
@@ -163,7 +165,7 @@ MainWindow::fetchSong (GrooveSongPointer song)
   std::shared_ptr<GrooveFetcher> fetcher;
 
   if (m_fetchers.find (song->songID ()) == m_fetchers.end ())
-    (fetcher = m_fetchers[song->songID ()] = std::make_shared<GrooveFetcher> (song))->fetch ();
+    (fetcher = m_fetchers[song->songID ()] = std::make_shared<GrooveFetcher> (song, m_client))->fetch (*m_service);
   else
     (fetcher = m_fetchers[song->songID ()]);
 

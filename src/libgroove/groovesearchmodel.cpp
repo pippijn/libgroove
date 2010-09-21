@@ -86,7 +86,7 @@ GrooveSearchModel::searchCompleted ()
     {
       QVariantMap songData = song.toMap ();
 
-      newSongList.append (GrooveSong::make (m_client, songData));
+      newSongList.append (GrooveSong::make (songData));
     }
 
   if (!newSongList.count ())

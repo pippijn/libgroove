@@ -2,6 +2,8 @@
  * See COPYING.AGPL for licence information.
  */
 #include "groove/fetcher.h"
+#include "groove/private/request.h"
+#include "groove/service.h"
 #include "groove/settings.h"
 #include "groove/song.h"
 
@@ -55,10 +57,11 @@ make_cache (GrooveSong const &song)
 }
 
 
-GrooveFetcher::GrooveFetcher (GrooveSongPointer song)
+GrooveFetcher::GrooveFetcher (GrooveSongPointer song, std::shared_ptr<GrooveClient> client)
   : m_file (make_cache (*song))
   , m_song (song)
   , m_nowStreaming (false)
+  , m_client (client)
 {
 }
 
@@ -86,7 +89,7 @@ GrooveFetcher::streaming () const
 
 
 void
-GrooveFetcher::fetch ()
+GrooveFetcher::fetch (GrooveService &service)
 {
   if (m_nowStreaming)
     {
@@ -103,11 +106,29 @@ GrooveFetcher::fetch ()
 
       m_nowStreaming = true;
 
-      connect (m_song.get (), SIGNAL (streamingStarted (QNetworkReply *)), SLOT (onStreamingStarted (QNetworkReply *)));
-      m_song->startStreaming ();
+      llog << DEBUG << LOG_FUNC << "Started streaming for " << m_song->songName () << " (id: " << m_song->songID () << ")";
+      /* TODO: error handling */
+      connect (&service, SIGNAL (streamKeyReady (QString, QString)), this, SLOT (onStreamKeyReady (QString, QString)));
+      service.getStreamKeyFromSongIDEx (false, false, m_song->songID ().toInt ());
     }
   else
     emit songReady ();
+}
+
+void
+GrooveFetcher::onStreamKeyReady (QString ip, QString streamKey)
+{
+  llog << DEBUG << LOG_FUNC << "Ready for " << m_song->songName ();
+
+  QNetworkRequest req (QUrl (GrooveRequest::stream (ip)));
+  req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
+
+  llog << DEBUG << LOG_FUNC << "Sending request to " << req.url ().toString () << " to start stream";
+
+  streamKey = "streamKey=" + streamKey;
+  QNetworkReply *streamingReply = m_client->networkManager ().post (req, streamKey.toAscii ());
+
+  onStreamingStarted (streamingReply);
 }
 
 void

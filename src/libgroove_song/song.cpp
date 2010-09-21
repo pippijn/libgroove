@@ -16,8 +16,6 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "groove/client.h"
-#include "groove/service.h"
 #include "groove/song.h"
 
 #include "groove/private/request.h"
@@ -28,22 +26,18 @@
 
 struct GrooveSong::Data
 {
-  std::shared_ptr<GrooveClient> m_client;
   QVariantMap m_data;
   QAtomicInt m_refCount;
-  GrooveService m_service;
 
-  Data (std::shared_ptr<GrooveClient> client, QVariantMap const &data, GrooveSong *song)
-    : m_client (client)
-    , m_data (data)
+  Data (QVariantMap const &data)
+    : m_data (data)
     , m_refCount (0)
-    , m_service (client, "(null)", song)
   {
   }
 };
 
-inline GrooveSong::GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
-  : d (new Data (client, data, this))
+inline GrooveSong::GrooveSong (QVariantMap const &data)
+  : d (new Data (data))
 {
 }
 
@@ -66,9 +60,9 @@ GrooveSong::deref ()
 }
 
 GrooveSongPointer
-GrooveSong::make (std::shared_ptr<GrooveClient> client, QVariantMap const &data)
+GrooveSong::make (QVariantMap const &data)
 {
-  return new GrooveSong (client, data);
+  return new GrooveSong (data);
 }
 
 QString
@@ -309,31 +303,6 @@ int
 GrooveSong::rank () const
 {
   return d->m_data["Rank"].toInt ();
-}
-
-void
-GrooveSong::startStreaming ()
-{
-  llog << DEBUG << LOG_FUNC << "Started streaming for " << songName () << " (id: " << songID () << ")";
-  /* TODO: error handling */
-  connect (&d->m_service, SIGNAL (streamKeyReady (QString, QString)), this, SLOT (streamKeyReady (QString, QString)));
-  d->m_service.getStreamKeyFromSongIDEx (false, false, songID ().toInt ());
-}
-
-void
-GrooveSong::streamKeyReady (QString ip, QString streamKey)
-{
-  llog << DEBUG << LOG_FUNC << "Ready for " << songName ();
-
-  QNetworkRequest req (QUrl (GrooveRequest::stream (ip)));
-  req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
-
-  llog << DEBUG << LOG_FUNC << "Sending request to " << req.url ().toString () << " to start stream";
-
-  streamKey = "streamKey=" + streamKey;
-  QNetworkReply *streamingReply = d->m_client->networkManager ().post (req, streamKey.toAscii ());
-
-  emit streamingStarted (streamingReply);
 }
 
 void

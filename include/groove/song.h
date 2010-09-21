@@ -22,7 +22,6 @@
 #include "libgroove_global.h"
 
 #include "groove/songptr.h"
-class GrooveClient;
 
 #include <QMetaType>
 #include <QSharedData>
@@ -41,14 +40,14 @@ class LIBGROOVESHARED_EXPORT GrooveSong
   friend void intrusive_ptr_add_ref (GrooveSong *song);
   friend void intrusive_ptr_release (GrooveSong *song);
 
-  GrooveSong (std::shared_ptr<GrooveClient> client, QVariantMap const &data);
+  GrooveSong (QVariantMap const &data);
   ~GrooveSong ();
 
   void ref ();
   void deref ();
 
 public:
-  static GrooveSongPointer make (std::shared_ptr<GrooveClient> client, QVariantMap const &data);
+  static GrooveSongPointer make (QVariantMap const &data);
 
   Q_PROPERTY (QString songID READ songID)                               QString songID () const;
   Q_PROPERTY (int albumID READ albumID)                                 int albumID () const;
@@ -90,27 +89,6 @@ public:
   Q_PROPERTY (QString DAName READ DAName)                               QString DAName () const;
   Q_PROPERTY (int TSAddedInt READ TSAddedInt)                           int TSAddedInt () const;
   Q_PROPERTY (int rank READ rank)                                       int rank () const;
-
-public slots:
-  /*!
-   *  Calling this will initiate communication with Grooveshark to stream this track.
-   *
-   *  Streaming is not an instantaneous process, it may take a while before streaming is ready.
-   *
-   *  You will recieve notification through the streamingStarted() signal.
-   *
-   *  \sa streamingStarted()
-   */
-  void startStreaming ();
-
-signals:
-  /*!
-   *  This signal is emitted when this track first has incoming data ready to be processed as a stream.
-   */
-  void streamingStarted (QNetworkReply *httpStream);
-
-private slots:
-  void streamKeyReady (QString ip, QString streamKey);
 
 private:
   struct Data;
