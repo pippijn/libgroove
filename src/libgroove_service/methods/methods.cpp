@@ -29,13 +29,29 @@ GrooveService::artistGetSongs_responded ()
 #include "authenticateUserEx.cpp"
 
 void
-GrooveService::autoplayGetSong ()
+GrooveService::autoplayGetSong (uint songQueueID)
 {
+  static char const *method = __func__;
+
+  GrooveRequest request (m_client, more (method));
+
+  request << header (method);
+  request.parameters () << map {
+    { "songQueueID", uint (songQueueID) },
+    country (),
+  };
+
+  request.post (this, SLOT (autoplayGetSong_responded ()));
 }
 
 void
 GrooveService::autoplayGetSong_responded ()
 {
+  QVariantMap reply = getReply ();
+
+  QVariantList result = reply["result"].toList ();
+
+  //emit streamKeyReady (ip, streamKey);
 }
 
 void
@@ -119,6 +135,29 @@ GrooveService::favorite_responded ()
 }
 
 void
+GrooveService::flagSong (QString streamKey, uint streamServerID, uint songID, uint reason)
+{
+  static char const *method = __func__;
+
+  GrooveRequest request (m_client, more (method));
+
+  request << header (method);
+  request.parameters () << map {
+    { "streamKey", streamKey },
+    { "streamServerID", streamServerID },
+    { "songID", songID },
+    { "reason", reason },
+  };
+
+  request.post (this, SLOT (flagSong_responded ()));
+}
+
+void
+GrooveService::flagSong_responded ()
+{
+}
+
+void
 GrooveService::forgotPassword (void)
 {
 }
@@ -161,11 +200,26 @@ GrooveService::getArtistByID_responded ()
 void
 GrooveService::getArtistsForTag (TagID tagID)
 {
+  static char const *method = __func__;
+
+  GrooveRequest request (m_client, more (method));
+
+  request << header (method);
+  request.parameters () << map {
+    { "tagID", uint (tagID) },
+  };
+
+  request.post (this, SLOT (getArtistsForTag_responded ()));
 }
 
 void
 GrooveService::getArtistsForTag_responded ()
 {
+  QVariantMap reply = getReply ();
+
+  QVariantList result = reply["result"].toList ();
+
+  //emit streamKeyReady (ip, streamKey);
 }
 
 void
@@ -271,6 +325,16 @@ GrooveService::getPlaylistByID_responded ()
 void
 GrooveService::getQueueSongListFromSongIDs (QList<uint> songIDs)
 {
+  static char const *method = __func__;
+
+  GrooveRequest request (m_client, more (method));
+
+  request << header (method);
+  request.parameters () << map {
+    { "songIDs", songIDs },
+  };
+
+  request.post (this, SLOT (flagSong_responded ()));
 }
 
 void
@@ -375,11 +439,24 @@ GrooveService::getUserSidebar_responded ()
 void
 GrooveService::initiateQueueEx ()
 {
+  static char const *method = __func__;
+
+  GrooveRequest request (m_client, more (method));
+
+  request << header (method);
+  request.parameters ();
+
+  request.post (this, SLOT (playlistGetSongs_responded ()));
 }
 
 void
 GrooveService::initiateQueueEx_responded ()
 {
+  QVariantMap reply = getReply ();
+
+  QString queueID = reply["result"].toString ();
+
+  //emit streamKeyReady (ip, streamKey);
 }
 
 #include "logoutUser.cpp"
@@ -395,22 +472,34 @@ GrooveService::logTargetedThemeImpression_responded ()
 }
 
 void
-GrooveService::markSongAsDownloaded (uint streamServerID, QString streamKey, uint songID)
-{
-}
-
-void
-GrooveService::markSongAsDownloaded_responded ()
-{
-}
-
-void
 GrooveService::markSongComplete (uint streamServerID, QString streamKey, uint songID)
 {
 }
 
 void
 GrooveService::markSongComplete_responded ()
+{
+}
+
+void
+GrooveService::markSongDownloadedEx (uint streamServerID, QString streamKey, uint songID)
+{
+  static char const *method = __func__;
+
+  GrooveRequest request (m_client, more (method));
+
+  request << header (method);
+  request.parameters () << map {
+    { "streamKey", streamKey },
+    { "streamServerID", streamServerID },
+    { "songID", songID },
+  };
+
+  request.post (this, SLOT (playlistGetSongs_responded ()));
+}
+
+void
+GrooveService::markSongDownloadedEx_responded ()
 {
 }
 
@@ -462,6 +551,33 @@ GrooveService::playlistGetFans (uint playlistID)
 void
 GrooveService::playlistGetFans_responded ()
 {
+}
+
+void
+GrooveService::playlistGetSongs (uint playlistID)
+{
+  static char const *method = __func__;
+
+  GrooveRequest request (m_client, more (method));
+
+  request << header (method);
+  request.parameters () << map {
+    { "playlistID", playlistID },
+  };
+
+  request.post (this, SLOT (playlistGetSongs_responded ()));
+}
+
+void
+GrooveService::playlistGetSongs_responded ()
+{
+  QVariantMap reply = getReply ();
+
+  QVariantMap result = reply["result"].toMap ();
+
+  QVariantList Songs = result["Songs"].toList ();
+
+  //emit streamKeyReady (ip, streamKey);
 }
 
 void
@@ -545,12 +661,22 @@ GrooveService::updateLastfmService_responded ()
 }
 
 void
-GrooveService::updateStreamKeyLength (uint streamServerID, uint songID, QString streamKey, float length)
+GrooveService::updateStreamKeyLength (QString streamKey, uint streamServerID, uint songID, float length)
 {
 }
 
 void
 GrooveService::updateStreamKeyLength_responded ()
+{
+}
+
+void
+GrooveService::updateStreamKeyLengthEx (QString streamKey, uint streamServerID, uint songID, float length)
+{
+}
+
+void
+GrooveService::updateStreamKeyLengthEx_responded ()
 {
 }
 

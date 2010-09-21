@@ -78,6 +78,7 @@ private slots:
   void createWidgetIDFromSongIDs_responded ();
   void deletePlaylist_responded ();
   void favorite_responded ();
+  void flagSong_responded ();
   void forgotPassword_responded ();
   void getAffiliateDownloadURLs_responded ();
   void getArtistAutocomplete_responded ();
@@ -108,13 +109,14 @@ private slots:
   void initiateQueueEx_responded ();
   void logoutUser_responded ();
   void logTargetedThemeImpression_responded ();
-  void markSongAsDownloaded_responded ();
   void markSongComplete_responded ();
+  void markSongDownloadedEx_responded ();
   void markSongQueueSongPlayed_responded ();
   void markSongSkipped_responded ();
   void markStreamKeyOver30Seconds_responded ();
   void overwriteExistingPlaylist_responded ();
   void playlistGetFans_responded ();
+  void playlistGetSongs_responded ();
   void popularGetSongs_responded ();
   void registerUserEx_responded ();
   void removeSongsFromQueueExte_responded ();
@@ -124,6 +126,7 @@ private slots:
   void unFavorite_responded ();
   void updateLastfmService_responded ();
   void updateStreamKeyLength_responded ();
+  void updateStreamKeyLengthEx_responded ();
   void userAddSongToLibrary_responded ();
   void userGetFans_responded ();
   void userGetLibraryTSModified_responded ();
@@ -136,7 +139,7 @@ public slots: // functions
   void artistGetSimilarArtists (uint artistID);
   void artistGetSongs (uint offset, uint artistID, bool isVerified);
   void authenticateUserEx (QString password, QString username);
-  void autoplayGetSong ();
+  void autoplayGetSong (uint songQueueID);
   void autoplayRemoveVoteDownEx (uint songQueueID, uint songQueueSongID);
   void autoplayRemoveVoteUpEx (uint songQueueID, uint songQueueSongID);
   void autoplayVoteDownEx (uint songQueueID, uint songQueueSongID);
@@ -145,6 +148,7 @@ public slots: // functions
   void createWidgetIDFromSongIDs (QList<uint> songIDs);
   void deletePlaylist (uint playlistID);
   void favorite (uint id, QString what);
+  void flagSong (QString streamKey, uint streamServerID, uint songID, uint reason);
   void forgotPassword (void);
   void getAffiliateDownloadURLs (QString songName, QString artistName);
   void getArtistAutocomplete ();
@@ -175,13 +179,14 @@ public slots: // functions
   void initiateQueueEx ();
   void logoutUser ();
   void logTargetedThemeImpression ();
-  void markSongAsDownloaded (uint streamServerID, QString streamKey, uint songID);
   void markSongComplete (uint streamServerID, QString streamKey, uint songID);
+  void markSongDownloadedEx (uint streamServerID, QString streamKey, uint songID);
   void markSongQueueSongPlayed (uint songQueueID, uint songQueueSongID, uint streamServerID, QString streamKey, uint songID);
   void markSongSkipped (uint songQueueID, uint songQueueSongID);
   void markStreamKeyOver30Seconds (uint songQueueID, uint songQueueSongID, uint streamServerID, QString streamKey, uint songID);
   void overwriteExistingPlaylist (uint playlistID, QList<uint> songIDs);
   void playlistGetFans (uint playlistID);
+  void playlistGetSongs (uint playlistID);
   void popularGetSongs (QString type);
   void registerUserEx ();
   void removeSongsFromQueueExte (bool userRemoved, QList<uint> songQueueSongIDs, uint songQueueID);
@@ -190,7 +195,8 @@ public slots: // functions
   void setPlaylistAbout (uint playlistID, QString about);
   void unFavorite (uint id, QString what);
   void updateLastfmService (QString token, int flagsRemove, QString username, QString session, int flagsAdd);
-  void updateStreamKeyLength (uint streamServerID, uint songID, QString streamKey, float length);
+  void updateStreamKeyLength (QString streamKey, uint streamServerID, uint songID, float length);
+  void updateStreamKeyLengthEx (QString streamKey, uint streamServerID, uint songID, float length);
   void userAddSongToLibrary ();
   void userGetFans ();
   void userGetLibraryTSModified ();

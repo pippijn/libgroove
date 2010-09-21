@@ -30,11 +30,3 @@ groovy_LDADD =			\
 	$(QTCORE_LIBS)		\
 	$(QTGUI_LIBS)		\
 	$(PHONON_LIBS)
-
-groovy_UI =			\
-	ui_about.h		\
-	ui_groovewindow.h	\
-	ui_preferences.h
-
-BUILT_SOURCES += $(groovy_UI)
-CLEANFILES += $(groovy_UI)

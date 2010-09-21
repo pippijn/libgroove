@@ -5,6 +5,7 @@
 
 #include "libgroove_global.h"
 
+#include <QList>
 #include <QVariant>
 #include <QVector>
 
@@ -16,6 +17,17 @@ struct QVariantOrMap
   typedef std::pair<char const *, QVariantOrMap> pair;
   typedef std::vector<pair>                      map;
   typedef std::vector<QVariant>                  array;
+
+  template<typename T>
+  QVariantOrMap (QList<T> const &list_value)
+    : scalar_value ()
+    , map_value ()
+    , array_value ()
+  {
+    QVariantList list;
+    foreach (T const &v, list_value)
+      list.push_back (v);
+  }
 
   template<typename T>
   QVariantOrMap (T const &scalar_value)
@@ -37,6 +49,21 @@ struct QVariantOrMap
     , map_value ()
     , array_value (array_value)
   {
+  }
+
+  QVariantOrMap ()
+    : scalar_value ()
+    , map_value ()
+    , array_value ()
+  {
+  }
+
+  bool empty () const
+  {
+    return !scalar_value.isValid ()
+        && map_value.empty ()
+        && array_value.empty ()
+         ;
   }
 
   QVariant scalar_value;

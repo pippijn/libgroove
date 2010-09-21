@@ -6,12 +6,9 @@ GrooveService::authenticateUserEx (QString password, QString username)
   GrooveRequest request (m_client, more (method));
 
   request << header (method);
-  request << map {
-    { "parameters", map {
-        { "password", password },
-        { "username", username },
-      },
-    },
+  request.parameters () << map {
+    { "password", password },
+    { "username", username },
   };
 
   //request.post (this, SLOT (authenticateUserEx_responded ()));

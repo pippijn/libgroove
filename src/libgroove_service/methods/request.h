@@ -22,6 +22,10 @@ struct GrooveRequest
   {
   }
 
+  struct parameter_adder;
+
+  parameter_adder parameters ();
+
   void post (QObject const *receiver, char const *slot)
   {
     m_req.setHeader (m_req.ContentTypeHeader, "application/json");
@@ -54,4 +58,52 @@ static inline void
 operator << (GrooveRequest &request, QVariantOrMap::map const &init)
 {
   request.m_jlist << init;
+}
+
+
+struct GrooveRequest::parameter_adder
+{
+  typedef QVariantOrMap::map map;
+
+  parameter_adder (parameter_adder const &rhs) = delete;
+  parameter_adder &operator = (parameter_adder const &rhs) = delete;
+
+  parameter_adder (GrooveRequest &request)
+    : m_request (request)
+    , m_map ()
+    , m_key ("parameters")
+  {
+  }
+
+  parameter_adder (parameter_adder &&rhs)
+    : m_request (rhs.m_request)
+    , m_map (rhs.m_map)
+    , m_key (rhs.m_key)
+  {
+    rhs.m_key = NULL;
+  }
+
+  ~parameter_adder ()
+  {
+    if (m_key)
+      m_request << map {
+        { m_key, m_map },
+      };
+  }
+
+  void operator << (QVariantOrMap &&init)
+  {
+    GROOVE_VERIFY_OR_DIE (m_map.empty (), "attempted to add multiple parameter sets");
+    m_map = init;
+  }
+
+  GrooveRequest &m_request;
+  QVariantOrMap m_map;
+  char const *m_key;
+};
+
+inline GrooveRequest::parameter_adder
+GrooveRequest::parameters ()
+{
+  return parameter_adder (*this);
 }

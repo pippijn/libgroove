@@ -19,12 +19,9 @@ GrooveService::addSongsToQueueExt (uint songQueueID, map songIDsArtistIDs)
   GrooveRequest request (m_client, service (method));
 
   request << header (method);
-  request << map {
-    { "parameters", map {
-        { "songQueueID", songQueueID },
-        { "songIDsArtistIDs", songIDsArtistIDs },
-      },
-    },
+  request.parameters () << map {
+     { "songQueueID", songQueueID },
+     { "songIDsArtistIDs", songIDsArtistIDs },
   };
 
   request.post (this, SLOT (addSongsToQueueExt_responded ()));

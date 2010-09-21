@@ -13,12 +13,9 @@ GrooveService::getSearchResults (QString query, QString type)
   GrooveRequest request (m_client, more (method));
 
   request << header (method);
-  request << map {
-    { "parameters", map {
-        { "type", type },
-        { "query", query },
-      },
-    },
+  request.parameters () << map {
+    { "type", type },
+    { "query", query },
   };
 
   //request.post (this, SLOT (getSearchResults_responded ()));
