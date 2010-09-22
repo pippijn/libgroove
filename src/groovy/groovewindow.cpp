@@ -167,7 +167,7 @@ GrooveWindow::fetchSong (GrooveSongPointer song)
   std::shared_ptr<GrooveFetcher> fetcher;
 
   if (m_fetchers.find (song->songID ()) == m_fetchers.end ())
-    (fetcher = m_fetchers[song->songID ()] = std::make_shared<GrooveFetcher> (song, m_client))->fetch (*m_service);
+    (fetcher = m_fetchers[song->songID ()] = std::make_shared<GrooveFetcher> (*song, m_client))->fetch (*m_service);
   else
     (fetcher = m_fetchers[song->songID ()]);
 

@@ -39,7 +39,7 @@ inline GrooveSong::GrooveSong (QVariantMap const &data)
 
 GrooveSong::~GrooveSong ()
 {
-  printf ("bye %p\n", this);
+  printf ("bye %p\n", implicit_cast<void *> (this));
 }
 
 inline void

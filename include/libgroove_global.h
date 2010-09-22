@@ -22,6 +22,10 @@
 #include <QByteArray>
 #include <QString>
 
+#include <boost/implicit_cast.hpp>
+
+using boost::implicit_cast;
+
 namespace
 {
   static __attribute__ ((__unused__)) log4cpp::Category &llog = log4cpp::Category::getRoot ();

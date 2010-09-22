@@ -18,7 +18,7 @@
 
 #include "private.h"
 
-#include "groove/private/request.h"
+#include "client-request.h"
 
 #include <QCryptographicHash>
 #include <QDebug>

@@ -1,6 +1,4 @@
 include_HEADERS +=			\
-	include/grooveplaylistmodel.h	\
-	include/groovesearchmodel.h	\
 	include/libgroove_global.h
 
 noinst_HEADERS +=			\

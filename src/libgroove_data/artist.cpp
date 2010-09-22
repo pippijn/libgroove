@@ -22,7 +22,7 @@ inline GrooveArtist::GrooveArtist (QVariantMap const &data)
 
 GrooveArtist::~GrooveArtist ()
 {
-  printf ("bye %p\n", this);
+  printf ("bye %p\n", implicit_cast<void *> (this));
 }
 
 inline void

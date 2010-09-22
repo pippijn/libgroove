@@ -5,9 +5,9 @@
 
 #include "libgroove_global.h"
 
-#include "groove/data/songptr.h"
 class GrooveClient;
 class GrooveService;
+class GrooveSong;
 
 #include <QFile>
 class QNetworkReply;
@@ -20,9 +20,13 @@ class LIBGROOVESHARED_EXPORT GrooveFetcher
   Q_OBJECT
 
   QFile m_file;
-  GrooveSongPointer m_song;
   bool m_nowStreaming;
   std::shared_ptr<GrooveClient> m_client;
+  struct Song
+  {
+    QString const name;
+    int const ID;
+  } const m_song;
 
 public:
   QString name () const;
@@ -30,13 +34,13 @@ public:
   bool streaming () const;
 
 public:
-  GrooveFetcher (GrooveSongPointer song, std::shared_ptr<GrooveClient> client);
+  GrooveFetcher (GrooveSong const &song, std::shared_ptr<GrooveClient> client);
   ~GrooveFetcher ();
   void fetch (GrooveService &service);
 
 private slots:
   void onStreamKeyReady (QString ip, QString streamKey);
-  void onStreamingStarted (QNetworkReply *);
+  void onStreamingStarted (QNetworkReply *httpStream);
   void onStreamReadReady ();
   void onStreamingFinished ();
 

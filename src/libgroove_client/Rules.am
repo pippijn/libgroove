@@ -2,6 +2,7 @@ lib_LTLIBRARIES += libgroove_client.la
 
 libgroove_client_la_SOURCES =			\
 	src/libgroove_client/client-request.cpp	\
+	src/libgroove_client/client-request.h	\
 	src/libgroove_client/client.cpp		\
 	src/libgroove_client/private.cpp
 
@@ -13,13 +14,10 @@ nodist_libgroove_client_la_SOURCES =		\
 	include/groove/client.moc.cpp
 CLEANFILES += $(nodist_libgroove_client_la_SOURCES)
 
-libgroove_client_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
 libgroove_client_la_CXXFLAGS =	\
 	$(AM_CXXFLAGS)		\
-	$(QTCORE_CXXFLAGS)	\
 	$(QTNETWORK_CXXFLAGS)	\
 	$(QJSON_CXXFLAGS)
 libgroove_client_la_LIBADD =	\
-	$(QTCORE_LIBS)		\
 	$(QTNETWORK_LIBS)	\
 	$(QJSON_LIBS)

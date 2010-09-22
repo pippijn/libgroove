@@ -17,6 +17,7 @@ DISTCLEANFILES			= # empty
 MAINTAINERCLEANFILES		= # empty
 
 AM_CPPFLAGS			= # empty
+AM_CXXFLAGS			= # empty
 AM_LDFLAGS			= -Wl,-z,defs
 
 AM_CPPFLAGS			+= -I$(srcdir)/include -fvisibility=hidden -include autoconf.h

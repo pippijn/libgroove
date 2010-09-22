@@ -16,7 +16,7 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "groove/private/request.h"
+#include "client-request.h"
 
 QString const GroovePrivRequest::API_URL      = "https://cowbell.grooveshark.com/";
 QString const GroovePrivRequest::ART_BASE_URL = "http://beta.grooveshark.com/static/amazonart/m";

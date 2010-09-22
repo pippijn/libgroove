@@ -22,11 +22,7 @@
 #include "groove/settings.h"
 #include "groove/data/song.h"
 
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QVariantMap>
-
-#include <qjson/parser.h>
 
 GrooveSearchModel::GrooveSearchModel (std::shared_ptr<GrooveClient> client, std::shared_ptr<GrooveService> service, QObject *parent)
   : GrooveSongsModel (GrooveSettings::section::SEARCH, parent)

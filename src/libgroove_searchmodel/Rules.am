@@ -7,18 +7,8 @@ nodist_libgroove_searchmodel_la_SOURCES =			\
 	include/groove/searchmodel.moc.cpp
 CLEANFILES += $(nodist_libgroove_searchmodel_la_SOURCES)
 
-libgroove_searchmodel_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
-libgroove_searchmodel_la_CXXFLAGS =	\
-	$(AM_CXXFLAGS)			\
-	$(QTCORE_CXXFLAGS)		\
-	$(QTNETWORK_CXXFLAGS)		\
-	$(QJSON_CXXFLAGS)
 libgroove_searchmodel_la_LIBADD =	\
-	libgroove_client.la		\
 	libgroove_data.la		\
 	libgroove_service.la		\
 	libgroove_settings.la		\
-	libgroove_songsmodel.la		\
-	$(QTCORE_LIBS)			\
-	$(QTNETWORK_LIBS)		\
-	$(QJSON_LIBS)
+	libgroove_songsmodel.la

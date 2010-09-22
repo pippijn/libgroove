@@ -17,7 +17,6 @@ CLEANFILES += $(nodist_groovy_SOURCES)
 groovy_CXXFLAGS =		\
 	$(AM_CXXFLAGS)		\
 	-Wno-conversion		\
-	$(QTCORE_CXXFLAGS)	\
 	$(QTGUI_CXXFLAGS)	\
 	$(PHONON_CXXFLAGS)
 groovy_LDADD =				\
@@ -29,6 +28,5 @@ groovy_LDADD =				\
 	libgroove_service.la		\
 	libgroove_settings.la		\
 	libgroove_songsmodel.la		\
-	$(QTCORE_LIBS)			\
 	$(QTGUI_LIBS)			\
 	$(PHONON_LIBS)

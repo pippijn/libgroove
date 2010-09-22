@@ -39,7 +39,7 @@ enum class TagID
   Blues         =  230,
   Latin         =  528,
   Classical     =  750,
-  ClassicRock   = 3529,
+  ClassicRock   = 3529
 };
 
 class LIBGROOVESHARED_EXPORT GrooveService

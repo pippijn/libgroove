@@ -12,15 +12,12 @@ nodist_libgroove_service_la_SOURCES =		\
 	include/groove/service.moc.cpp
 CLEANFILES += $(nodist_libgroove_service_la_SOURCES)
 
-libgroove_service_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
 libgroove_service_la_CXXFLAGS =	\
 	$(AM_CXXFLAGS)		\
-	$(QTCORE_CXXFLAGS)	\
 	$(QTNETWORK_CXXFLAGS)	\
 	$(QJSON_CXXFLAGS)
 libgroove_service_la_LIBADD =	\
 	libgroove_client.la	\
 	libgroove_data.la	\
-	$(QTCORE_LIBS)		\
 	$(QTNETWORK_LIBS)	\
 	$(QJSON_LIBS)

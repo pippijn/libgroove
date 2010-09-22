@@ -14,14 +14,3 @@ nodist_libgroove_data_la_SOURCES =		\
 	include/groove/data/song.moc.cpp	\
 	include/groove/data/user.moc.cpp
 CLEANFILES += $(nodist_libgroove_data_la_SOURCES)
-
-libgroove_data_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
-libgroove_data_la_CXXFLAGS =	\
-	$(AM_CXXFLAGS)		\
-	$(QTCORE_CXXFLAGS)	\
-	$(QTNETWORK_CXXFLAGS)	\
-	$(QJSON_CXXFLAGS)
-libgroove_data_la_LIBADD =	\
-	$(QTCORE_LIBS)		\
-	$(QTNETWORK_LIBS)	\
-	$(QJSON_LIBS)

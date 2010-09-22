@@ -2,7 +2,3 @@ lib_LTLIBRARIES += libgroove_settings.la
 
 libgroove_settings_la_SOURCES =			\
 	src/libgroove_settings/settings.cpp
-
-libgroove_settings_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
-libgroove_settings_la_CXXFLAGS = $(AM_CXXFLAGS) $(QTCORE_CXXFLAGS)
-libgroove_settings_la_LIBADD = $(QTCORE_LIBS)
