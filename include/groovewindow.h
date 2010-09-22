@@ -22,7 +22,7 @@
 #include <memory>
 #include <map>
 
-#include "groove/songptr.h"
+#include "groove/data/songptr.h"
 class GrooveClient;
 class GrooveService;
 class GrooveFetcher;

@@ -1,0 +1,11 @@
+noinst_HEADERS +=				\
+	include/groove/data/album.h		\
+	include/groove/data/albumptr.h		\
+	include/groove/data/artist.h		\
+	include/groove/data/artistptr.h		\
+	include/groove/data/playlist.h		\
+	include/groove/data/playlistptr.h	\
+	include/groove/data/song.h		\
+	include/groove/data/songptr.h		\
+	include/groove/data/user.h		\
+	include/groove/data/userptr.h

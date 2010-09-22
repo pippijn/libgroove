@@ -5,7 +5,7 @@
 #include "groove/private/request.h"
 #include "groove/service.h"
 #include "groove/settings.h"
-#include "groove/song.h"
+#include "groove/data/song.h"
 
 #include <QDir>
 #include <QNetworkReply>
@@ -120,7 +120,7 @@ GrooveFetcher::onStreamKeyReady (QString ip, QString streamKey)
 {
   llog << DEBUG << LOG_FUNC << "Ready for " << m_song->songName ();
 
-  QNetworkRequest req (QUrl (GrooveRequest::stream (ip)));
+  QNetworkRequest req (QUrl (GroovePrivRequest::stream (ip)));
   req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
 
   llog << DEBUG << LOG_FUNC << "Sending request to " << req.url ().toString () << " to start stream";

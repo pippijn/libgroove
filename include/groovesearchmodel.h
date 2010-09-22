@@ -21,7 +21,7 @@
 
 #include "libgroove_global.h"
 
-#include "groove/songptr.h"
+#include "groove/data/songptr.h"
 #include "groove/songsmodel.h"
 class GrooveClient;
 

@@ -16,13 +16,9 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "groove/song.h"
-
-#include "groove/private/request.h"
+#include "groove/data/song.h"
 
 #include <QTime>
-
-#include <qjson/parser.h>
 
 struct GrooveSong::Data
 {
@@ -64,6 +60,19 @@ GrooveSong::make (QVariantMap const &data)
 {
   return new GrooveSong (data);
 }
+
+void
+intrusive_ptr_add_ref (GrooveSong *song)
+{
+  song->ref ();
+}
+
+void
+intrusive_ptr_release (GrooveSong *song)
+{
+  song->deref ();
+}
+
 
 QString
 GrooveSong::songID () const
@@ -303,16 +312,4 @@ int
 GrooveSong::rank () const
 {
   return d->m_data["Rank"].toInt ();
-}
-
-void
-intrusive_ptr_add_ref (GrooveSong *song)
-{
-  song->ref ();
-}
-
-void
-intrusive_ptr_release (GrooveSong *song)
-{
-  song->deref ();
 }

@@ -21,11 +21,8 @@
 
 #include "libgroove_global.h"
 
-#include "groove/songptr.h"
+#include "songptr.h"
 
-#include <QMetaType>
-#include <QSharedData>
-#include <QSharedDataPointer>
 #include <QString>
 #include <QVariantMap>
 class QNetworkReply;

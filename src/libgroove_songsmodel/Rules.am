@@ -12,6 +12,6 @@ libgroove_songsmodel_la_CXXFLAGS =	\
 	$(AM_CXXFLAGS)			\
 	$(QTCORE_CXXFLAGS)
 libgroove_songsmodel_la_LIBADD =	\
+	libgroove_data.la		\
 	libgroove_settings.la		\
-	libgroove_song.la		\
 	$(QTCORE_LIBS)

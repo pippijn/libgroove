@@ -20,7 +20,7 @@
 #include "groove/service.h"
 #include "groovesearchmodel.h"
 #include "groove/settings.h"
-#include "groove/song.h"
+#include "groove/data/song.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>

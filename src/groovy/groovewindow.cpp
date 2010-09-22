@@ -30,7 +30,7 @@
 #include "groovesearchmodel.h"
 #include "groove/service.h"
 #include "groove/settings.h"
-#include "groove/song.h"
+#include "groove/data/song.h"
 
 #include <phonon/AudioOutput>
 #include <phonon/MediaObject>

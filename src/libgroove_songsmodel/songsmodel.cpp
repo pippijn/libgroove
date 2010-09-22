@@ -17,7 +17,7 @@
  */
 
 #include "groove/settings.h"
-#include "groove/song.h"
+#include "groove/data/song.h"
 #include "groove/songsmodel.h"
 
 #include <QSettings>

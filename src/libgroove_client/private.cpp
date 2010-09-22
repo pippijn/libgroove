@@ -1,4 +1,3 @@
-#include <iostream>
 /*
  * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
  * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
@@ -45,7 +44,7 @@ void
 GrooveClient::Private::establishConnection () const
 {
   llog << DEBUG << LOG_FUNC << "Making connection";
-  GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), GrooveRequest::LOGIN_URL);
+  GroovePrivRequest request (*qobject_cast<GrooveClient *> (parent ()), GroovePrivRequest::LOGIN_URL);
   request.get (this, SLOT (processPHPSessionId ()));
 }
 
@@ -53,7 +52,7 @@ void
 GrooveClient::Private::processPHPSessionId ()
 {
   llog << DEBUG << LOG_FUNC << "processing";
-  QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl (GrooveRequest::LOGIN_URL));
+  QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl (GroovePrivRequest::LOGIN_URL));
 
   foreach (QNetworkCookie const &cookie, cookieList)
     if (cookie.name () == "PHPSESSID")
@@ -72,7 +71,7 @@ void
 GrooveClient::Private::fetchSessionToken ()
 {
   llog << DEBUG << LOG_FUNC << "fetching";
-  GrooveRequest request (*qobject_cast<GrooveClient *> (parent ()), GrooveRequest::service ());
+  GroovePrivRequest request (*qobject_cast<GrooveClient *> (parent ()), GroovePrivRequest::service ());
 
   /* headers and parameters */
   typedef QVariantOrMap::map map;
@@ -80,7 +79,7 @@ GrooveClient::Private::fetchSessionToken ()
     { "method", "getCommunicationToken" },
     { "header", map {
         { "client", "gslite" },
-        { "clientRevision", GrooveRequest::REVISION },
+        { "clientRevision", GroovePrivRequest::REVISION },
       },
     },
     { "parameters", map {

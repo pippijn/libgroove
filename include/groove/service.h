@@ -201,7 +201,7 @@ public slots: // functions
   void artistGetSimilarArtists (uint artistID);
   void artistGetSongkickEvents ();
   void artistGetSongs (uint offset, uint artistID, bool isVerified);
-  void authenticateUser ();
+  void authenticateUser (QString username, QString password, QString authToken);
   void authenticateUserEx (QString password, QString username);
   void autoplayGetSong (uint songQueueID);
   void autoplayRemoveVoteDownEx (uint songQueueID, uint songQueueSongID);

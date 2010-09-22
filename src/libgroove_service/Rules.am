@@ -3,6 +3,7 @@ lib_LTLIBRARIES += libgroove_service.la
 libgroove_service_la_SOURCES =			\
 	src/libgroove_service/grooveservice.cpp	\
 	src/libgroove_service/methods.cpp	\
+	src/libgroove_service/request.cpp	\
 	src/libgroove_service/request.h
 
 include src/libgroove_service/methods/Rules.am
@@ -18,7 +19,6 @@ libgroove_service_la_CXXFLAGS =	\
 	$(QTNETWORK_CXXFLAGS)	\
 	$(QJSON_CXXFLAGS)
 libgroove_service_la_LIBADD =	\
-	libgroove_settings.la	\
 	libgroove_client.la	\
 	$(QTCORE_LIBS)		\
 	$(QTNETWORK_LIBS)	\

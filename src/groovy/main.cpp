@@ -19,7 +19,7 @@
 #include "groovewindow.h"
 
 #include "groove/client.h"
-#include "groove/song.h"
+#include "groove/data/song.h"
 
 #include <QApplication>
 
@@ -41,8 +41,10 @@ version ()
   puts ("Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>");
   puts ("");
   puts ("This program is free software; you can redistribute it and/or modify it");
-  puts ("under the terms and conditions of the GNU Lesser General Public License,");
-  puts ("version 2.1, as published by the Free Software Foundation.");
+  puts ("under the terms and conditions of the GNU Affero General Public License,");
+  puts ("version 3, as published by the Free Software Foundation, or later.");
+  puts ("");
+  printf ("Send bugreports to %s\n", PACKAGE_BUGREPORT);
 }
 
 extern void init_debuglib ();

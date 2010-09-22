@@ -1,5 +1,5 @@
 void
-GrooveService::authenticateUser ()
+GrooveService::authenticateUser (QString username, QString password, QString authToken)
 {
   static char const *method = __func__;
 
@@ -7,7 +7,9 @@ GrooveService::authenticateUser ()
 
   request << header (method);
   request.parameters () << map {
-      { "XXX", "XXX" },
+    { "username", username },
+    { "password", password },
+    { "authToken", authToken },
   };
 
   request.post (this, SLOT (authenticateUser_responded ()));

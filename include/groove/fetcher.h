@@ -5,7 +5,7 @@
 
 #include "libgroove_global.h"
 
-#include "groove/songptr.h"
+#include "groove/data/songptr.h"
 class GrooveClient;
 class GrooveService;
 

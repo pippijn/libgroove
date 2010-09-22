@@ -13,6 +13,8 @@ struct GrooveRequest
   GrooveRequest &operator = (GrooveRequest const &rhs) = delete;
 
   static QString const API_URL;
+  static QString const ART_BASE_URL;
+  static QString const LOGIN_URL;
   static QString const REVISION;
 
   GrooveRequest (std::shared_ptr<GrooveClient> client, QString service)

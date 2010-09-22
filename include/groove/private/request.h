@@ -29,10 +29,10 @@
 
 #include <qjson/serializer.h>
 
-struct LIBGROOVESHARED_EXPORT GrooveRequest
+struct LIBGROOVESHARED_EXPORT GroovePrivRequest
 {
-  GrooveRequest (GrooveRequest const &rhs) = delete;
-  GrooveRequest &operator = (GrooveRequest const &rhs) = delete;
+  GroovePrivRequest (GroovePrivRequest const &rhs) = delete;
+  GroovePrivRequest &operator = (GroovePrivRequest const &rhs) = delete;
 
   static QString const API_URL;
   static QString const ART_BASE_URL;
@@ -54,7 +54,7 @@ struct LIBGROOVESHARED_EXPORT GrooveRequest
     return "http://" + ip + "/stream.php";
   }
 
-  explicit GrooveRequest (GrooveClient &client, QString service)
+  explicit GroovePrivRequest (GrooveClient &client, QString service)
     : m_req (QUrl (service))
     , m_client (client)
     , m_jlist ()
@@ -84,7 +84,7 @@ struct LIBGROOVESHARED_EXPORT GrooveRequest
 };
 
 static inline void
-operator << (GrooveRequest &request, QVariantOrMap::map const &init)
+operator << (GroovePrivRequest &request, QVariantOrMap::map const &init)
 {
   request.m_jlist << init;
 }
