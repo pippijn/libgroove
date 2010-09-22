@@ -115,26 +115,26 @@ GrooveWindow::openAbout ()
   about.exec ();
 }
 
-struct scoped_action
-{
-  scoped_action (std::function<void ()> action)
-    : m_action (action)
-  {
-  }
-
-  ~scoped_action ()
-  {
-    m_action ();
-  }
-
-  std::function<void ()> m_action;
-};
-
 template<typename T>
 inline auto
 GrooveWindow::switchSong (T action)
     -> decltype (action ())
 {
+  struct scoped_action
+  {
+    scoped_action (std::function<void ()> action)
+      : m_action (action)
+    {
+    }
+  
+    ~scoped_action ()
+    {
+      m_action ();
+    }
+  
+    std::function<void ()> m_action;
+  };
+
   auto setter = [=] (QVariant const &value = QVariant ()) {
     m_playlistModel->setData (m_playlistModel->index (m_playlistModel->currentTrack (), 0),
                               value, Qt::BackgroundColorRole);
