@@ -34,7 +34,7 @@ struct GrooveRequest
 
     QJson::Serializer serializer;
     QByteArray request = serializer.serialize (m_jlist);
-    llog << DEBUG << LOG_FUNC << "request: " << request;
+    LDEBUG << "request: " << request;
     QNetworkReply *reply = m_client->networkManager ().post (m_req, request);
     receiver->connect (reply, SIGNAL (finished ()), slot);
   }

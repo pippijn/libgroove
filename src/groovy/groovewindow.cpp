@@ -60,7 +60,6 @@ GrooveWindow::GrooveWindow (QWidget *parent)
   Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput (Phonon::MusicCategory, this);
   Phonon::createPath (m_mediaObject.get (), audioOutput);
 
-
   initGroove ();
   initSearch ();
   initPlaylist ();
@@ -97,7 +96,7 @@ GrooveWindow::changeEvent (QEvent *e)
 void
 GrooveWindow::onMediaChanged (Phonon::MediaSource const &newSource)
 {
-  llog << DEBUG << LOG_FUNC << "Now playing: " << newSource.fileName ();
+  LDEBUG << "Now playing: " << newSource.fileName ();
   m_ui->statusbar->showMessage (newSource.fileName ());
 }
 
@@ -135,11 +134,14 @@ GrooveWindow::switchSong (T action)
     std::function<void ()> m_action;
   };
 
-  auto setter = [=] (QVariant const &value = QVariant ()) {
+  auto setter = [=] (QVariant const &value = QVariant ())
+  {
     m_playlistModel->setData (m_playlistModel->index (m_playlistModel->currentTrack (), 0),
                               value, Qt::BackgroundColorRole);
   };
+  // reset colour of current track to normal
   setter ();
+  // set colour of next track to green (after `action' was performed)
   scoped_action sa { [setter] { setter (QColor (Qt::green)); } };
   return action ();
 }
@@ -201,7 +203,7 @@ GrooveWindow::playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change)
     }
   else
     {
-      llog << DEBUG << LOG_FUNC << "postponed playpack of " << fetcher->name ();
+      LDEBUG << "postponed playpack of " << fetcher->name ();
       connect (fetcher.get (), SIGNAL (songReady ()), SLOT (playCurrentSong ()));
       m_next = fetcher;
     }
@@ -212,14 +214,14 @@ GrooveWindow::playCurrentSong ()
 {
   if (GROOVE_VERIFY (m_next, "no song to play"))
     return;
-  llog << DEBUG << LOG_FUNC << "now starting postponed playback of " << m_next->name ();
+  LDEBUG << "now starting postponed playback of " << m_next->name ();
   playSong (m_next);
 }
 
 void
 GrooveWindow::playNextSong ()
 {
-  llog << DEBUG << LOG_FUNC << "phonon playlist finished, playing next song";
+  LDEBUG << "phonon playlist finished, playing next song";
   playSong (fetchNextSong (), true);
 }
 
@@ -296,7 +298,7 @@ GrooveWindow::onPlaySong (QModelIndex const &index)
 {
   GrooveSongPointer song = switchSong ([=] () -> GrooveSongPointer { return m_playlistModel->select (index); });
 
-  llog << DEBUG << LOG_FUNC << "Playing " << song->songName ();
+  LDEBUG << "Playing " << song->songName ();
 
   playSong (fetchSong (song), true);
 }
@@ -317,7 +319,7 @@ GrooveWindow::onQueueSong (QModelIndex const &index)
 {
   GrooveSongPointer song = m_searchModel->songByIndex (index);
 
-  llog << DEBUG << LOG_FUNC << "Queueing " << song->songName ();
+  LDEBUG << "Queueing " << song->songName ();
 
   m_playlistModel->append (song);
   std::shared_ptr<GrooveFetcher> fetcher = fetchSong (song);
@@ -330,7 +332,7 @@ GrooveWindow::onSearchButtonPress ()
 {
   if (!checkConnection ())
     return;
-  llog << DEBUG << LOG_FUNC << "Searching for " << m_ui->txtSearch->text ();
+  LDEBUG << "Searching for " << m_ui->txtSearch->text ();
   m_searchModel->searchBySong (m_ui->txtSearch->text ());
 }
 

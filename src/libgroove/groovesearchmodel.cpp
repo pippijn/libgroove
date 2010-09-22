@@ -62,7 +62,7 @@ GrooveSearchModel::searchByAlbum (QString const &album)
 void
 GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTerm)
 {
-  llog << DEBUG << LOG_FUNC << "Searching by " << type << " for " << searchTerm;
+  LDEBUG << "Searching by " << type << " for " << searchTerm;
   GrooveService (m_client, SLOT (searchCompleted ()), this).getSearchResults (searchTerm, type);
 }
 
@@ -97,7 +97,7 @@ GrooveSearchModel::searchCompleted ()
   m_songs = newSongList;
   endInsertRows ();
 
-  llog << DEBUG << LOG_FUNC << "Search found " << m_songs.count () << " songs";
+  LDEBUG << "Search found " << m_songs.count () << " songs";
 }
 
 GrooveSongPointer

@@ -45,7 +45,7 @@ make_cache (GrooveSong const &song)
   path += QDir::separator ();
   path += song.albumName ();
 
-  llog << DEBUG << LOG_FUNC << "making cache path: " << path;
+  LDEBUG << "making cache path: " << path;
   if (GROOVE_VERIFY (QDir ().mkpath (path), "unable to create path to cache: " + path))
     return QString ();
 
@@ -93,20 +93,20 @@ GrooveFetcher::fetch (GrooveService &service)
 {
   if (m_nowStreaming)
     {
-      llog << DEBUG << LOG_FUNC << "Already streaming " << m_song->songName () << ", ignoring request";
+      LDEBUG << "Already streaming " << m_song->songName () << ", ignoring request";
       return;
     }
 
   if (!m_file.exists ())
     {
-      llog << DEBUG << LOG_FUNC << "Fetching " << m_song->songName ();
+      LDEBUG << "Fetching " << m_song->songName ();
 
       if (GROOVE_VERIFY (m_file.open (QIODevice::WriteOnly), "could not open output file"))
         return;
 
       m_nowStreaming = true;
 
-      llog << DEBUG << LOG_FUNC << "Started streaming for " << m_song->songName () << " (id: " << m_song->songID () << ")";
+      LDEBUG << "Started streaming for " << m_song->songName () << " (id: " << m_song->songID () << ")";
       /* TODO: error handling */
       connect (&service, SIGNAL (streamKeyReady (QString, QString)), this, SLOT (onStreamKeyReady (QString, QString)));
       service.getStreamKeyFromSongIDEx (false, false, m_song->songID ().toInt ());
@@ -118,12 +118,12 @@ GrooveFetcher::fetch (GrooveService &service)
 void
 GrooveFetcher::onStreamKeyReady (QString ip, QString streamKey)
 {
-  llog << DEBUG << LOG_FUNC << "Ready for " << m_song->songName ();
+  LDEBUG << "Ready for " << m_song->songName ();
 
   QNetworkRequest req (QUrl (GroovePrivRequest::stream (ip)));
   req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
 
-  llog << DEBUG << LOG_FUNC << "Sending request to " << req.url ().toString () << " to start stream";
+  LDEBUG << "Sending request to " << req.url ().toString () << " to start stream";
 
   streamKey = "streamKey=" + streamKey;
   QNetworkReply *streamingReply = m_client->networkManager ().post (req, streamKey.toAscii ());
@@ -134,7 +134,7 @@ GrooveFetcher::onStreamKeyReady (QString ip, QString streamKey)
 void
 GrooveFetcher::onStreamingStarted (QNetworkReply *httpStream)
 {
-  llog << DEBUG << LOG_FUNC << "Streaming started";
+  LDEBUG << "Streaming started";
 
   connect (httpStream, SIGNAL (readyRead ()), SLOT (onStreamReadReady ()));
   connect (httpStream, SIGNAL (finished ()), SLOT (onStreamingFinished ()));
@@ -150,15 +150,15 @@ GrooveFetcher::onStreamReadReady ()
 
   m_file.write (httpStream->readAll ());
 
-#if 0
-  llog << DEBUG << LOG_FUNC << "Stream data length: " << m_file.size ();
+#if 1
+  LDEBUG << "Stream data length: " << m_file.size ();
 #endif
 }
 
 void
 GrooveFetcher::onStreamingFinished ()
 {
-  llog << DEBUG << LOG_FUNC << "finished";
+  LDEBUG << "finished";
 
   m_file.close ();
 

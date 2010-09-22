@@ -19,8 +19,8 @@
 #include <log4cpp/Category.hh>
 #include <QtCore/qglobal.h>
 
-#include <QString>
 #include <QByteArray>
+#include <QString>
 
 namespace
 {
@@ -51,7 +51,24 @@ operator << (std::ostream &cs, QByteArray const &b)
 static inline std::ostream &
 operator << (std::ostream &cs, QString const &s)
 {
-  return cs << s.toUtf8 ();
+  return cs << '"' << s.toUtf8 () << '"';
 }
+
+template<typename T>
+static inline std::ostream &
+operator << (std::ostream &cs, T const &s)
+{
+  return cs << s.toString ();
+}
+
+template<size_t N>
+static inline std::ostream &
+operator << (std::ostream &cs, char const (&s)[N])
+{
+  cs.write (s, N - 1);
+  return cs;
+}
+
+#define LDEBUG (llog << DEBUG << LOG_FUNC)
 
 #endif /* LIBGROOVE_GLOBAL_H */

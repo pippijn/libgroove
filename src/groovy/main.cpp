@@ -38,7 +38,7 @@ extern void uninit_debuglib ();
 int
 main (int argc, char **argv)
 {
-  auto app = new log4cpp::OstreamAppender ("stdout", &std::cerr);
+  auto app = new log4cpp::OstreamAppender ("stderr", &std::cerr);
   auto layout = new log4cpp::BasicLayout;
   app->setLayout (layout);
   llog.setPriority (DEBUG);
@@ -60,7 +60,7 @@ main (int argc, char **argv)
   if (args.contains ("--version"))
     return version (), EXIT_SUCCESS;
 
-  llog << DEBUG << LOG_FUNC << "initialising...";
+  LDEBUG << "initialising...";
 
   GrooveWindow mw;
   mw.show ();
@@ -70,7 +70,7 @@ main (int argc, char **argv)
   // uninitialise unportable debug library
   uninit_debuglib ();
 
-  llog << DEBUG << LOG_FUNC << "terminating...";
+  LDEBUG << "terminating...";
 
   return retval;
 }

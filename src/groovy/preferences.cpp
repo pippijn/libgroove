@@ -48,12 +48,12 @@ Preferences::Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &p
     {
       QListWidgetItem *item;
 
-      item = new QListWidgetItem (prop.name, m_ui->lstSearchItems);
+      item = new QListWidgetItem (tr (prop.name), m_ui->lstSearchItems);
       item->setData (Qt::UserRole, prop.prop);
       item->setSelected (m_searchModel.isVisible (prop.prop));
       m_ui->lstSearchItems->addItem (item);
 
-      item = new QListWidgetItem (prop.name, m_ui->lstPlaylistItems);
+      item = new QListWidgetItem (tr (prop.name), m_ui->lstPlaylistItems);
       item->setData (Qt::UserRole, prop.prop);
       item->setSelected (m_playListModel.isVisible (prop.prop));
       m_ui->lstPlaylistItems->addItem (item);

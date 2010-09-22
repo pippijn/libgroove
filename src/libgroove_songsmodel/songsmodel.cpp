@@ -68,6 +68,12 @@ static std::map<QString, char const *> const propNames = {
   { "rank",                     "Rank"                          },
 };
 
+static inline std::ostream &
+operator << (std::ostream &cs, QModelIndex const &idx)
+{
+  return cs << "[" << idx.row () << "," << idx.column () << "]";
+}
+
 GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
   : QAbstractItemModel (parent)
   , m_modelName (modelName)
@@ -180,7 +186,7 @@ GrooveSongsModel::data (QModelIndex const &index, int role) const
     }
 
 #if 0
-  llog << DEBUG << LOG_FUNC << "getting data at " << index << " for role " << role << " out of " << data.size ();
+  LDEBUG << "getting data at " << index << " for role " << role << " out of " << data.size ();
 #endif
   if (index.row () < m_data.size ())
     {
@@ -206,8 +212,9 @@ GrooveSongsModel::headerData (int section, Qt::Orientation orientation, int role
   switch (role)
     {
     case Qt::DisplayRole:
-      GROOVE_VERIFY_OR_DIE (propNames.find (m_visible[section]) != propNames.end (), "invalid section");
-      return tr (propNames.find (m_visible[section])->second);
+      auto found = propNames.find (m_visible[section]);
+      GROOVE_VERIFY_OR_DIE (found != propNames.end (), "invalid section");
+      return tr (found->second);
     }
 
   return QVariant ();
@@ -221,8 +228,8 @@ GrooveSongsModel::setData (QModelIndex const &index, QVariant const &value, int 
   if (!verifyIndex (index, role))
     return false;
 
-#if 0
-  llog << DEBUG << LOG_FUNC << "setting " << index << " to " << value << " for role " << role;
+#if 1
+  LDEBUG << "setting " << index << " to " << value << " for role " << role;
 #endif
 
   if (index.row () >= m_data.size ())
@@ -233,7 +240,7 @@ GrooveSongsModel::setData (QModelIndex const &index, QVariant const &value, int 
   data[role] = value;
 
 #if 0
-  llog << DEBUG << LOG_FUNC << "columnCount = " << columnCount ();
+  LDEBUG << "columnCount = " << columnCount ();
 #endif
   emit dataChanged (this->index (index.row (), 0),
                     this->index (index.row (), columnCount () - 1));

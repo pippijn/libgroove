@@ -43,7 +43,7 @@ GrooveClient::Private::~Private ()
 void
 GrooveClient::Private::establishConnection () const
 {
-  llog << DEBUG << LOG_FUNC << "Making connection";
+  LDEBUG << "Making connection";
   GroovePrivRequest request (*qobject_cast<GrooveClient *> (parent ()), GroovePrivRequest::LOGIN_URL);
   request.get (this, SLOT (processPHPSessionId ()));
 }
@@ -51,14 +51,14 @@ GrooveClient::Private::establishConnection () const
 void
 GrooveClient::Private::processPHPSessionId ()
 {
-  llog << DEBUG << LOG_FUNC << "processing";
+  LDEBUG << "processing";
   QList<QNetworkCookie> cookieList = networkManager ().cookieJar ()->cookiesForUrl (QUrl (GroovePrivRequest::LOGIN_URL));
 
   foreach (QNetworkCookie const &cookie, cookieList)
     if (cookie.name () == "PHPSESSID")
       {
         m_phpCookie = cookie.value ();
-        llog << DEBUG << LOG_FUNC << "Got PHP cookie: " << qPrintable (m_phpCookie);
+        LDEBUG << "Got PHP cookie: " << qPrintable (m_phpCookie);
         fetchSessionToken ();
         return;
       }
@@ -70,7 +70,7 @@ GrooveClient::Private::processPHPSessionId ()
 void
 GrooveClient::Private::fetchSessionToken ()
 {
-  llog << DEBUG << LOG_FUNC << "fetching";
+  LDEBUG << "fetching";
   GroovePrivRequest request (*qobject_cast<GrooveClient *> (parent ()), GroovePrivRequest::service ());
 
   /* headers and parameters */
@@ -109,7 +109,7 @@ GrooveClient::Private::processSessionToken ()
   GROOVE_VERIFY_OR_DIE (result["message"].toString ().isEmpty (), qPrintable (result["message"].toString ()));
 
   m_sessionToken = result["result"].toString ();
-  llog << DEBUG << LOG_FUNC << "Got session token: " << m_sessionToken;
+  LDEBUG << "Got session token: " << m_sessionToken;
   emit connected ();
 }
 
@@ -150,7 +150,7 @@ GrooveClient::Private::grooveMessageToken (QString const &method) const
   rs.append (rnum);
   rs.append (QCryptographicHash::hash (messageToken.toAscii (), QCryptographicHash::Sha1).toHex ());
 
-  llog << DEBUG << LOG_FUNC << "Produced token: " << rs;
+  LDEBUG << "Produced token: " << rs;
   return rs;
 }
 

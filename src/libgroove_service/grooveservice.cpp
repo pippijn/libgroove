@@ -40,7 +40,7 @@ GrooveService::header (char const *method) const
 {
 #if 0
   QString uuid = QUuid::createUuid ().toString ().toUpper ().mid (1, 36);
-  llog << DEBUG << LOG_FUNC << uuid;
+  LDEBUG << uuid;
 #endif
   return map {
     { "method", method },
@@ -68,7 +68,7 @@ GrooveService::getReply () const
     return { };
 
   QByteArray response = reply->readAll ();
-  llog << DEBUG << LOG_FUNC << "response: " << response;
+  LDEBUG << "response: " << response;
 
   QJson::Parser parser;
   bool ok;
