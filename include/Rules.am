@@ -1,9 +1,7 @@
-include_HEADERS +=			\
-	include/libgroove_global.h
-
 noinst_HEADERS +=			\
 	include/about.h			\
 	include/groovewindow.h		\
+	include/libgroove_global.h	\
 	include/preferences.h
 
 include include/groove/Rules.am
