@@ -42,9 +42,9 @@
 
 #include <functional>
 
-MainWindow::MainWindow (QWidget *parent)
+GrooveWindow::GrooveWindow (QWidget *parent)
   : QMainWindow (parent)
-  , m_ui (new Ui::MainWindow)
+  , m_ui (new Ui::GrooveWindow)
   , m_client (new GrooveClient (this))
   , m_service (new GrooveService (m_client, "(null)", this))
   , m_searchModel (new GrooveSearchModel (m_client, this))
@@ -76,12 +76,12 @@ MainWindow::MainWindow (QWidget *parent)
 #endif
 }
 
-MainWindow::~MainWindow ()
+GrooveWindow::~GrooveWindow ()
 {
 }
 
 void
-MainWindow::changeEvent (QEvent *e)
+GrooveWindow::changeEvent (QEvent *e)
 {
   QMainWindow::changeEvent (e);
   switch (e->type ())
@@ -95,21 +95,21 @@ MainWindow::changeEvent (QEvent *e)
 }
 
 void
-MainWindow::onMediaChanged (Phonon::MediaSource const &newSource)
+GrooveWindow::onMediaChanged (Phonon::MediaSource const &newSource)
 {
   llog << DEBUG << LOG_FUNC << "Now playing: " << newSource.fileName ();
   m_ui->statusbar->showMessage (newSource.fileName ());
 }
 
 void
-MainWindow::openPrefs ()
+GrooveWindow::openPrefs ()
 {
   Preferences prefs (*m_searchModel, *m_playlistModel, this);
   prefs.exec ();
 }
 
 void
-MainWindow::openAbout ()
+GrooveWindow::openAbout ()
 {
   About about (this);
   about.exec ();
@@ -132,7 +132,7 @@ struct scoped_action
 
 template<typename T>
 inline auto
-MainWindow::switchSong (T action)
+GrooveWindow::switchSong (T action)
     -> decltype (action ())
 {
   auto setter = [=] (QVariant const &value = QVariant ()) {
@@ -145,19 +145,19 @@ MainWindow::switchSong (T action)
 }
 
 std::shared_ptr<GrooveFetcher>
-MainWindow::fetchNextSong ()
+GrooveWindow::fetchNextSong ()
 {
   return switchSong ([=] { return fetchSong (m_playlistModel->next ()); });
 }
 
 std::shared_ptr<GrooveFetcher>
-MainWindow::fetchPrevSong ()
+GrooveWindow::fetchPrevSong ()
 {
   return switchSong ([=] { return fetchSong (m_playlistModel->previous ()); });
 }
 
 std::shared_ptr<GrooveFetcher>
-MainWindow::fetchSong (GrooveSongPointer song)
+GrooveWindow::fetchSong (GrooveSongPointer song)
 {
   if (song == NULL)
     return { };
@@ -175,7 +175,7 @@ MainWindow::fetchSong (GrooveSongPointer song)
 }
 
 void
-MainWindow::playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change)
+GrooveWindow::playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change)
 {
   if (!fetcher)
     return;
@@ -208,7 +208,7 @@ MainWindow::playSong (std::shared_ptr<GrooveFetcher> fetcher, bool change)
 }
 
 void
-MainWindow::playCurrentSong ()
+GrooveWindow::playCurrentSong ()
 {
   if (GROOVE_VERIFY (m_next, "no song to play"))
     return;
@@ -217,7 +217,7 @@ MainWindow::playCurrentSong ()
 }
 
 void
-MainWindow::playNextSong ()
+GrooveWindow::playNextSong ()
 {
   llog << DEBUG << LOG_FUNC << "phonon playlist finished, playing next song";
   playSong (fetchNextSong (), true);
@@ -229,7 +229,7 @@ MainWindow::playNextSong ()
 //////////////////////////////////////////////////////////////////////////////
 
 inline void
-MainWindow::initGroove ()
+GrooveWindow::initGroove ()
 {
   m_ui->btnSearch->setEnabled (false);
   m_ui->statusbar->showMessage ("Establishing connection...");
@@ -241,7 +241,7 @@ MainWindow::initGroove ()
 
 
 void
-MainWindow::onConnected ()
+GrooveWindow::onConnected ()
 {
   m_connected = true;
   m_ui->btnSearch->setEnabled (true);
@@ -254,18 +254,18 @@ MainWindow::onConnected ()
 //////////////////////////////////////////////////////////////////////////////
 
 inline void
-MainWindow::initPlayControls ()
+GrooveWindow::initPlayControls ()
 {
 }
 
 void
-MainWindow::onBtnPrev ()
+GrooveWindow::onBtnPrev ()
 {
   playSong (fetchPrevSong (), true);
 }
 
 void
-MainWindow::onBtnPause ()
+GrooveWindow::onBtnPause ()
 {
   if (m_mediaObject->state () == Phonon::PausedState)
     m_mediaObject->play ();
@@ -274,7 +274,7 @@ MainWindow::onBtnPause ()
 }
 
 void
-MainWindow::onBtnNext ()
+GrooveWindow::onBtnNext ()
 {
   playSong (fetchNextSong (), true);
 }
@@ -285,14 +285,14 @@ MainWindow::onBtnNext ()
 //////////////////////////////////////////////////////////////////////////////
 
 inline void
-MainWindow::initPlaylist ()
+GrooveWindow::initPlaylist ()
 {
   m_ui->tblPlaylistView->setModel (m_playlistModel.get ());
   connect (m_ui->tblPlaylistView, SIGNAL (doubleClicked (QModelIndex)), SLOT (onPlaySong (QModelIndex)));
 }
 
 void
-MainWindow::onPlaySong (QModelIndex const &index)
+GrooveWindow::onPlaySong (QModelIndex const &index)
 {
   GrooveSongPointer song = switchSong ([=] () -> GrooveSongPointer { return m_playlistModel->select (index); });
 
@@ -307,13 +307,13 @@ MainWindow::onPlaySong (QModelIndex const &index)
 //////////////////////////////////////////////////////////////////////////////
 
 inline void
-MainWindow::initSearch ()
+GrooveWindow::initSearch ()
 {
   m_ui->tblSearchResults->setModel (m_searchModel.get ());
 }
 
 void
-MainWindow::onQueueSong (QModelIndex const &index)
+GrooveWindow::onQueueSong (QModelIndex const &index)
 {
   GrooveSongPointer song = m_searchModel->songByIndex (index);
 
@@ -326,7 +326,7 @@ MainWindow::onQueueSong (QModelIndex const &index)
 }
 
 void
-MainWindow::onSearchButtonPress ()
+GrooveWindow::onSearchButtonPress ()
 {
   if (!checkConnection ())
     return;
@@ -335,7 +335,7 @@ MainWindow::onSearchButtonPress ()
 }
 
 inline bool
-MainWindow::checkConnection () const
+GrooveWindow::checkConnection () const
 {
   if (!m_connected)
     {
@@ -353,7 +353,7 @@ MainWindow::checkConnection () const
 static int const tickInterval = 1000; // msec
 
 inline void
-MainWindow::initSlider ()
+GrooveWindow::initSlider ()
 {
   m_mediaObject->setTickInterval (tickInterval);
 
@@ -363,21 +363,21 @@ MainWindow::initSlider ()
 
 
 void
-MainWindow::beginSeekSong (int time)
+GrooveWindow::beginSeekSong (int time)
 {
   m_seekTime = time;
   m_ui->lblElapsed->setText (QTime ().addSecs (time / tickInterval).toString ("m:ss"));
 }
 
 void
-MainWindow::endSeekSong ()
+GrooveWindow::endSeekSong ()
 {
   m_mediaObject->seek (m_seekTime);
   m_seekTime = -1;
 }
 
 void
-MainWindow::songTick (qint64 time)
+GrooveWindow::songTick (qint64 time)
 {
   if (m_seekTime == -1)
     {
@@ -387,14 +387,14 @@ MainWindow::songTick (qint64 time)
 }
 
 void
-MainWindow::songTotalTimeChanged (qint64 newTotalTime)
+GrooveWindow::songTotalTimeChanged (qint64 newTotalTime)
 {
   m_ui->songProgress->setMaximum (newTotalTime);
   m_ui->lblTotal->setText (QTime ().addSecs (newTotalTime / tickInterval).toString ("m:ss"));
 }
 
 void
-MainWindow::resetSlider ()
+GrooveWindow::resetSlider ()
 {
   songTotalTimeChanged (0);
   songTick (0);

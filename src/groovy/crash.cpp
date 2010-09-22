@@ -1014,7 +1014,7 @@ static void crash999 () { crash998 (); }
 static void crash1000 () { crash999 (); }
 
 void
-MainWindow::crash ()
+GrooveWindow::crash ()
 {
   crash1000 ();
 }

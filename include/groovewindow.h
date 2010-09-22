@@ -40,17 +40,17 @@ class QModelIndex;
 
 namespace Ui
 {
-  class MainWindow;
+  class GrooveWindow;
 }
 
-class MainWindow
+class GrooveWindow
   : public QMainWindow
 {
   Q_OBJECT
 
 public:
-  explicit MainWindow (QWidget *parent = 0);
-  ~MainWindow ();
+  explicit GrooveWindow (QWidget *parent = 0);
+  ~GrooveWindow ();
 
 protected:
   void changeEvent (QEvent *e);
@@ -104,7 +104,7 @@ private:
   void resetSlider ();
 
 private:
-  std::auto_ptr<Ui::MainWindow> m_ui;
+  std::auto_ptr<Ui::GrooveWindow> m_ui;
   std::shared_ptr<GrooveClient> m_client;
   std::shared_ptr<GrooveService> m_service;
   std::auto_ptr<GrooveSearchModel> m_searchModel;

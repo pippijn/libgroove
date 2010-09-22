@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>GrooveWindow</class>
+ <widget class="QMainWindow" name="GrooveWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -251,7 +251,7 @@
   <connection>
    <sender>btnSearch</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onSearchButtonPress()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -267,7 +267,7 @@
   <connection>
    <sender>txtSearch</sender>
    <signal>returnPressed()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onSearchButtonPress()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -283,7 +283,7 @@
   <connection>
    <sender>tblSearchResults</sender>
    <signal>doubleClicked(QModelIndex)</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onQueueSong(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -299,7 +299,7 @@
   <connection>
    <sender>songProgress</sender>
    <signal>sliderMoved(int)</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>beginSeekSong(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -315,7 +315,7 @@
   <connection>
    <sender>songProgress</sender>
    <signal>sliderReleased()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>endSeekSong()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -331,7 +331,7 @@
   <connection>
    <sender>btnNext</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onBtnNext()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -347,7 +347,7 @@
   <connection>
    <sender>btnPause</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onBtnPause()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -363,7 +363,7 @@
   <connection>
    <sender>btnPrev</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onBtnPrev()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -379,7 +379,7 @@
   <connection>
    <sender>action_Play_Pause</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onBtnPause()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -395,7 +395,7 @@
   <connection>
    <sender>action_Next</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onBtnNext()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -411,7 +411,7 @@
   <connection>
    <sender>action_Previous</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>onBtnPrev()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -427,7 +427,7 @@
   <connection>
    <sender>action_Quit</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -443,7 +443,7 @@
   <connection>
    <sender>action_Preferences</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>openPrefs()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -459,7 +459,7 @@
   <connection>
    <sender>action_About</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>openAbout()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -475,7 +475,7 @@
   <connection>
    <sender>action_Crash_Now</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>GrooveWindow</receiver>
    <slot>crash()</slot>
    <hints>
     <hint type="sourcelabel">
