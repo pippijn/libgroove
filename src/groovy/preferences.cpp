@@ -1,12 +1,8 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
-#include <QDebug>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QSettings>
-
-#include <boost/foreach.hpp>
+#include "preferences.h"
+#include "ui_preferences.h"
 
 #include "groove/client.h"
 #include "groove/playlistmodel.h"
@@ -14,8 +10,11 @@
 #include "groove/settings.h"
 #include "groove/data/song.h"
 
-#include "preferences.h"
-#include "ui_preferences.h"
+#include <boost/foreach.hpp>
+
+#include <QDebug>
+#include <QFileDialog>
+#include <QMessageBox>
 
 static struct property
 {
@@ -59,9 +58,7 @@ Preferences::Preferences (GrooveSearchModel &searchModel, GroovePlaylistModel &p
       m_ui->lstPlaylistItems->addItem (item);
     }
 
-  QSettings settings;
-
-  m_ui->txtCachePath->setText (settings.value (GrooveSettings::CACHEDIR).toString ());
+  m_ui->txtCachePath->setText (Settings.cachedir);
 }
 
 Preferences::~Preferences ()
@@ -71,10 +68,8 @@ Preferences::~Preferences ()
 void
 Preferences::commitGeneral ()
 {
-  QSettings settings;
-  
   if (QFile::exists (m_ui->txtCachePath->text ()))
-    settings.setValue (GrooveSettings::CACHEDIR, m_ui->txtCachePath->text ());
+    Settings.cachedir = m_ui->txtCachePath->text ();
   else
     QMessageBox::warning (this,
                           tr ("Invalid path"),

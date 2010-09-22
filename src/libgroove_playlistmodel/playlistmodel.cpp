@@ -20,8 +20,6 @@
 #include "groove/settings.h"
 #include "groove/data/song.h"
 
-#include <QSettings>
-
 #include <algorithm>
 
 GroovePlaylistModel::GroovePlaylistModel (std::shared_ptr<GrooveClient> client, QObject *parent)
@@ -191,7 +189,7 @@ GroovePlaylistModel::data (QModelIndex const &index, int role) const
     case Qt::ToolTipRole:
       if (m_visible[index.column ()] == "albumName")
         return QString ("<img src='%1/.art/%2'/>")
-               .arg (QSettings ().value (GrooveSettings::CACHEDIR, "cache").toString ())
+               .arg (Settings.cachedir)
                .arg (song->coverArtFilename ())
                ;
     }

@@ -37,7 +37,6 @@
 #include <phonon/MediaSource>
 
 #include <QMessageBox>
-#include <QSettings>
 #include <QTime>
 
 #include <functional>

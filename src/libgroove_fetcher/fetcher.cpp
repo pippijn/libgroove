@@ -9,7 +9,6 @@
 
 #include <QDir>
 #include <QNetworkReply>
-#include <QSettings>
 
 static int
 system (QString const &command)
@@ -36,7 +35,7 @@ downloadCover (GrooveSong const &song, QString path)
 static QString
 make_cache (GrooveSong const &song)
 {
-  QString path = QSettings ().value (GrooveSettings::CACHEDIR, "cache").toString ();
+  QString path = Settings.cachedir;
 
   downloadCover (song, path);
 

@@ -2,6 +2,8 @@ noinst_HEADERS +=			\
 	include/about.h			\
 	include/groovewindow.h		\
 	include/libgroove_global.h	\
-	include/preferences.h
+	include/preferences.h		\
+	include/property.h
 
 include include/groove/Rules.am
+include include/property/Rules.am
