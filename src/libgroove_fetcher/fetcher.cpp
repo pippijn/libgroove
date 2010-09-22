@@ -30,7 +30,7 @@ downloadCover (GrooveSong const &song, QString path)
 
   if (!QFile::exists (path))
     system ("wget -q http://beta.grooveshark.com/static/amazonart/m" + song.coverArtFilename () +
-            " -O " + path);
+            " -O " + path + "&");
 }
 
 static QString
