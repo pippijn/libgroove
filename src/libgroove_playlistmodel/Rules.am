@@ -1,0 +1,24 @@
+lib_LTLIBRARIES += libgroove_playlistmodel.la
+
+libgroove_playlistmodel_la_SOURCES =				\
+	src/libgroove_playlistmodel/playlistmodel.cpp
+
+nodist_libgroove_playlistmodel_la_SOURCES =			\
+	include/groove/playlistmodel.moc.cpp
+CLEANFILES += $(nodist_libgroove_playlistmodel_la_SOURCES)
+
+libgroove_playlistmodel_la_CPPFLAGS = $(AM_CPPFLAGS) -DLIBGROOVE_LIBRARY
+libgroove_playlistmodel_la_CXXFLAGS =	\
+	$(AM_CXXFLAGS)			\
+	$(QTCORE_CXXFLAGS)		\
+	$(QTNETWORK_CXXFLAGS)		\
+	$(QJSON_CXXFLAGS)
+libgroove_playlistmodel_la_LIBADD =	\
+	libgroove_client.la		\
+	libgroove_data.la		\
+	libgroove_service.la		\
+	libgroove_settings.la		\
+	libgroove_songsmodel.la		\
+	$(QTCORE_LIBS)			\
+	$(QTNETWORK_LIBS)		\
+	$(QJSON_LIBS)

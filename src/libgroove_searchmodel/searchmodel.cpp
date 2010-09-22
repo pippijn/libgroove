@@ -18,7 +18,7 @@
 
 #include "groove/client.h"
 #include "groove/service.h"
-#include "groovesearchmodel.h"
+#include "groove/searchmodel.h"
 #include "groove/settings.h"
 #include "groove/data/song.h"
 

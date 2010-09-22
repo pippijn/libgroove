@@ -9,8 +9,8 @@
 #include <boost/foreach.hpp>
 
 #include "groove/client.h"
-#include "grooveplaylistmodel.h"
-#include "groovesearchmodel.h"
+#include "groove/playlistmodel.h"
+#include "groove/searchmodel.h"
 #include "groove/settings.h"
 #include "groove/data/song.h"
 
