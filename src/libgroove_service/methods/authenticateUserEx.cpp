@@ -11,8 +11,7 @@ GrooveService::authenticateUserEx (QString password, QString username)
     { "username", username },
   };
 
-  //request.post (this, SLOT (authenticateUserEx_responded ()));
-  request.post (parent (), m_slot);
+  request.post (this, SLOT (authenticateUserEx_responded ()));
 }
 
 void

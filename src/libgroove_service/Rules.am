@@ -8,7 +8,7 @@ libgroove_service_la_SOURCES =			\
 
 include src/libgroove_service/methods/Rules.am
 
-nodist_libgroove_service_la_SOURCES =			\
+nodist_libgroove_service_la_SOURCES =		\
 	include/groove/service.moc.cpp
 CLEANFILES += $(nodist_libgroove_service_la_SOURCES)
 
@@ -20,6 +20,7 @@ libgroove_service_la_CXXFLAGS =	\
 	$(QJSON_CXXFLAGS)
 libgroove_service_la_LIBADD =	\
 	libgroove_client.la	\
+	libgroove_data.la	\
 	$(QTCORE_LIBS)		\
 	$(QTNETWORK_LIBS)	\
 	$(QJSON_LIBS)

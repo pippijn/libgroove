@@ -18,11 +18,23 @@ GrooveService::getSearchResults (QString query, QString type)
     { "query", query },
   };
 
-  //request.post (this, SLOT (getSearchResults_responded ()));
-  request.post (parent (), m_slot);
+  request.post (this, SLOT (getSearchResults_responded ()));
 }
 
 void
 GrooveService::getSearchResults_responded ()
 {
+  QVariantMap reply = getReply ();
+
+  QVariantList result = reply["result"].toList ();
+
+  QList<GrooveSongPointer> songList;
+  foreach (QVariant const &song, result)
+    {
+      QVariantMap songData = song.toMap ();
+
+      songList.push_back (GrooveSong::make (songData));
+    }
+
+  emit searchResultsReady (songList);
 }

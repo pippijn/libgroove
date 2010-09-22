@@ -8,8 +8,7 @@ GrooveService::logoutUser ()
   request << header (method);
   request.parameters () << "service.php";
 
-  //request.post (this, SLOT (logoutUser_responded ()));
-  request.post (parent (), m_slot);
+  request.post (this, SLOT (logoutUser_responded ()));
 }
 
 void

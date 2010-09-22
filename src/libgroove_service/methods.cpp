@@ -1,5 +1,6 @@
 #include "request.h"
 
+#include "groove/data/song.h"
 #include "groove/service.h"
 
 #include "methods/addShortcutToUserSidebar.cpp"

@@ -24,6 +24,7 @@
 #include "groove/data/songptr.h"
 #include "groove/songsmodel.h"
 class GrooveClient;
+class GrooveService;
 
 #include <memory>
 
@@ -33,7 +34,7 @@ class LIBGROOVESHARED_EXPORT GrooveSearchModel
   Q_OBJECT
 
 public:
-  GrooveSearchModel (std::shared_ptr<GrooveClient> client, QObject *parent);
+  GrooveSearchModel (std::shared_ptr<GrooveClient> client, std::shared_ptr<GrooveService> service, QObject *parent);
   ~GrooveSearchModel ();
 
   /*!
@@ -59,10 +60,11 @@ private slots:
   /*!
    *  Invoked when a currently running search completes.
    */
-  void searchCompleted ();
+  void searchCompleted (QList<GrooveSongPointer> const &newSongList);
 
 private:
   std::shared_ptr<GrooveClient> m_client;
+  std::shared_ptr<GrooveService> m_service;
 };
 
 #endif /* GROOVESEARCHREQUEST_H */

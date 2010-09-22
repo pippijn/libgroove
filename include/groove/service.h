@@ -5,39 +5,41 @@
 
 #include "libgroove_global.h"
 
+#include "groove/data/songptr.h"
 #include "groove/private/make_varmap.h"
 class GrooveClient;
 
 #include <QDate>
+#include <QList>
 #include <QVariant>
 
 #include <memory>
 
 enum class TagID
 {
-  Rap = 3,
-  RnB = 4,
-  Rock = 12,
-  Alternative = 13,
-  Metal = 17,
-  HipHop = 29,
-  Jazz = 43,
-  Pop = 56,
-  Electronica = 67,
-  Trance = 69,
-  Ambient = 75,
-  Country = 80,
-  Bluegrass = 96,
-  Oldies = 102,
-  Punk = 111,
-  Folk = 122,
-  Indie = 136,
-  Reggae = 160,
-  Experimental = 191,
-  Blues = 230,
-  Latin = 528,
-  Classical = 750,
-  ClassicRock = 3529,
+  Rap           =    3,
+  RnB           =    4,
+  Rock          =   12,
+  Alternative   =   13,
+  Metal         =   17,
+  HipHop        =   29,
+  Jazz          =   43,
+  Pop           =   56,
+  Electronica   =   67,
+  Trance        =   69,
+  Ambient       =   75,
+  Country       =   80,
+  Bluegrass     =   96,
+  Oldies        =  102,
+  Punk          =  111,
+  Folk          =  122,
+  Indie         =  136,
+  Reggae        =  160,
+  Experimental  =  191,
+  Blues         =  230,
+  Latin         =  528,
+  Classical     =  750,
+  ClassicRock   = 3529,
 };
 
 class LIBGROOVESHARED_EXPORT GrooveService
@@ -54,7 +56,7 @@ private: // types
   typedef QVariantOrMap::array array;
 
 public: // ctor/dtor
-  GrooveService (std::shared_ptr<GrooveClient> client, char const *slot, QObject *parent);
+  GrooveService (std::shared_ptr<GrooveClient> client, QObject *parent);
   ~GrooveService ();
 
 private: // functions
@@ -321,8 +323,8 @@ public slots: // functions
 
 private: // data
   std::shared_ptr<GrooveClient> m_client;
-  char const *m_slot;
 
 signals:
+  void searchResultsReady (QList<GrooveSongPointer> const &songList);
   void streamKeyReady (QString ip, QString streamKey);
 };

@@ -28,9 +28,10 @@
 
 #include <qjson/parser.h>
 
-GrooveSearchModel::GrooveSearchModel (std::shared_ptr<GrooveClient> client, QObject *parent)
+GrooveSearchModel::GrooveSearchModel (std::shared_ptr<GrooveClient> client, std::shared_ptr<GrooveService> service, QObject *parent)
   : GrooveSongsModel (GrooveSettings::section::SEARCH, parent)
   , m_client (client)
+  , m_service (service)
 {
 }
 
@@ -63,41 +64,29 @@ void
 GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTerm)
 {
   LDEBUG << "Searching by " << type << " for " << searchTerm;
-  GrooveService (m_client, SLOT (searchCompleted ()), this).getSearchResults (searchTerm, type);
+
+  connect ( m_service.get ()
+          , SIGNAL (searchResultsReady (QList<GrooveSongPointer> const &))
+          , SLOT (searchCompleted (QList<GrooveSongPointer> const &))
+          );
+  m_service->getSearchResults (searchTerm, type);
 }
 
 void
-GrooveSearchModel::searchCompleted ()
+GrooveSearchModel::searchCompleted (QList<GrooveSongPointer> const &newSongList)
 {
-  QNetworkReply *reply = qobject_cast<QNetworkReply *> (sender ());
-
-  if (GROOVE_VERIFY (reply, "search returned without a QNetworkReply"))
-    return;
-
-  QByteArray response = reply->readAll ();
-  QJson::Parser parser;
-  bool ok;
-  QVariantMap result = parser.parse (response, &ok).toMap ();
-  if (GROOVE_VERIFY (ok, "error occurred whilst parsing search results"))
-    return;
-
-  QList<GrooveSongPointer > newSongList;
-  foreach (QVariant const &song, result["result"].toList ())
-    {
-      QVariantMap songData = song.toMap ();
-
-      newSongList.append (GrooveSong::make (songData));
-    }
+  disconnect (m_service.get (), SIGNAL (searchResultsReady (QList<GrooveSongPointer> const &)));
 
   if (!newSongList.count ())
-    return;
+    {
+      LDEBUG << "Search found " << m_songs.count () << " songs";
+      return;
+    }
 
   beginInsertRows (QModelIndex (), 0, newSongList.count () - 1);
   clear ();
   m_songs = newSongList;
   endInsertRows ();
-
-  LDEBUG << "Search found " << m_songs.count () << " songs";
 }
 
 GrooveSongPointer

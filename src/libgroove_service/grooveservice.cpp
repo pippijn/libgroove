@@ -10,10 +10,9 @@
 
 #include <QUuid>
 
-GrooveService::GrooveService (std::shared_ptr<GrooveClient> client, char const *slot, QObject *parent)
+GrooveService::GrooveService (std::shared_ptr<GrooveClient> client, QObject *parent)
   : QObject (parent)
   , m_client (client)
-  , m_slot (slot)
 {
 }
 
