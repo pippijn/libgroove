@@ -28,8 +28,6 @@ DEFINES += PKGDATADIR=\'\"/path/to/data\"\'
 HEADERS += include/preferences.h \
     include/libgroove_global.h \
     include/groovewindow.h \
-    include/groovesearchmodel.h \
-    include/grooveplaylistmodel.h \
     include/about.h \
     include/groove/settings.h \
     include/groove/service.h \
@@ -46,18 +44,21 @@ HEADERS += include/preferences.h \
     include/groove/data/artist.h \
     include/groove/data/albumptr.h \
     include/groove/data/album.h \
-    include/groove/private/request.h \
     include/groove/private/make_varmap.h \
     src/libgroove_service/request.h \
-    src/libgroove_client/private.h
+    src/libgroove_client/private.h \
+    include/property/prop.h \
+    include/property/value_prop.h \
+    include/property.h \
+    include/groove/searchmodel.h \
+    include/groove/playlistmodel.h \
+    src/libgroove_client/client-request.h
 SOURCES += src/groovy/preferences.cpp \
     src/groovy/main.cpp \
     src/groovy/groovewindow.cpp \
     src/groovy/debug.cpp \
     src/groovy/crash.cpp \
     src/groovy/about.cpp \
-    src/libgroove/groovesearchmodel.cpp \
-    src/libgroove/grooveplaylistmodel.cpp \
     src/libgroove_data/song.cpp \
     src/libgroove_data/playlist.cpp \
     src/libgroove_data/artist.cpp \
@@ -66,12 +67,14 @@ SOURCES += src/groovy/preferences.cpp \
     src/libgroove_fetcher/fetcher.cpp \
     src/libgroove_service/request.cpp \
     src/libgroove_service/methods.cpp \
-    src/libgroove_service/grooveservice.cpp \
+    src/libgroove_service/service.cpp \
     src/libgroove_settings/settings.cpp \
     src/libgroove_songsmodel/songsmodel.cpp \
     src/libgroove_client/client-request.cpp \
     src/libgroove_client/private.cpp \
-    src/libgroove_client/client.cpp
+    src/libgroove_client/client.cpp \
+    src/libgroove_playlistmodel/playlistmodel.cpp \
+    src/libgroove_searchmodel/searchmodel.cpp
 FORMS += src/ui/preferences.ui \
     src/ui/groovewindow.ui \
     src/ui/about.ui
