@@ -1,7 +1,7 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
-#include "preferences.h"
+#include "frontend/uic/preferences.h"
 #include "ui_preferences.h"
 
 #include "groove/client.h"

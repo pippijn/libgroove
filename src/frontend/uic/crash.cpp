@@ -1,7 +1,7 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
-#include "groovewindow.h"
+#include "frontend/uic/groovewindow.h"
 
 #define static __attribute__ ((__noinline__, __noreturn__, __optimize__ ("no-omit-frame-pointer"))) static
 

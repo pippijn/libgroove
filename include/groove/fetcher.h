@@ -40,7 +40,8 @@ public:
 
 private slots:
   void onStreamKeyReady (QString ip, QString streamKey);
-  void onStreamingStarted (QNetworkReply *httpStream);
+  void onStreamError ();
+  void onStreamProgress (qint64 bytesReceived, qint64 bytesTotal);
   void onStreamReadReady ();
   void onStreamingFinished ();
 

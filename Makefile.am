@@ -45,7 +45,7 @@ ui_%.h: %.ui
 	$(UIC) $< -o $@
 
 run: all
-	./groovy
+	./groovy-ui
 
 valgrind: all
 	valgrind				\

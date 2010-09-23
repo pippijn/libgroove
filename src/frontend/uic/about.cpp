@@ -7,7 +7,7 @@
 #include <QImage>
 #include <QPixmap>
 
-#include "about.h"
+#include "frontend/uic/about.h"
 #include "ui_about.h"
 
 About::About (QWidget *parent)

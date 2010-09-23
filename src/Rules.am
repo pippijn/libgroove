@@ -6,5 +6,5 @@ include src/libgroove_songsmodel/Rules.am
 include src/libgroove_playlistmodel/Rules.am
 include src/libgroove_searchmodel/Rules.am
 include src/libgroove_fetcher/Rules.am
-include src/groovy/Rules.am
-include src/ui/Rules.am
+include src/frontend/Rules.am
+include src/uic/Rules.am

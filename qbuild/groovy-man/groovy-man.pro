@@ -1,10 +1,7 @@
-# -------------------------------------------------
-# Project created by QtCreator 2010-09-22T21:46:16
-# -------------------------------------------------
 QT += network \
     gui \
     phonon
-TARGET = groovy
+TARGET = groovy-man
 TEMPLATE = app
 INCLUDEPATH = ../../include/
 DEPENDPATH = ../../include/
@@ -27,5 +24,5 @@ unix:LIBS += ../libgroove/libgroove.so
 win32:LIBS += ../libgroove/libgroove.dll
 
 # Sources
-include(../source-common/source-common.pro)
-
+SOURCES += ../../src/frontend/man/main.cpp \
+    ../../src/frontend/man/debug.cpp

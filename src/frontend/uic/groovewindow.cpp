@@ -20,9 +20,9 @@
 
 #include "ui_groovewindow.h"
 
-#include "about.h"
-#include "groovewindow.h"
-#include "preferences.h"
+#include "frontend/uic/about.h"
+#include "frontend/uic/groovewindow.h"
+#include "frontend/uic/preferences.h"
 
 #include "groove/client.h"
 #include "groove/data/song.h"

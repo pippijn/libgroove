@@ -1,5 +1,6 @@
 /COPYING
 /INSTALL
+# autotools files
 /Makefile.in
 /_build
 /aclocal.m4
@@ -10,10 +11,15 @@
 /configure
 /m4/libtool
 
+# qmake object directory
+/qbuild/obj
 
-#ignore thumbnails created by windows
+# qtcreator user profile
+/qbuild/groovy.pro.user
+
+# thumbnails created by windows
 Thumbs.db
-#Ignore files build by Visual Studio
+# files build by Visual Studio
 *.obj
 *.exe
 *.pdb

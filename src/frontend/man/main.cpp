@@ -1,12 +1,10 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
-#include "groovewindow.h"
-
-#include "groove/client.h"
-#include "groove/data/song.h"
+#include "libgroove_global.h"
 
 #include <QApplication>
+#include <QStringList>
 
 #include <log4cpp/OstreamAppender.hh>
 
@@ -62,10 +60,14 @@ main (int argc, char **argv)
 
   LDEBUG << "initialising...";
 
+  int retval = EXIT_SUCCESS;
+
+#if 0
   GrooveWindow mw;
   mw.show ();
 
-  int retval = qca.exec ();
+  retval = qca.exec ();
+#endif
 
   // uninitialise unportable debug library
   uninit_debuglib ();

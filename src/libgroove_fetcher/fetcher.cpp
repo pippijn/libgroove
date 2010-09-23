@@ -120,7 +120,7 @@ GrooveFetcher::onStreamKeyReady (QString ip, QString streamKey)
 {
   LDEBUG << "Ready for " << m_song.ID;
 
-  QNetworkRequest req (QUrl ("http:://" + ip + "/stream.php"));
+  QNetworkRequest req (QUrl ("http://" + ip + "/stream.php"));
   req.setHeader (req.ContentTypeHeader, "application/x-www-form-urlencoded");
 
   LDEBUG << "Sending request to " << req.url ().toString () << " to start stream";
@@ -128,18 +128,25 @@ GrooveFetcher::onStreamKeyReady (QString ip, QString streamKey)
   streamKey = "streamKey=" + streamKey;
   QNetworkReply *streamingReply = m_client->networkManager ().post (req, streamKey.toAscii ());
 
-  onStreamingStarted (streamingReply);
+  qDebug () << Q_FUNC_INFO << streamingReply->request ().url ();
+  qDebug () << Q_FUNC_INFO << streamingReply->rawHeaderList ();
+
+  connect (streamingReply, SIGNAL (error (QNetworkReply::NetworkError)), SLOT (onStreamError ()));
+  connect (streamingReply, SIGNAL (readyRead ()), SLOT (onStreamReadReady ()));
+  connect (streamingReply, SIGNAL (downloadProgress (qint64, qint64)), SLOT (onStreamProgress (qint64, qint64)));
+  connect (streamingReply, SIGNAL (finished ()), SLOT (onStreamingFinished ()));
 }
 
 void
-GrooveFetcher::onStreamingStarted (QNetworkReply *httpStream)
+GrooveFetcher::onStreamError ()
 {
-  LDEBUG << "Streaming started";
+  LDEBUG << "Streaming error: " << qobject_cast<QIODevice *> (sender ())->errorString ();
+}
 
-  qDebug () << Q_FUNC_INFO << httpStream->rawHeaderList ();
-
-  connect (httpStream, SIGNAL (readyRead ()), SLOT (onStreamReadReady ()));
-  connect (httpStream, SIGNAL (finished ()), SLOT (onStreamingFinished ()));
+void
+GrooveFetcher::onStreamProgress (qint64 bytesReceived, qint64 bytesTotal)
+{
+  LDEBUG << "downloaded " << bytesReceived << " / " << bytesTotal;
 }
 
 void
@@ -152,7 +159,7 @@ GrooveFetcher::onStreamReadReady ()
 
   m_file.write (httpStream->readAll ());
 
-#if 1
+#if 0
   LDEBUG << "Stream data length: " << m_file.size ();
 #endif
 }
