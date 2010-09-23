@@ -9,13 +9,11 @@ TEMPLATE = app
 INCLUDEPATH = ../../include/
 DEPENDPATH = ../../include/
 
+# qmake config
+CONFIG += link_prl
+
 # Flags
 QMAKE_CXXFLAGS += -std=c++0x
-
-# QJson library
-CONFIG += link_pkgconfig
-PKGCONFIG += QJson \
-    log4cpp
 
 # Defines
 DEFINES += PACKAGE=\'\"groovy\"\'
@@ -25,8 +23,8 @@ DEFINES += PACKAGE_BUGREPORT=\'\"groovy@xinutec.org\"\'
 DEFINES += PKGDATADIR=\'\"/path/to/data\"\'
 
 # Extra libs
-unix:LIBS += ../libgroove/libgroove.so
-win32:LIBS += ../libgroove/libgroove.dll
+unix:LIBS += ../../libgroove/obj/libgroove.so
+win32:LIBS += ../../libgroove/obj/libgroove.dll
 
 # Sources
 HEADERS += ../../include/preferences.h \

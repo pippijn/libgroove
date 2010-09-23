@@ -9,6 +9,9 @@ TEMPLATE = lib
 INCLUDEPATH = ../../include/
 DEPENDPATH = ../../include/
 
+# qmake config
+CONFIG += create_prl
+
 # Flags
 QMAKE_CXXFLAGS += -std=c++0x
 
@@ -19,11 +22,6 @@ PKGCONFIG += QJson \
 
 # Defines
 DEFINES += LIBGROOVE_LIBRARY
-DEFINES += PACKAGE=\'\"groovy\"\'
-DEFINES += PACKAGE_NAME=\'\"Groovy\"\'
-DEFINES += PACKAGE_VERSION=\'\"0.1\"\'
-DEFINES += PACKAGE_BUGREPORT=\'\"groovy@xinutec.org\"\'
-DEFINES += PKGDATADIR=\'\"/path/to/data\"\'
 
 # Sources
 HEADERS += ../../include/libgroove_global.h \
