@@ -48,8 +48,9 @@ GrooveService::getStreamKeyFromSongIDEx_responded ()
   QString FileToken      = result["FileToken"     ].toString ();
   int     uSecs          = result["uSecs"         ].toInt ();
 
-  GROOVE_VERIFY_OR_DIE (!ip.isEmpty (), "got invalid streamKey from server");
-  GROOVE_VERIFY_OR_DIE (streamKey.length () == 20, "got invalid streamKey from server");
+  LDEBUG << "got streamKey=" << streamKey << ", ip=" << ip;
+  GROOVE_VERIFY_OR_DIE (streamKey.length () == 77, "got invalid streamKey from server");
+  GROOVE_VERIFY_OR_DIE (!ip.isEmpty (), "got invalid streaming IP from server");
 
   emit streamKeyReady (ip, streamKey);
 }
