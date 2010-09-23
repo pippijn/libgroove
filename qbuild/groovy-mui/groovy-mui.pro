@@ -27,15 +27,5 @@ unix:LIBS += ../../libgroove/obj/libgroove.so
 win32:LIBS += ../../libgroove/obj/libgroove.dll
 
 # Sources
-HEADERS += ../../include/preferences.h \
-    ../../include/groovewindow.h \
-    ../../include/about.h
-SOURCES += ../../src/groovy/preferences.cpp \
-    ../../src/groovy/main.cpp \
-    ../../src/groovy/groovewindow.cpp \
-    ../../src/groovy/debug.cpp \
-    ../../src/groovy/crash.cpp \
-    ../../src/groovy/about.cpp
-FORMS += ../../src/ui/preferences.ui \
-    ../../src/ui/groovewindow.ui \
-    ../../src/ui/about.ui
+include(../source-common/source-common.pro)
+
