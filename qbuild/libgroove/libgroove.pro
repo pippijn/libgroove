@@ -4,8 +4,8 @@
 QT += network \
     gui \
     phonon
-TARGET = Groovy
-TEMPLATE = app
+TARGET = groove
+TEMPLATE = lib
 INCLUDEPATH = ../../include/
 DEPENDPATH = ../../include/
 
@@ -18,6 +18,7 @@ PKGCONFIG += QJson \
     log4cpp
 
 # Defines
+DEFINES += LIBGROOVE_LIBRARY
 DEFINES += PACKAGE=\'\"groovy\"\'
 DEFINES += PACKAGE_NAME=\'\"Groovy\"\'
 DEFINES += PACKAGE_VERSION=\'\"0.1\"\'
@@ -25,10 +26,7 @@ DEFINES += PACKAGE_BUGREPORT=\'\"groovy@xinutec.org\"\'
 DEFINES += PKGDATADIR=\'\"/path/to/data\"\'
 
 # Sources
-HEADERS += ../../include/preferences.h \
-    ../../include/libgroove_global.h \
-    ../../include/groovewindow.h \
-    ../../include/about.h \
+HEADERS += ../../include/libgroove_global.h \
     ../../include/groove/settings.h \
     ../../include/groove/service.h \
     ../../include/groove/fetcher.h \
@@ -53,13 +51,7 @@ HEADERS += ../../include/preferences.h \
     ../../include/groove/searchmodel.h \
     ../../include/groove/playlistmodel.h \
     ../../src/libgroove_client/client-request.h
-SOURCES += ../../src/groovy/preferences.cpp \
-    ../../src/groovy/main.cpp \
-    ../../src/groovy/groovewindow.cpp \
-    ../../src/groovy/debug.cpp \
-    ../../src/groovy/crash.cpp \
-    ../../src/groovy/about.cpp \
-    ../../src/libgroove_data/song.cpp \
+SOURCES += ../../src/libgroove_data/song.cpp \
     ../../src/libgroove_data/playlist.cpp \
     ../../src/libgroove_data/artist.cpp \
     ../../src/libgroove_data/album.cpp \
@@ -75,6 +67,3 @@ SOURCES += ../../src/groovy/preferences.cpp \
     ../../src/libgroove_client/client.cpp \
     ../../src/libgroove_playlistmodel/playlistmodel.cpp \
     ../../src/libgroove_searchmodel/searchmodel.cpp
-FORMS += ../../src/ui/preferences.ui \
-    ../../src/ui/groovewindow.ui \
-    ../../src/ui/about.ui
