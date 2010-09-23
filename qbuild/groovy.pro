@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-SUBDIRS = groovy-gen groovy-mui libgroove
+SUBDIRS = libgroove groovy-gen groovy-man
 
 groovy-gen.depends = libgroove
 groovy-man.depends = libgroove

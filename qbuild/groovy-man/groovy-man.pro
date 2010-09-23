@@ -23,8 +23,8 @@ DEFINES += PACKAGE_BUGREPORT=\'\"groovy@xinutec.org\"\'
 DEFINES += PKGDATADIR=\'\"/path/to/data\"\'
 
 # Extra libs
-unix:LIBS += ../../libgroove/obj/libgroove.so
-win32:LIBS += ../../libgroove/obj/libgroove.dll
+unix:LIBS += ../../libgroove/libgroove.so
+win32:LIBS += ../../libgroove/libgroove.dll
 
 # Sources
 include(../source-common/source-common.pro)
