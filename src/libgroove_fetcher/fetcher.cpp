@@ -7,6 +7,7 @@
 #include "groove/service.h"
 #include "groove/settings.h"
 
+#include <QDebug>
 #include <QDir>
 #include <QNetworkReply>
 
@@ -134,6 +135,8 @@ void
 GrooveFetcher::onStreamingStarted (QNetworkReply *httpStream)
 {
   LDEBUG << "Streaming started";
+
+  qDebug () << Q_FUNC_INFO << httpStream->rawHeaderList ();
 
   connect (httpStream, SIGNAL (readyRead ()), SLOT (onStreamReadReady ()));
   connect (httpStream, SIGNAL (finished ()), SLOT (onStreamingFinished ()));
