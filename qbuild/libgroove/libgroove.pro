@@ -3,8 +3,10 @@ QT += network \
     phonon
 TARGET = groove
 TEMPLATE = lib
-INCLUDEPATH = ../../include/
+INCLUDEPATH += ../../include/
+win32:INCLUDEPATH += $PATH$
 DEPENDPATH = ../../include/
+win32:DEPENDPATH += $PATH$
 
 # qmake config
 CONFIG += create_prl

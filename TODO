@@ -5,3 +5,4 @@
 - grooveshark user login
 - use QNetworkAccessManager to download cover art instead of wget
 - write an abstraction for QSettings that holds the settings strongly typed
+- play tracks in sorted order (as they were add to the playlist)
