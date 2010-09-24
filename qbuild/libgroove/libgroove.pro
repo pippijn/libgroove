@@ -14,8 +14,7 @@ QMAKE_CXXFLAGS += -std=c++0x
 
 # QJson library
 CONFIG += link_pkgconfig
-PKGCONFIG += QJson \
-    log4cpp
+PKGCONFIG += QJson
 
 # Defines
 DEFINES += LIBGROOVE_LIBRARY
@@ -55,7 +54,8 @@ SOURCES += ../../src/libgroove_data/song.cpp \
     ../../src/libgroove_service/request.cpp \
     ../../src/libgroove_service/methods.cpp \
     ../../src/libgroove_service/service.cpp \
-    ../../src/libgroove_settings/settings.cpp \
+    ../../src/libgroove_common/debug.cpp \
+    ../../src/libgroove_common/settings.cpp \
     ../../src/libgroove_songsmodel/songsmodel.cpp \
     ../../src/libgroove_client/client-request.cpp \
     ../../src/libgroove_client/private.cpp \

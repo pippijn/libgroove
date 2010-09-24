@@ -20,15 +20,12 @@ WARNINGS		+= -Wstrict-aliasing=3
 
 AM_CXXFLAGS		+= $(OPTFLAGS) $(WARNINGS) -std=c++0x -DLIBGROOVE_LIBRARY
 
-# log4cpp
-AM_CXXFLAGS		+= $(LOG4CPP_CXXFLAGS)
-AM_LDFLAGS		+= $(LOG4CPP_LIBS)
-
 # QtCore
 AM_CXXFLAGS		+= $(QTCORE_CXXFLAGS)
 AM_LDFLAGS		+= $(QTCORE_LIBS)
 
 include include/Rules.am
+include qbuild/Rules.am
 include res/Rules.am
 include src/Rules.am
 
@@ -39,13 +36,13 @@ prepare:
 	$(MKDIR_P) `dirname $@`
 	$(MOC) -I$(srcdir)/include $< -o $@
 
-VPATH += $(srcdir)/src/ui
+VPATH += $(srcdir)/src/uic
 
 ui_%.h: %.ui
 	$(UIC) $< -o $@
 
 run: all
-	./groovy-ui
+	./groovy-uic
 
 valgrind: all
 	valgrind				\

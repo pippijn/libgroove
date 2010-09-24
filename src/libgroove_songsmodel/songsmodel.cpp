@@ -232,7 +232,7 @@ GrooveSongsModel::setData (QModelIndex const &index, QVariant const &value, int 
   LDEBUG << "setting " << index << " to " << value << " for role " << role;
 #endif
 
-  if (index.row () >= m_data.size ())
+  while (index.row () >= m_data.size ())
     m_data.push_back ({ });
   QVariantList &data = m_data[index.row ()];
   while (role >= data.size ())

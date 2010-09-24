@@ -1,4 +1,0 @@
-lib_LTLIBRARIES += libgroove_settings.la
-
-libgroove_settings_la_SOURCES =			\
-	src/libgroove_settings/settings.cpp

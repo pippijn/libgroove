@@ -1,39 +1,31 @@
 /*
- * This file is part of libgroove
- *
  * Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>
+ * Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>
  *
- * This software, including documentation, is protected by copyright.
- * All rights are reserved.
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms and conditions of the GNU Lesser General Public License,
+ * version 2.1, as published by the Free Software Foundation.
  *
- * Copying, including reproducing, storing, adapting or translating, any or
- * all of this material requires prior written consent of the author.
+ * This program is distributed in the hope it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
+ * more details.
  *
- * This material may also contain confidential information which may not be
- * disclosed to others without the prior written consent of the author.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
 #ifndef LIBGROOVE_GLOBAL_H
 #define LIBGROOVE_GLOBAL_H
 
-#include <log4cpp/Category.hh>
-#include <QtCore/qglobal.h>
+#include <qglobal.h>
 
-#include <QByteArray>
-#include <QString>
+#include <QDebug>
 
 #include <boost/implicit_cast.hpp>
 
 using boost::implicit_cast;
-
-namespace
-{
-  static __attribute__ ((__unused__)) log4cpp::Category &llog = log4cpp::Category::getRoot ();
-
-  static __attribute__ ((__unused__)) auto const FATAL = log4cpp::Priority::FATAL;
-  static __attribute__ ((__unused__)) auto const WARN = log4cpp::Priority::WARN;
-  static __attribute__ ((__unused__)) auto const DEBUG = log4cpp::Priority::DEBUG;
-}
 
 #if defined(LIBGROOVE_LIBRARY)
 # define LIBGROOVESHARED_EXPORT Q_DECL_EXPORT
@@ -41,38 +33,13 @@ namespace
 # define LIBGROOVESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#define LOG_FUNC Q_FUNC_INFO << ": "
+LIBGROOVESHARED_EXPORT QDebug &log_pre (QDebug &&dbg, char const *file, int line, char const *func);
 
-#define GROOVE_VERIFY(x, y) (!(x) && ((llog << WARN << LOG_FUNC << y), Q_ASSERT (x), true))
-#define GROOVE_VERIFY_OR_DIE(x, y) if (!(x)) { llog << FATAL << LOG_FUNC << y; }
+#define LOG_PRE(dbg)                    log_pre (dbg, __FILE__, __LINE__, Q_FUNC_INFO)
 
-static inline std::ostream &
-operator << (std::ostream &cs, QByteArray const &b)
-{
-  return cs << b.data ();
-}
+#define GROOVE_VERIFY(x, y)             (!(x) && ((LOG_PRE (qWarning ()) << y), Q_ASSERT (x), true))
+#define GROOVE_VERIFY_OR_DIE(x, y)      if (!(x)) { qFatal ("FATAL: %s: %s", Q_FUNC_INFO, y); }
 
-static inline std::ostream &
-operator << (std::ostream &cs, QString const &s)
-{
-  return cs << '"' << s.toUtf8 () << '"';
-}
-
-template<typename T>
-static inline std::ostream &
-operator << (std::ostream &cs, T const &s)
-{
-  return cs << s.toString ();
-}
-
-template<size_t N>
-static inline std::ostream &
-operator << (std::ostream &cs, char const (&s)[N])
-{
-  cs.write (s, N - 1);
-  return cs;
-}
-
-#define LDEBUG (llog << DEBUG << LOG_FUNC)
+#define LDEBUG                          LOG_PRE (qDebug ())
 
 #endif /* LIBGROOVE_GLOBAL_H */

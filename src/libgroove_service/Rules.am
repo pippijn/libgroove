@@ -18,6 +18,7 @@ libgroove_service_la_CXXFLAGS =	\
 	$(QJSON_CXXFLAGS)
 libgroove_service_la_LIBADD =	\
 	libgroove_client.la	\
+	libgroove_common.la	\
 	libgroove_data.la	\
 	$(QTNETWORK_LIBS)	\
 	$(QJSON_LIBS)

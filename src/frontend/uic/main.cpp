@@ -8,8 +8,6 @@
 
 #include <QApplication>
 
-#include <log4cpp/OstreamAppender.hh>
-
 #include <iostream>
 
 static void
@@ -38,12 +36,6 @@ extern void uninit_debuglib ();
 int
 main (int argc, char **argv)
 {
-  auto app = new log4cpp::OstreamAppender ("stderr", &std::cerr);
-  auto layout = new log4cpp::BasicLayout;
-  app->setLayout (layout);
-  llog.setPriority (DEBUG);
-  llog.setAppender (app);
-
   // initialise the unportable debug library
   init_debuglib ();
 

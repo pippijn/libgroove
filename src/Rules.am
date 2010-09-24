@@ -1,4 +1,4 @@
-include src/libgroove_settings/Rules.am
+include src/libgroove_common/Rules.am
 include src/libgroove_data/Rules.am
 include src/libgroove_client/Rules.am
 include src/libgroove_service/Rules.am

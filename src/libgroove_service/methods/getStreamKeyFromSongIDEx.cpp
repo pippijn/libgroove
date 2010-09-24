@@ -49,7 +49,7 @@ GrooveService::getStreamKeyFromSongIDEx_responded ()
   int     uSecs          = result["uSecs"         ].toInt ();
 
   LDEBUG << "got streamKey=" << streamKey << ", ip=" << ip;
-  GROOVE_VERIFY_OR_DIE (streamKey.length () == 77, "got invalid streamKey from server");
+  GROOVE_VERIFY_OR_DIE (!streamKey.isEmpty (), "got invalid streamKey from server");
   GROOVE_VERIFY_OR_DIE (!ip.isEmpty (), "got invalid streaming IP from server");
 
   emit streamKeyReady (ip, streamKey);

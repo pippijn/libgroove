@@ -8,6 +8,6 @@ nodist_libgroove_playlistmodel_la_SOURCES =			\
 CLEANFILES += $(nodist_libgroove_playlistmodel_la_SOURCES)
 
 libgroove_playlistmodel_la_LIBADD =	\
+	libgroove_common.la		\
 	libgroove_data.la		\
-	libgroove_settings.la		\
 	libgroove_songsmodel.la
