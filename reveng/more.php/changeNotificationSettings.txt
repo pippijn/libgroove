@@ -1,6 +1,0 @@
-nothing: 4115
-user follows: 4114
-invitee signs up: 4113
-user follows + invitee signs up: 4112
-user subscribes to my playlist: 4099
-new feature: 19
