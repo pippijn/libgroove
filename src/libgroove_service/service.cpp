@@ -1,6 +1,7 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
+#include "reply.h"
 #include "request.h"
 
 #include "groove/client.h"
@@ -20,47 +21,8 @@ GrooveService::~GrooveService ()
 {
 }
 
-GrooveService::pair
-GrooveService::country () const
-{
-  return
-    { "country", map {
-        { "CC1", "18014398509481984" },
-        { "CC2", "0" },
-        { "CC3", "0" },
-        { "CC4", "0" },
-        { "ID", "55" },
-        { "IPR", "10198" },
-      },
-    };
-}
 
-GrooveService::map
-GrooveService::header (char const *method) const
-{
-#if 0
-  QString uuid = QUuid::createUuid ().toString ().toUpper ().mid (1, 36);
-  LDEBUG << uuid;
-#endif
-  return map {
-    { "method", method },
-    { "header", map {
-        { "session", m_client->phpCookie ().toUtf8 () },
-        { "token", m_client->grooveMessageToken (method) },
-        { "client", "gslite" },
-        { "clientRevision", GrooveRequest::REVISION },
-#if 0
-        { "privacy", 0 },
-        { "uuid", uuid },
-#endif
-        country (),
-      },
-    },
-  };
-}
-
-
-QVariantMap
+GrooveReply
 GrooveService::getReply () const
 {
   QNetworkReply *reply = qobject_cast<QNetworkReply *> (sender ());
@@ -72,9 +34,15 @@ GrooveService::getReply () const
 
   QJson::Parser parser;
   bool ok;
-  QVariantMap result = parser.parse (response, &ok).toMap ();
+  QVariant result = parser.parse (response, &ok);
   if (GROOVE_VERIFY (ok, "error occured whilst parsing reply"))
     return { };
 
   return result;
+}
+
+GrooveReply
+GrooveService::getResult () const
+{
+  return getReply ()["result"];
 }

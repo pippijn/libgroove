@@ -10,9 +10,8 @@ GrooveService::getSearchResults (QString query, QString type)
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, more (method));
+  GrooveRequest request (m_client, more, method);
 
-  request << header (method);
   request.parameters () << map {
     { "type", type },
     { "query", query },
@@ -24,12 +23,10 @@ GrooveService::getSearchResults (QString query, QString type)
 void
 GrooveService::getSearchResults_responded ()
 {
-  QVariantMap reply = getReply ();
-
-  QVariantList result = reply["result"].toList ();
+  QVariantList songs = getResult ()["Songs"];
 
   QList<GrooveSongPointer> songList;
-  foreach (QVariant const &song, result)
+  foreach (QVariant const &song, songs)
     {
       QVariantMap songData = song.toMap ();
 

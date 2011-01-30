@@ -71,14 +71,14 @@ void
 GrooveClient::Private::fetchSessionToken ()
 {
   LDEBUG << "fetching";
-  GroovePrivRequest request (*qobject_cast<GrooveClient *> (parent ()), GroovePrivRequest::service ());
+  GroovePrivRequest request (*qobject_cast<GrooveClient *> (parent ()), GroovePrivRequest::more ());
 
   /* headers and parameters */
   typedef QVariantOrMap::map map;
   request << map {
     { "method", "getCommunicationToken" },
     { "header", map {
-        { "client", "gslite" },
+        { "client", GroovePrivRequest::CLIENT },
         { "clientRevision", GroovePrivRequest::REVISION },
       },
     },
@@ -102,14 +102,26 @@ GrooveClient::Private::processSessionToken ()
 
   bool ok;
   QJson::Parser parser;
-  QVariantMap result = parser.parse (reply->readAll (), &ok).toMap ();
 
-  /* TODO */
+  QByteArray sessionTokenReply = reply->readAll ();
+  QVariantMap result = parser.parse (sessionTokenReply, &ok).toMap ();
+
+  if (!ok)
+    LDEBUG << "Session token request failed:" << sessionTokenReply;
+
   GROOVE_VERIFY_OR_DIE (ok, "couldn't parse reply to session token request");
   GROOVE_VERIFY_OR_DIE (result["message"].toString ().isEmpty (), qPrintable (result["message"].toString ()));
 
   m_sessionToken = result["result"].toString ();
   LDEBUG << "Got session token: " << m_sessionToken;
+
+  if (!m_sessionToken.length ())
+    {
+      LDEBUG << "Session token empty:";
+      LDEBUG << sessionTokenReply;
+      LDEBUG << reply->errorString ();
+    }
+
   emit connected ();
 }
 

@@ -3,11 +3,10 @@ GrooveService::updateStreamKeyLengthEx (QString streamKey, uint streamServerID, 
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, service (method));
+  GrooveRequest request (m_client, service, method);
 
-  request << header (method);
   request.parameters () << map {
-      { "XXX", "XXX" },
+    { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (updateStreamKeyLengthEx_responded ()));

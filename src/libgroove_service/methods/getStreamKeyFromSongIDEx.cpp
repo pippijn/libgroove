@@ -14,14 +14,12 @@ GrooveService::getStreamKeyFromSongIDEx (bool mobile, bool prefetch, uint songID
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, more (method));
+  GrooveRequest request (m_client, more, method, "jsqueue");
 
-  request << header (method);
   request.parameters () << map {
-    country (),
-    { "mobile", mobile },
+    { "mobile",   mobile },
     { "prefetch", prefetch },
-    { "songID", songID },
+    { "songID",   songID },
   };
 
   request.post (this, SLOT (getStreamKeyFromSongIDEx_responded ()));
@@ -38,15 +36,13 @@ GrooveService::getStreamKeyFromSongIDEx (bool mobile, bool prefetch, uint songID
 void
 GrooveService::getStreamKeyFromSongIDEx_responded ()
 {
-  QVariantMap reply = getReply ();
+  GrooveReply result = getResult ();
 
-  QVariantMap result = reply["result"].toMap ();
-
-  QString streamKey      = result["streamKey"     ].toString ();
-  QString ip             = result["ip"            ].toString ();
-  int     streamServerID = result["streamServerID"].toInt ();
-  QString FileToken      = result["FileToken"     ].toString ();
-  int     uSecs          = result["uSecs"         ].toInt ();
+  QString streamKey      = result["streamKey"     ];
+  QString ip             = result["ip"            ];
+  int     streamServerID = result["streamServerID"];
+  QString FileToken      = result["FileToken"     ];
+  int     uSecs          = result["uSecs"         ];
 
   LDEBUG << "got streamKey=" << streamKey << ", ip=" << ip;
   GROOVE_VERIFY_OR_DIE (!streamKey.isEmpty (), "got invalid streamKey from server");

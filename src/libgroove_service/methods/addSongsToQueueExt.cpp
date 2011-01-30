@@ -16,12 +16,11 @@ GrooveService::addSongsToQueueExt (uint songQueueID, map songIDsArtistIDs)
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, service (method));
+  GrooveRequest request (m_client, service, method);
 
-  request << header (method);
   request.parameters () << map {
-     { "songQueueID", songQueueID },
-     { "songIDsArtistIDs", songIDsArtistIDs },
+    { "songQueueID", songQueueID },
+    { "songIDsArtistIDs", songIDsArtistIDs },
   };
 
   request.post (this, SLOT (addSongsToQueueExt_responded ()));

@@ -3,9 +3,8 @@ GrooveService::authenticateUser (QString username, QString password, QString aut
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, more (method));
+  GrooveRequest request (m_client, more, method);
 
-  request << header (method);
   request.parameters () << map {
     { "username", username },
     { "password", password },

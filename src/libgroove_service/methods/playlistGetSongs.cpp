@@ -3,9 +3,8 @@ GrooveService::playlistGetSongs (uint playlistID)
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, more (method));
+  GrooveRequest request (m_client, more, method);
 
-  request << header (method);
   request.parameters () << map {
     { "playlistID", playlistID },
   };
@@ -16,9 +15,7 @@ GrooveService::playlistGetSongs (uint playlistID)
 void
 GrooveService::playlistGetSongs_responded ()
 {
-  QVariantMap reply = getReply ();
-
-  QVariantMap result = reply["result"].toMap ();
+  QVariantMap result = getResult ();
 
   QVariantList Songs = result["Songs"].toList ();
 

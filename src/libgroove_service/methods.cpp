@@ -1,3 +1,4 @@
+#include "reply.h"
 #include "request.h"
 
 #include "groove/data/song.h"

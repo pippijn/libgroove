@@ -3,9 +3,8 @@ GrooveService::logoutUser ()
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, service (method));
+  GrooveRequest request (m_client, service, method);
 
-  request << header (method);
   request.parameters () << "service.php";
 
   request.post (this, SLOT (logoutUser_responded ()));

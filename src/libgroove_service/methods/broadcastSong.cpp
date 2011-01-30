@@ -3,11 +3,10 @@ GrooveService::broadcastSong (QString message, QString link, QString username, Q
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, more (method));
+  GrooveRequest request (m_client, more, method);
 
-  request << header (method);
   request.parameters () << map {
-      { "XXX", "XXX" },
+    { "XXX", "XXX" },
   };
 
   request.post (this, SLOT (broadcastSong_responded ()));

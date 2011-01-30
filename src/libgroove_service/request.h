@@ -9,19 +9,27 @@
 
 struct GrooveRequest
 {
+private: // types
+  typedef QVariantOrMap::pair pair;
+  typedef QVariantOrMap::map map;
+  typedef QVariantOrMap::array array;
+
+public:
   GrooveRequest (GrooveRequest const &rhs) = delete;
   GrooveRequest &operator = (GrooveRequest const &rhs) = delete;
 
   static QString const API_URL;
   static QString const ART_BASE_URL;
   static QString const LOGIN_URL;
+  static QString const CLIENT;
   static QString const REVISION;
 
-  GrooveRequest (std::shared_ptr<GrooveClient> client, QString service)
-    : m_req (QUrl (service))
+  GrooveRequest (std::shared_ptr<GrooveClient> client, QString service (QString const &), char const *method, char const *clientname = "htmlshark")
+    : m_req (QUrl (service (method)))
     , m_client (client)
     , m_jlist ()
   {
+    m_jlist << header (method, clientname);
   }
 
   struct parameter_adder;
@@ -34,10 +42,13 @@ struct GrooveRequest
 
     QJson::Serializer serializer;
     QByteArray request = serializer.serialize (m_jlist);
-    LDEBUG << "request: " << request;
+    LDEBUG << "request:" << request;
     QNetworkReply *reply = m_client->networkManager ().post (m_req, request);
     receiver->connect (reply, SIGNAL (finished ()), slot);
   }
+
+  static pair country ();
+  map header (char const *method, char const *clientname) const;
 
   QNetworkRequest m_req;
   std::shared_ptr<GrooveClient> m_client;
@@ -96,6 +107,8 @@ struct GrooveRequest::parameter_adder
   void operator << (QVariantOrMap &&init)
   {
     GROOVE_VERIFY_OR_DIE (m_map.empty (), "attempted to add multiple parameter sets");
+    if (init.isMap ())
+      init.map_value.push_back (country ());
     m_map = init;
   }
 

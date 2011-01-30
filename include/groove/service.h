@@ -8,6 +8,7 @@
 #include "groove/data/songptr.h"
 #include "groove/private/make_varmap.h"
 class GrooveClient;
+class GrooveReply;
 
 #include <QDate>
 #include <QList>
@@ -17,29 +18,30 @@ class GrooveClient;
 
 enum class TagID
 {
-  Rap           =    3,
-  RnB           =    4,
-  Rock          =   12,
-  Alternative   =   13,
-  Metal         =   17,
-  HipHop        =   29,
-  Jazz          =   43,
-  Pop           =   56,
-  Electronica   =   67,
-  Trance        =   69,
-  Ambient       =   75,
-  Country       =   80,
-  Bluegrass     =   96,
-  Oldies        =  102,
-  Punk          =  111,
-  Folk          =  122,
-  Indie         =  136,
-  Reggae        =  160,
-  Experimental  =  191,
-  Blues         =  230,
-  Latin         =  528,
-  Classical     =  750,
-  ClassicRock   = 3529
+  Rap           =     3,
+  RnB           =     4,
+  Rock          =    12,
+  Alternative   =    13,
+  Metal         =    17,
+  HipHop        =    29,
+  Jazz          =    43,
+  Pop           =    56,
+  Electronica   =    67,
+  Trance        =    69,
+  Ambient       =    75,
+  Country       =    80,
+  Bluegrass     =    96,
+  Oldies        =   102,
+  Punk          =   111,
+  Folk          =   122,
+  Indie         =   136,
+  Reggae        =   160,
+  Experimental  =   191,
+  Blues         =   230,
+  Latin         =   528,
+  Classical     =   750,
+  ClassicRock   =  3529,
+  INVALID       = 32767
 };
 
 class LIBGROOVESHARED_EXPORT GrooveService
@@ -61,9 +63,10 @@ public: // ctor/dtor
 
 private: // functions
   pair country () const;
-  map header (char const *method) const;
+  map header (char const *method, char const *client = "htmlshark") const;
 
-  QVariantMap getReply () const;
+  GrooveReply getReply () const;
+  GrooveReply getResult () const;
 
 private slots:
   void addShortcutToUserSidebar_responded ();

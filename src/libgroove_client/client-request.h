@@ -29,7 +29,7 @@
 
 #include <qjson/serializer.h>
 
-struct LIBGROOVESHARED_EXPORT GroovePrivRequest
+struct GroovePrivRequest
 {
   GroovePrivRequest (GroovePrivRequest const &rhs) = delete;
   GroovePrivRequest &operator = (GroovePrivRequest const &rhs) = delete;
@@ -37,11 +37,17 @@ struct LIBGROOVESHARED_EXPORT GroovePrivRequest
   static QString const API_URL;
   static QString const ART_BASE_URL;
   static QString const LOGIN_URL;
+  static QString const CLIENT;
   static QString const REVISION;
 
   static QString more (QString const &method)
   {
     return API_URL + "more.php?" + method;
+  }
+
+  static QString more ()
+  {
+    return API_URL + "more.php";
   }
 
   static QString service ()

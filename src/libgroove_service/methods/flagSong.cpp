@@ -3,9 +3,8 @@ GrooveService::flagSong (QString streamKey, uint streamServerID, uint songID, ui
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, more (method));
+  GrooveRequest request (m_client, more, method);
 
-  request << header (method);
   request.parameters () << map {
     { "streamKey", streamKey },
     { "streamServerID", streamServerID },

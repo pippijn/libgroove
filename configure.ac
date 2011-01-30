@@ -26,10 +26,13 @@ if test x$PKG_CONFIG = xno; then
    AC_MSG_ERROR([Could not find pkg-config])
 fi
 
+export PKG_CONFIG_PATH="/opt/qtsdk-2010.05/qt/lib/pkgconfig"
+
 # Qt
-AC_PKG_CHECK([QtCore], 4.4.0, [QTCORE_])
-AC_PKG_CHECK([QtNetwork], 4.4.0, [QTNETWORK_])
-AC_PKG_CHECK([QtGui], 4.4.0, [QTGUI_])
+AC_PKG_CHECK([QtCore], 4.7.0, [QTCORE_])
+AC_PKG_CHECK([QtNetwork], 4.7.0, [QTNETWORK_])
+AC_PKG_CHECK([QtGui], 4.7.0, [QTGUI_])
+AC_PKG_CHECK([QtDeclarative], 4.7.0, [QTQML_])
 AC_PKG_CHECK([QJson], 0.7.1, [QJSON_])
 AC_PKG_CHECK([phonon], 4.4.0, [PHONON_])
 

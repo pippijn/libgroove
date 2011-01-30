@@ -3,9 +3,8 @@ GrooveService::initiateQueueEx ()
 {
   static char const *method = __func__;
 
-  GrooveRequest request (m_client, more (method));
+  GrooveRequest request (m_client, more, method);
 
-  request << header (method);
   request.parameters ();
 
   request.post (this, SLOT (playlistGetSongs_responded ()));
@@ -14,9 +13,7 @@ GrooveService::initiateQueueEx ()
 void
 GrooveService::initiateQueueEx_responded ()
 {
-  QVariantMap reply = getReply ();
-
-  QString queueID = reply["result"].toString ();
+  QString queueID = getResult ();
 
   //emit streamKeyReady (ip, streamKey);
 }

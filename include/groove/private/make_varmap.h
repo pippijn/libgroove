@@ -7,6 +7,7 @@
 
 #include <QList>
 #include <QVariant>
+#include <QVarLengthArray>
 #include <QVector>
 
 #include <vector>
@@ -16,7 +17,7 @@ struct QVariantOrMap
 {
   typedef std::pair<char const *, QVariantOrMap> pair;
   typedef std::vector<pair>                      map;
-  typedef std::vector<QVariant>                  array;
+  typedef QVarLengthArray<QVariant, 20>          array;
 
   template<typename T>
   QVariantOrMap (QList<T> const &list_value)
@@ -25,8 +26,7 @@ struct QVariantOrMap
     , array_value ()
   {
     QVariantList list;
-    foreach (T const &v, list_value)
-      list.push_back (v);
+    qCopy (list_value.begin (), list_value.end (), std::back_inserter (list));
   }
 
   template<typename T>
@@ -60,16 +60,28 @@ struct QVariantOrMap
 
   bool empty () const
   {
-    return !scalar_value.isValid ()
-        && map_value.empty ()
-        && array_value.empty ()
+    return !isScalar ()
+        && !isMap ()
+        && !isArray ()
          ;
   }
+
+  bool isScalar () const { return scalar_value.isValid (); }
+  bool isMap    () const { return !map_value.empty (); }
+  bool isArray  () const { return !array_value.isEmpty (); }
 
   QVariant scalar_value;
   map map_value;
   array array_value;
 };
+
+static inline QVariantList
+make_varlist (QVariantOrMap::array const &array_value)
+{
+  QVariantList list;
+  qCopy (array_value.data (), array_value.data () + array_value.size (), std::back_inserter (list));
+  return list;
+}
 
 static inline QVariantMap
 make_varmap (QVariantOrMap::map const &map_value)
@@ -78,18 +90,12 @@ make_varmap (QVariantOrMap::map const &map_value)
 
   foreach (QVariantOrMap::map::const_reference value, map_value)
     {
-      if (value.second.scalar_value.isValid ())
-        {
-          map.insert (value.first, value.second.scalar_value);
-        }
-      else if (!value.second.array_value.empty ())
-        {
-          map.insert (value.first, QList<QVariant>::fromVector (QVector<QVariant>::fromStdVector (value.second.array_value)));
-        }
+      if (value.second.isScalar ())
+        map.insert (value.first, value.second.scalar_value);
+      else if (!value.second.isArray ())
+        map.insert (value.first, make_varlist (value.second.array_value));
       else
-        {
-          map.insertMulti (value.first, make_varmap (value.second.map_value));
-        }
+        map.insertMulti (value.first, make_varmap (value.second.map_value));
     }
   return map;
 }
