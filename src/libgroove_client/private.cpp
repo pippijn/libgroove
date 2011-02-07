@@ -80,6 +80,20 @@ GrooveClient::Private::fetchSessionToken ()
     { "header", map {
         { "client", GroovePrivRequest::CLIENT },
         { "clientRevision", GroovePrivRequest::REVISION },
+#if 0
+        { "country", map {
+            { "CC3", "0" },
+            { "ID", "55" },
+            { "CC1", "18014398509481984" },
+            { "IPR", "11409" },
+            { "CC4", "0" },
+            { "CC2", "0" },
+          },
+        },
+        { "uuid", "31DE93C8-8DE9-4BF8-BA22-289E0CAEC1FD" },
+        { "session", m_phpCookie.toUtf8 () },
+        { "privacy", 0 },
+#endif
       },
     },
     { "parameters", map {

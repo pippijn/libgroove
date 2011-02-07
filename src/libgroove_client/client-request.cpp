@@ -22,4 +22,4 @@ QString const GroovePrivRequest::API_URL      = "https://listen.grooveshark.com/
 QString const GroovePrivRequest::ART_BASE_URL = "http://beta.grooveshark.com/static/amazonart/m";
 QString const GroovePrivRequest::LOGIN_URL    = "http://listen.grooveshark.com/";
 QString const GroovePrivRequest::CLIENT       = "htmlshark";
-QString const GroovePrivRequest::REVISION     = "20100831";
+QString const GroovePrivRequest::REVISION     = "20101222.07";

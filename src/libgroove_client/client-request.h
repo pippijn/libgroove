@@ -72,6 +72,7 @@ struct GroovePrivRequest
     m_req.setHeader (m_req.ContentTypeHeader, "application/json");
 
     QJson::Serializer serializer;
+    LDEBUG << "Posting:" << serializer.serialize (m_jlist);
     QNetworkReply *reply = m_client.networkManager ().post (m_req, serializer.serialize (m_jlist));
     receiver->connect (reply, SIGNAL (finished ()), slot);
   }

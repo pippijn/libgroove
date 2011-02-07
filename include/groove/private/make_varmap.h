@@ -17,16 +17,16 @@ struct QVariantOrMap
 {
   typedef std::pair<char const *, QVariantOrMap> pair;
   typedef std::vector<pair>                      map;
-  typedef QVarLengthArray<QVariant, 20>          array;
+  typedef QVarLengthArray<QVariant>              array;
 
   template<typename T>
-  QVariantOrMap (QList<T> const &list_value)
+  QVariantOrMap (QList<T> const &list)
     : scalar_value ()
     , map_value ()
     , array_value ()
   {
-    QVariantList list;
-    qCopy (list_value.begin (), list_value.end (), std::back_inserter (list));
+    foreach (T const &v, list)
+      array_value.append (v);
   }
 
   template<typename T>
@@ -92,7 +92,7 @@ make_varmap (QVariantOrMap::map const &map_value)
     {
       if (value.second.isScalar ())
         map.insert (value.first, value.second.scalar_value);
-      else if (!value.second.isArray ())
+      else if (value.second.isArray ())
         map.insert (value.first, make_varlist (value.second.array_value));
       else
         map.insertMulti (value.first, make_varmap (value.second.map_value));
