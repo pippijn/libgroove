@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="RotatingArc">symbols/Rotating Arc.png</file>
+    </qresource>
+</RCC>
