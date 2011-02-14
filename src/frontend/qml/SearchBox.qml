@@ -22,11 +22,12 @@ FocusScope {
         anchors {
             fill: textInput
         }
+        horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         text: parent.text
         color: "gray"
         font.italic: true
-        font.pixelSize: 20
+        font.pixelSize: textInput.font.pixelSize
     }
 
     MouseArea { 
