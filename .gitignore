@@ -17,6 +17,9 @@
 # qtcreator user profile
 /qbuild/groovy.pro.user
 
+# work in progress
+/wip
+
 # thumbnails created by windows
 Thumbs.db
 # files build by Visual Studio
