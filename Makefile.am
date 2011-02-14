@@ -1,6 +1,27 @@
 ACLOCAL_AMFLAGS		= -I m4/libtool -I m4
+AUTOMAKE_OPTIONS	= -Wall -Wno-portability
 
-include src/common.am
+lib_LTLIBRARIES		= # empty
+bin_PROGRAMS		= # empty
+noinst_PROGRAMS		= # empty
+pkgdata_DATA		= # empty
+include_HEADERS		= # empty
+noinst_HEADERS		= # empty
+
+BUILT_SOURCES		= # empty
+
+EXTRA_DIST		= COPYING.AGPL
+
+CLEANFILES		= # empty
+DISTCLEANFILES		= # empty
+MAINTAINERCLEANFILES	= # empty
+
+AM_CPPFLAGS		= # empty
+AM_CXXFLAGS		= # empty
+AM_LDFLAGS		= -Wl,-z,defs
+
+AM_CPPFLAGS		+= -I$(srcdir)/include -fvisibility=hidden
+AM_CPPFLAGS		+= -DPKGDATADIR='"$(pkgdatadir)"'
 
 OPTFLAGS		= -pipe -O3 -ggdb3 -fno-inline
 WARNINGS		= # empty
@@ -32,26 +53,19 @@ include qbuild/Rules.am
 include res/Rules.am
 include src/Rules.am
 
--include prepare
-prepare:	
-
 %.moc.cpp: %.h
-	$(MKDIR_P) `dirname $@`
-	$(MOC) -I$(srcdir)/include $< -o $@
-
-VPATH += $(srcdir)/src/uic
-
-ui_%.h: %.ui
-	$(UIC) $< -o $@
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN)$(MOC) -I$(srcdir)/include $< -o $@
 
 run: all
 	./groovy-uic
 
 valgrind: all
+	libtool --mode=execute			\
 	valgrind				\
 		--track-origins=yes		\
 		--num-callers=40		\
 		--leak-check=full		\
 		--gen-suppressions=yes		\
 		--suppressions=../suppressions	\
-		.libs/groovy
+		$(builddir)/groovy

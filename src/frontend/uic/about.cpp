@@ -15,11 +15,6 @@ About::About (QWidget *parent)
   , m_ui (new Ui::About)
 {
   m_ui->setupUi (this);
-
-  QImage image (PKGDATADIR "/grooveshark-icon.png");
-  GROOVE_VERIFY_OR_DIE (!image.isNull (), "could not load grooveshark logo");
-
-  m_ui->lblImage->setPixmap (QPixmap::fromImage (image));
 }
 
 About::~About ()

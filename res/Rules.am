@@ -1,7 +1,20 @@
-EXTRA_DIST +=				\
-	res/grooveshark-icon.png	\
-	res/grooveshark.png
+lib_LTLIBRARIES += libgroove_resources.la
 
-pkgdata_DATA +=				\
-	res/grooveshark-icon.png	\
-	res/grooveshark.png
+QRC =					\
+	$(srcdir)/res/qml.qrc		\
+	$(srcdir)/res/symbols.qrc
+RESOURCES =				\
+	res/symbols/RotatingArc.png	\
+	res/symbols/search.png		\
+	res/symbols/searchbox.png	\
+	res/views/mainwindow.qml	\
+	res/widgets/SearchBox.qml	\
+	res/background.svg
+EXTRA_DIST += $(QRC) $(RESOURCES)
+
+nodist_libgroove_resources_la_SOURCES =	\
+	resources.cpp
+
+resources.cpp: $(QRC) $(RESOURCES)
+	$(AM_V_GEN)$(RCC) $(QRC) > $@	\
+	    || ($(RM) $@ && false)

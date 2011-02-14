@@ -1,0 +1,13 @@
+bin_PROGRAMS += groovy-qml
+
+groovy_qml_SOURCES =				\
+	src/frontend/qml/main.cpp
+
+groovy_qml_CXXFLAGS =		\
+	$(AM_CXXFLAGS)		\
+	$(QTGUI_CXXFLAGS)	\
+	$(QTQML_CXXFLAGS)
+groovy_qml_LDADD =		\
+	libgroove_resources.la	\
+	$(QTGUI_LIBS)		\
+	$(QTQML_LIBS)

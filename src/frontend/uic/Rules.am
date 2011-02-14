@@ -1,3 +1,5 @@
+include src/frontend/uic/uic/Rules.am
+
 bin_PROGRAMS += groovy-uic
 
 groovy_uic_SOURCES =					\

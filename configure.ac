@@ -8,11 +8,9 @@ AC_CONFIG_MACRO_DIR(m4/libtool)
 AC_CONFIG_HEADERS(autoconf.h)
 
 # automake
-LT_INIT
+LT_INIT([disable-static])
 AM_INIT_AUTOMAKE([silent-rules gnits])
-AM_SILENT_RULES
-AM_DEFAULT_VERBOSITY=0
-AC_DISABLE_STATIC
+AM_SILENT_RULES([yes])
 
 # build tools
 AC_LANG(C++)
@@ -45,6 +43,11 @@ AC_MSG_CHECKING([uic location])
 UIC=`$PKG_CONFIG --variable=uic_location QtCore`
 AC_SUBST([UIC])
 AC_MSG_RESULT([$UIC])
+
+AC_MSG_CHECKING([rcc location])
+RCC=rcc
+AC_SUBST([RCC])
+AC_MSG_RESULT([$RCC])
 
 # Boost
 AC_CHECK_HEADER(boost/intrusive_ptr.hpp,[],[AC_MSG_ERROR([Boost C++ library is required.])])

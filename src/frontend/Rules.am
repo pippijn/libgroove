@@ -1,3 +1,3 @@
 include src/frontend/man/Rules.am
-#include src/frontend/qml/Rules.am
+include src/frontend/qml/Rules.am
 include src/frontend/uic/Rules.am

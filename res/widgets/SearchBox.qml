@@ -9,7 +9,7 @@ FocusScope {
 
     BorderImage {
         id: img
-        source: "images/searchbox.png"
+        source: "/icons/search.png"
 
         width: parent.width
         height: parent.height
@@ -45,7 +45,7 @@ FocusScope {
             rightMargin: 16
             verticalCenter: parent.verticalCenter
         }
-        source: "images/find.png"
+        source: "/icons/find.png"
         height: 35
         width: height
         sourceSize {

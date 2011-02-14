@@ -7,4 +7,3 @@ include src/libgroove_playlistmodel/Rules.am
 include src/libgroove_searchmodel/Rules.am
 include src/libgroove_fetcher/Rules.am
 include src/frontend/Rules.am
-include src/uic/Rules.am

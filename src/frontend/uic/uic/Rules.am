@@ -1,0 +1,17 @@
+EXTRA_DIST +=					\
+	src/frontend/uic/uic/about.ui		\
+	src/frontend/uic/uic/groovewindow.ui	\
+	src/frontend/uic/uic/preferences.ui
+
+UI_FILES =			\
+	ui_about.h		\
+	ui_groovewindow.h	\
+	ui_preferences.h
+
+BUILT_SOURCES += $(UI_FILES)
+CLEANFILES += $(UI_FILES)
+
+VPATH += $(srcdir)/src/frontend/uic/uic
+
+ui_%.h: %.ui
+	$(AM_V_GEN)$(UIC) $< -o $@
