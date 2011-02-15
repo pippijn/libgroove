@@ -2,16 +2,8 @@ import Qt 4.7
 
 Component {
     Rectangle {
-        ListView.onAdd: {
-            console.log ("Item added!")
-        }
-
-        ListView.onRemove: {
-            console.log ("Item removed!")
-        }
-
         width: ListView.view.width
-        height: 30
+        height: ListView.view.parent.rowHeight
         color: "transparent"
 
         MouseArea {
@@ -20,9 +12,8 @@ Component {
             }
 
             onClicked: {
-                ListView.incrementCurrentIndex ()
-                console.log ("Current index: " + index)
-                console.log ("Current index: " + ListView.currentIndex)
+                ListView.view.currentIndex = index
+                console.log ("Selected index: " + index)
             }
 
             Text {

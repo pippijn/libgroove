@@ -9,14 +9,11 @@ FocusScope {
     width: parent.width - 40
     height: 60
 
-    BorderImage {
-        id: img
+    Image {
         source: "/images/searchbox"
 
         width: parent.width
         height: parent.height
-
-        border { left: 4; top: 4; right: 4; bottom: 4; }
     }
 
     Text {
@@ -40,19 +37,31 @@ FocusScope {
         } 
     }
 
-    Image {
+    MouseArea {
         id: search
+
+        onClicked: {
+            controller.search (searchInput.text)
+        }
+
         anchors {
             right: parent.right
             rightMargin: 16
             verticalCenter: parent.verticalCenter
         }
-        source: "/icons/search"
+
         height: 35
         width: height
-        sourceSize {
-            height: height
-            width: width
+
+        Image {
+            anchors {
+                fill: parent
+            }
+            source: "/icons/search"
+            sourceSize {
+                height: height
+                width: width
+            }
         }
     }
 
@@ -69,19 +78,17 @@ FocusScope {
         selectByMouse: true
         font.pixelSize: 20
 
+        Keys.onEnterPressed: {
+            controller.search (searchInput.text)
+        }
+        /*
+        Keys.onDownPressed: {
+            completionListView.incrementCurrentIndex ()
+        }
+        */
         Keys.onReleased: {
-            searchTimer.restart ()
             if (!autocompleteTimer.running)
                 autocompleteTimer.start ()
-        }
-
-        Timer {
-            id: searchTimer
-            interval: 1000
-
-            onTriggered: {
-                controller.search (searchInput.text)
-            }
         }
 
         Timer {
