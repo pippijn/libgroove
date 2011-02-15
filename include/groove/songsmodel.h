@@ -16,8 +16,7 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef GROOVESONGSMODEL_H
-#define GROOVESONGSMODEL_H
+#pragma once
 
 #include "libgroove_global.h"
 
@@ -70,5 +69,3 @@ protected:
   QStringList m_visible;
   QList<QVariantList> m_data;
 };
-
-#endif /* GROOVESONGSMODEL_H */

@@ -1,11 +1,14 @@
+/* Copyright © 2010 Pippijn van Steenhoven
+ * See COPYING.AGPL for licence information.
+ */
 #pragma once
 
 class QDeclarativeView;
 
-#include "controller.h"
+#include "groove/controller.h"
 
 class QmlController
-  : public Controller
+  : public GrooveController
 {
   Q_OBJECT
 

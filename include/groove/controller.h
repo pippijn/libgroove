@@ -1,19 +1,24 @@
+/* Copyright © 2010 Pippijn van Steenhoven
+ * See COPYING.AGPL for licence information.
+ */
 #pragma once
 
 #include <memory>
 
 #include <QObject>
 
+#include "libgroove_global.h"
+
 class GrooveSearchModel;
 
-class Controller
+class LIBGROOVESHARED_EXPORT GrooveController
   : public QObject
 {
   Q_OBJECT
 
 public:
-  explicit Controller (QObject *parent = 0);
-  ~Controller ();
+  explicit GrooveController (QObject *parent = 0);
+  ~GrooveController ();
 
   GrooveSearchModel &searchModel ();
 

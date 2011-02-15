@@ -1,16 +1,18 @@
-#define LIVE            1
+/* Copyright © 2010 Pippijn van Steenhoven
+ * See COPYING.AGPL for licence information.
+ */
+#define LIVE            0
 #define LIVE_SEARCH     0
-#define LIVE_COMPLETION 1
+#define LIVE_COMPLETION 0
 #include <QStringList>
 
 #include "groove/client.h"
-#include "groove/service.h"
-#include "groove/searchmodel.h"
+#include "groove/controller.h"
 #include "groove/playlistmodel.h"
+#include "groove/searchmodel.h"
+#include "groove/service.h"
 
-#include "controller.h"
-
-struct Controller::Private
+struct GrooveController::Private
 {
   std::shared_ptr<GrooveClient> client;
   std::shared_ptr<GrooveService> service;
@@ -35,7 +37,7 @@ struct Controller::Private
 };
 
 
-Controller::Controller (QObject *parent)
+GrooveController::GrooveController (QObject *parent)
   : QObject (parent)
   , self (new Private (this))
 {
@@ -45,13 +47,13 @@ Controller::Controller (QObject *parent)
   connect (self->client.get (), SIGNAL (connected ()), SLOT (connectionEstablished ()));
 }
 
-Controller::~Controller ()
+GrooveController::~GrooveController ()
 {
 }
 
 
 GrooveSearchModel &
-Controller::searchModel ()
+GrooveController::searchModel ()
 {
   return *self->searchModel;
 }
@@ -64,7 +66,7 @@ wsNormed (QString const &s)
 }
 
 void
-Controller::search (QString const &query)
+GrooveController::search (QString const &query)
 {
   QString nquery = wsNormed (query);
   if (nquery.isEmpty ())
@@ -92,7 +94,7 @@ Controller::search (QString const &query)
 }
 
 void
-Controller::autocomplete (QString const &query)
+GrooveController::autocomplete (QString const &query)
 {
   QString nquery = wsNormed (query);
   if (nquery.isEmpty ())
@@ -124,7 +126,7 @@ Controller::autocomplete (QString const &query)
 }
 
 void
-Controller::connectionEstablished ()
+GrooveController::connectionEstablished ()
 {
   self->connected = true;
 }

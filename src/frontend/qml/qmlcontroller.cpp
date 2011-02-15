@@ -1,14 +1,15 @@
+/* Copyright © 2010 Pippijn van Steenhoven
+ * See COPYING.AGPL for licence information.
+ */
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 #include <QDeclarativeView>
 #include <QStringList>
 
-#include "libgroove_global.h"
-
 #include "qmlcontroller.h"
 
 QmlController::QmlController (QDeclarativeView &view, QObject *parent)
-  : Controller (parent)
+  : GrooveController (parent)
   , m_view (view)
 {
   QStringList dataList;

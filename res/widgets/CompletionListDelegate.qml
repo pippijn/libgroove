@@ -20,7 +20,9 @@ Component {
             }
 
             onClicked: {
+                ListView.incrementCurrentIndex ()
                 console.log ("Current index: " + index)
+                console.log ("Current index: " + ListView.currentIndex)
             }
 
             Text {

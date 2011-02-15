@@ -20,7 +20,6 @@ Rectangle {
             left:   searchBox.left
             right:  searchBox.right
             top:    searchBox.bottom
-            bottom: parent.bottom
             margins: 18
             topMargin: -16
         }
