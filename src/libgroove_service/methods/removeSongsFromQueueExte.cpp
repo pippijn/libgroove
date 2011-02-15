@@ -15,4 +15,5 @@ GrooveService::removeSongsFromQueueExte (bool userRemoved, QList<uint> songQueue
 void
 GrooveService::removeSongsFromQueueExte_responded ()
 {
+  GrooveReply result = getResult ();
 }

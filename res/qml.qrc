@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/views">
-        <file alias="mainwindow.qml">views/mainwindow.qml</file>
-    </qresource>
-    <qresource prefix="/widgets">
-        <file alias="SearchBox.qml">widgets/SearchBox.qml</file>
-    </qresource>
-</RCC>

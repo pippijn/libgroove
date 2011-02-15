@@ -15,4 +15,5 @@ GrooveService::getEmailAddress ()
 void
 GrooveService::getEmailAddress_responded ()
 {
+  GrooveReply result = getResult ();
 }

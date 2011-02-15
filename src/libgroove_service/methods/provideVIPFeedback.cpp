@@ -15,4 +15,5 @@ GrooveService::provideVIPFeedback ()
 void
 GrooveService::provideVIPFeedback_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::getArtistByID (uint artistID)
 void
 GrooveService::getArtistByID_responded ()
 {
+  GrooveReply result = getResult ();
 }

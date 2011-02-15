@@ -15,4 +15,5 @@ GrooveService::registerUserEx ()
 void
 GrooveService::registerUserEx_responded ()
 {
+  GrooveReply result = getResult ();
 }

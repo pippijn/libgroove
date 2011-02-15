@@ -15,4 +15,5 @@ GrooveService::sendHPBeatsSMS ()
 void
 GrooveService::sendHPBeatsSMS_responded ()
 {
+  GrooveReply result = getResult ();
 }

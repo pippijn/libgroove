@@ -15,4 +15,5 @@ GrooveService::broadcastSong (QString message, QString link, QString username, Q
 void
 GrooveService::broadcastSong_responded ()
 {
+  GrooveReply result = getResult ();
 }

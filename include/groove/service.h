@@ -233,7 +233,7 @@ public slots: // functions
   void forgotPassword (void);
   void getAffiliateDownloadURLs (QString songName, QString artistName);
   void getAlbumByID ();
-  void getArtistAutocomplete ();
+  void getArtistAutocomplete (QString const &query);
   void getArtistByID (uint artistID);
   void getArtistsForTag (TagID tagID);
   void getAutoCoolPlaylistName ();
@@ -258,8 +258,8 @@ public slots: // functions
   void getProcessedUserFeedData ();
   void getQueueSongListFromSongIDs (QList<uint> songIDs);
   void getRecentlyActiveUsers ();
-  void getSearchResultsEx ();
   void getSearchResults (QString searchTerm, QString type);
+  void getSearchResultsEx (QString query, QList<QString> types);
   void getSearchSuggestion ();
   void getServiceStatus ();
   void getSimilarUsers ();

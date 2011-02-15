@@ -15,4 +15,5 @@ GrooveService::getSongFromToken ()
 void
 GrooveService::getSongFromToken_responded ()
 {
+  GrooveReply result = getResult ();
 }

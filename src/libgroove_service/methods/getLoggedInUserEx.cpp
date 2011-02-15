@@ -15,4 +15,5 @@ GrooveService::getLoggedInUserEx ()
 void
 GrooveService::getLoggedInUserEx_responded ()
 {
+  GrooveReply result = getResult ();
 }

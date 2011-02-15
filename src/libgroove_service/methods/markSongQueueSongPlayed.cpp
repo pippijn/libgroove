@@ -15,4 +15,5 @@ GrooveService::markSongQueueSongPlayed (uint songQueueID, uint songQueueSongID, 
 void
 GrooveService::markSongQueueSongPlayed_responded ()
 {
+  GrooveReply result = getResult ();
 }

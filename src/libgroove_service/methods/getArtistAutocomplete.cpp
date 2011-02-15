@@ -1,12 +1,12 @@
 void
-GrooveService::getArtistAutocomplete ()
+GrooveService::getArtistAutocomplete (QString const &query)
 {
   static char const *method = __func__;
 
   GrooveRequest request (m_client, service, method);
 
   request.parameters () << map {
-    { "XXX", "XXX" },
+    { "query", query },
   };
 
   request.post (this, SLOT (getArtistAutocomplete_responded ()));
@@ -15,4 +15,5 @@ GrooveService::getArtistAutocomplete ()
 void
 GrooveService::getArtistAutocomplete_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -1,6 +1,25 @@
 #include <QApplication>
+#include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 #include <QDeclarativeView>
+#include <QNetworkProxy>
+
+#include "groove/searchmodel.h"
+
+#include "controller.h"
+
+static void
+setupProxy (QString hostName, quint16 port, QString user, QString password)
+{
+  QNetworkProxy proxy;
+  proxy.setType (QNetworkProxy::Socks5Proxy);
+  proxy.setHostName (hostName);
+  proxy.setPort (port);
+  proxy.setUser (user);
+  proxy.setPassword (password);
+  QNetworkProxy::setApplicationProxy (proxy);
+}
+
 
 int
 main (int argc, char **argv)
@@ -9,9 +28,25 @@ main (int argc, char **argv)
 
   qca.setApplicationName ("Groovy");
 
-  QDeclarativeView view;
-  view.setSource (QUrl ("qrc:/views/mainwindow.qml"));
-  view.show ();
+  QStringList args = qca.arguments ();
+  if (args.contains ("--proxy"))
+    setupProxy ("localhost", 8080, "username", "password");
 
+  // Controller
+  Controller controller;
+
+  // View
+  QDeclarativeView view;
+
+  // Linking model and view
+  QDeclarativeContext *context = view.rootContext ();
+  context->setContextProperty ("controller", &controller);
+  context->setContextProperty ("searchModel", &controller.searchModel ());
+
+  // Load UI description into view
+  view.setSource (QUrl ("qrc:/views/mainwindow.qml"));
+
+  // Run the application
+  view.show ();
   qca.exec ();
 }

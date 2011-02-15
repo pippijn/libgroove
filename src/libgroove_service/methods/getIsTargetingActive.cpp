@@ -15,4 +15,5 @@ GrooveService::getIsTargetingActive ()
 void
 GrooveService::getIsTargetingActive_responded ()
 {
+  GrooveReply result = getResult ();
 }

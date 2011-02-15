@@ -16,14 +16,14 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <map>
+
+#include <QTime>
+#include <QUrl>
+
 #include "groove/settings.h"
 #include "groove/data/song.h"
 #include "groove/songsmodel.h"
-
-#include <QSettings>
-#include <QTime>
-
-#include <map>
 
 static std::map<QString, char const *> const propNames = {
   { "songID",                   "Song ID"                       },
@@ -56,9 +56,9 @@ static std::map<QString, char const *> const propNames = {
   { "songClicks",               "Clicks"                        },
   { "albumClicks",              "Album clicks"                  },
   { "artistClicks",             "Artist clicks"                 },
-  { "querySongClicks",          "querySongClicks"               },
-  { "queryAlbumClicks",         "queryAlbumClicks"              },
-  { "queryArtistClicks",        "queryArtistClicks"             },
+  { "querySongClicks",          "Query song clicks"             },
+  { "queryAlbumClicks",         "Query album clicks"            },
+  { "queryArtistClicks",        "Query artist clicks"           },
   { "sphinxWeight",             "Sphinx weight"                 },
   { "score",                    "Score"                         },
   { "DSName",                   "DSName"                        },
@@ -81,34 +81,23 @@ GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
   , m_visible ()
   , m_data ()
 {
-  QSettings settings;
-  settings.beginGroup (m_modelName);
-  if (!settings.contains (GrooveSettings::COLUMNS))
-    {
-      m_visible.append ("songName");
-      m_visible.append ("albumName");
-      m_visible.append ("artistName");
-      m_visible.append ("estimateDuration");
-    }
-  else
-    {
-      GROOVE_VERIFY_OR_DIE (settings.value (GrooveSettings::COLUMNS).canConvert<QStringList> (),
-                            "invalid configuration data for `columns' key");
+  m_visible.append ("songName");
+  m_visible.append ("albumName");
+  m_visible.append ("artistName");
+  m_visible.append ("coverArtFilename");
+  m_visible.append ("estimateDuration");
 
-      m_visible = settings.value (GrooveSettings::COLUMNS).toStringList ();
-    }
+  // for QML
+  QHash<int, QByteArray> roles;
 
-  settings.endGroup ();
+  for (int i = 0; i < m_visible.size (); i++)
+    roles[Qt::UserRole + i] = m_visible[i].toUtf8 ();
+
+  setRoleNames (roles);
 }
 
 GrooveSongsModel::~GrooveSongsModel ()
 {
-  QSettings settings;
-  settings.beginGroup (m_modelName);
-
-  settings.setValue (GrooveSettings::COLUMNS, m_visible);
-
-  settings.endGroup ();
 }
 
 
@@ -171,18 +160,41 @@ GrooveSongsModel::data (QModelIndex const &index, int role) const
 
   GrooveSongPointer song = m_songs[index.row ()];
 
+  int wantedData = index.column ();
+
+  if (role >= Qt::UserRole)
+    {
+      // we do this to (mostly transparently) map QML roles to columns
+      wantedData = role - Qt::UserRole;
+      role = Qt::DisplayRole;
+    }
+
   switch (role)
     {
     case Qt::DisplayRole:
-      return song->property (m_visible[index.column ()].toUtf8 ());
+      {
+        QString const prop = m_visible[wantedData];
+        QVariant const data = song->property (m_visible[wantedData].toUtf8 ());
+        if (prop == "coverArtFilename")
+          {
+            QByteArray rawdata = data.toByteArray ();
+            if (!rawdata.length ())
+              return QUrl ("http://static.a.gs-cdn.net/webincludes/images/default/album_100.png");
+
+            return QUrl ("http://beta.grooveshark.com/static/amazonart/m" + rawdata);
+          }
+        return data;
+      }
     case Qt::ToolTipRole:
-      return QString ("%1 %2 - %3 (%4) (%5)")
-             .arg (song->trackNum ())
-             .arg (song->artistName ())
-             .arg (song->songName ())
-             .arg (song->albumName ())
-             .arg (song->estimateDurationMins ())
-             ;
+      {
+        return QString ("%1 %2 - %3 (%4) (%5)")
+               .arg (song->trackNum ())
+               .arg (song->artistName ())
+               .arg (song->songName ())
+               .arg (song->albumName ())
+               .arg (song->estimateDurationMins ())
+               ;
+      }
     }
 
 #if 0

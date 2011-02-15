@@ -15,4 +15,5 @@ GrooveService::getAlbumByID ()
 void
 GrooveService::getAlbumByID_responded ()
 {
+  GrooveReply result = getResult ();
 }

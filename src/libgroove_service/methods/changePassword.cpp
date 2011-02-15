@@ -15,4 +15,5 @@ GrooveService::changePassword ()
 void
 GrooveService::changePassword_responded ()
 {
+  GrooveReply result = getResult ();
 }

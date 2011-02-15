@@ -17,4 +17,5 @@ GrooveService::authenticateUser (QString username, QString password, QString aut
 void
 GrooveService::authenticateUser_responded ()
 {
+  GrooveReply result = getResult ();
 }

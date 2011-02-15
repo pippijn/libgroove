@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/icons">
-        <file alias="RotatingArc">symbols/RotatingArc.png</file>
-        <file alias="find.png">symbols/search.png</file>
-        <file alias="search.png">symbols/searchbox.png</file>
-    </qresource>
-</RCC>

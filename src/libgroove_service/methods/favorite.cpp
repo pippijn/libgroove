@@ -15,4 +15,5 @@ GrooveService::favorite (uint id, QString what)
 void
 GrooveService::favorite_responded ()
 {
+  GrooveReply result = getResult ();
 }

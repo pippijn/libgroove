@@ -10,12 +10,12 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="798"
+   height="441"
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="background.svg">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -37,7 +37,7 @@
        xlink:href="#linearGradient3523"
        id="radialGradient3535"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(3.5328543,-0.00966984,0.02623524,1.1555046,-796.17503,1021.2011)"
+       gradientTransform="matrix(4.0274538,-0.010661,0.02990818,1.2739438,-933.2444,1004.1425)"
        cx="333.84326"
        cy="91.015465"
        fx="333.84326"
@@ -80,7 +80,7 @@
        x2="584.82324"
        y1="152.49089"
        x1="581.85297"
-       gradientTransform="matrix(1.0441608,0,0,1.0441608,-251.82952,864.92547)"
+       gradientTransform="matrix(1.1903436,0,0,1.1511873,-312.68993,831.84867)"
        gradientUnits="userSpaceOnUse"
        id="linearGradient3882"
        xlink:href="#linearGradient14866"
@@ -95,7 +95,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
      inkscape:cx="330.64504"
-     inkscape:cy="175.95362"
+     inkscape:cy="175.95379"
      inkscape:document-units="px"
      inkscape:current-layer="g3545"
      showgrid="false"
@@ -112,14 +112,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-5.3648222e-7,-611.36236)">
     <g
        id="g3545"
        transform="matrix(1.7263209,0,0,2.9205652,-315.7253,-2416.1771)"
@@ -127,18 +128,18 @@
        inkscape:export-xdpi="72"
        inkscape:export-ydpi="72">
       <rect
-         height="136.95979"
+         height="150.99817"
          x="182.88911"
-         y="1050.6663"
+         y="1036.6279"
          ry="3.5190737"
-         rx="7.2053561"
-         width="405.4866"
+         rx="7.2053556"
+         width="462.25473"
          id="rect6777"
          style="fill:url(#radialGradient3535);fill-opacity:1;fill-rule:evenodd;stroke:none" />
       <path
          sodipodi:nodetypes="ccccccc"
          id="path6779"
-         d="m 206.84042,1052.5032 357.21771,0 c 19.95691,0 22.31387,10.837 22.31387,16.7554 l -0.5861,66.8966 c -191.54492,-35.2263 -270.69226,5.2526 -399.79408,-8.9892 l -0.87916,-57.9074 c -0.75167,-8.1865 6.16662,-17.0485 21.72776,-16.7554 z"
+         d="m 210.1939,1038.6531 407.2274,0 c 22.75098,0 25.43796,11.9478 25.43796,18.4728 l -0.684,73.7535 c -218.36131,-38.837 -308.5889,5.791 -455.76518,-9.9106 l -1.026,-63.8429 c -0.912,-9.0256 7.0338,-18.7959 24.76992,-18.4728 z"
          style="fill:url(#linearGradient3882);fill-opacity:1;fill-rule:evenodd;stroke:none" />
     </g>
   </g>

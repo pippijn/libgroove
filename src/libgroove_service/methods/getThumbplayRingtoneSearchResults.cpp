@@ -15,4 +15,5 @@ GrooveService::getThumbplayRingtoneSearchResults ()
 void
 GrooveService::getThumbplayRingtoneSearchResults_responded ()
 {
+  GrooveReply result = getResult ();
 }

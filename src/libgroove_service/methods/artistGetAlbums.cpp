@@ -15,4 +15,5 @@ GrooveService::artistGetAlbums ()
 void
 GrooveService::artistGetAlbums_responded ()
 {
+  GrooveReply result = getResult ();
 }

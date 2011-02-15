@@ -15,4 +15,5 @@ GrooveService::updateLastfmService (QString token, int flagsRemove, QString user
 void
 GrooveService::updateLastfmService_responded ()
 {
+  GrooveReply result = getResult ();
 }

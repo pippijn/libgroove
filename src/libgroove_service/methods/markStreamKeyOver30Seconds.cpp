@@ -15,4 +15,5 @@ GrooveService::markStreamKeyOver30Seconds (uint songQueueID, uint songQueueSongI
 void
 GrooveService::markStreamKeyOver30Seconds_responded ()
 {
+  GrooveReply result = getResult ();
 }

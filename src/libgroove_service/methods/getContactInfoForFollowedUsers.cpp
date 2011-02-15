@@ -15,4 +15,5 @@ GrooveService::getContactInfoForFollowedUsers ()
 void
 GrooveService::getContactInfoForFollowedUsers_responded ()
 {
+  GrooveReply result = getResult ();
 }

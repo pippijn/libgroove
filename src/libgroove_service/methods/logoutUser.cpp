@@ -13,4 +13,5 @@ GrooveService::logoutUser ()
 void
 GrooveService::logoutUser_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::getPlaylistByID ()
 void
 GrooveService::getPlaylistByID_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -18,4 +18,5 @@ GrooveService::flagSong (QString streamKey, uint streamServerID, uint songID, ui
 void
 GrooveService::flagSong_responded ()
 {
+  GrooveReply result = getResult ();
 }

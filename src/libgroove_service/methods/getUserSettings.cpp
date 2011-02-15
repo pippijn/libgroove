@@ -15,4 +15,5 @@ GrooveService::getUserSettings ()
 void
 GrooveService::getUserSettings_responded ()
 {
+  GrooveReply result = getResult ();
 }

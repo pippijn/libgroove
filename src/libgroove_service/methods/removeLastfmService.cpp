@@ -15,4 +15,5 @@ GrooveService::removeLastfmService ()
 void
 GrooveService::removeLastfmService_responded ()
 {
+  GrooveReply result = getResult ();
 }

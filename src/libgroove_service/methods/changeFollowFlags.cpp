@@ -15,4 +15,5 @@ GrooveService::changeFollowFlags ()
 void
 GrooveService::changeFollowFlags_responded ()
 {
+  GrooveReply result = getResult ();
 }

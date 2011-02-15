@@ -15,4 +15,5 @@ GrooveService::doHPBeatsNotification ()
 void
 GrooveService::doHPBeatsNotification_responded ()
 {
+  GrooveReply result = getResult ();
 }

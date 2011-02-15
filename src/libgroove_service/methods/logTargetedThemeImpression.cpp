@@ -15,4 +15,5 @@ GrooveService::logTargetedThemeImpression ()
 void
 GrooveService::logTargetedThemeImpression_responded ()
 {
+  GrooveReply result = getResult ();
 }

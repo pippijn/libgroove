@@ -15,4 +15,5 @@ GrooveService::getCombinedFeedData (uint loggedInUserID, QDate day, QList<uint> 
 void
 GrooveService::getCombinedFeedData_responded ()
 {
+  GrooveReply result = getResult ();
 }

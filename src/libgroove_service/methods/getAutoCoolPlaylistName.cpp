@@ -15,4 +15,5 @@ GrooveService::getAutoCoolPlaylistName ()
 void
 GrooveService::getAutoCoolPlaylistName_responded ()
 {
+  GrooveReply result = getResult ();
 }

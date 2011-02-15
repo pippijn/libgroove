@@ -15,4 +15,5 @@ GrooveService::getSimilarUsers ()
 void
 GrooveService::getSimilarUsers_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::sendShare ()
 void
 GrooveService::sendShare_responded ()
 {
+  GrooveReply result = getResult ();
 }

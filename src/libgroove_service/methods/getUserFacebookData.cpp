@@ -15,4 +15,5 @@ GrooveService::getUserFacebookData ()
 void
 GrooveService::getUserFacebookData_responded ()
 {
+  GrooveReply result = getResult ();
 }

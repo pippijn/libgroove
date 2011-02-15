@@ -15,4 +15,5 @@ GrooveService::autoplayVoteDownEx (uint songQueueID, uint songQueueSongID)
 void
 GrooveService::autoplayVoteDownEx_responded ()
 {
+  GrooveReply result = getResult ();
 }

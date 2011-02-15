@@ -15,4 +15,5 @@ GrooveService::removeItemFromCommunityFeed ()
 void
 GrooveService::removeItemFromCommunityFeed_responded ()
 {
+  GrooveReply result = getResult ();
 }

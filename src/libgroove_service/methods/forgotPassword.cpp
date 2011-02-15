@@ -15,4 +15,5 @@ GrooveService::forgotPassword (void)
 void
 GrooveService::forgotPassword_responded ()
 {
+  GrooveReply result = getResult ();
 }

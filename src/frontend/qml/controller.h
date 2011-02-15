@@ -1,0 +1,29 @@
+#pragma once
+
+#include <memory>
+
+#include <QObject>
+
+class GrooveSearchModel;
+
+class Controller
+  : public QObject
+{
+  Q_OBJECT
+
+public:
+  explicit Controller (QObject *parent = 0);
+  ~Controller ();
+
+  GrooveSearchModel &searchModel ();
+
+public slots:
+  void search (QString const &query);
+
+private slots:
+  void connectionEstablished ();
+
+private:
+  struct Private;
+  std::shared_ptr<Private> self;
+};

@@ -15,4 +15,5 @@ GrooveService::getDetailsForBroadcast (uint songID)
 void
 GrooveService::getDetailsForBroadcast_responded ()
 {
+  GrooveReply result = getResult ();
 }

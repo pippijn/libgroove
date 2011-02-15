@@ -15,4 +15,5 @@ GrooveService::markSongComplete (uint streamServerID, QString streamKey, uint so
 void
 GrooveService::markSongComplete_responded ()
 {
+  GrooveReply result = getResult ();
 }

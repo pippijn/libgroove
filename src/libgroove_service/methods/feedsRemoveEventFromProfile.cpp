@@ -15,4 +15,5 @@ GrooveService::feedsRemoveEventFromProfile ()
 void
 GrooveService::feedsRemoveEventFromProfile_responded ()
 {
+  GrooveReply result = getResult ();
 }

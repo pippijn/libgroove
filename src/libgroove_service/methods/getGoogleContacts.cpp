@@ -15,4 +15,5 @@ GrooveService::getGoogleContacts ()
 void
 GrooveService::getGoogleContacts_responded ()
 {
+  GrooveReply result = getResult ();
 }

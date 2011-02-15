@@ -15,4 +15,5 @@ GrooveService::addShortcutToUserSidebar ()
 void
 GrooveService::addShortcutToUserSidebar_responded ()
 {
+  GrooveReply result = getResult ();
 }

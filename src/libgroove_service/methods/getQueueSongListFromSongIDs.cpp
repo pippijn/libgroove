@@ -15,4 +15,5 @@ GrooveService::getQueueSongListFromSongIDs (QList<uint> songIDs)
 void
 GrooveService::getQueueSongListFromSongIDs_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="coverArtMissing">images/coverArtMissing.svg</file>
+        <file alias="background">images/background.svg</file>
+        <file alias="searchbox">images/searchbox.svg</file>
+    </qresource>
+</RCC>

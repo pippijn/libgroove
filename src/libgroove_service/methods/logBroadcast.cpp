@@ -15,4 +15,5 @@ GrooveService::logBroadcast ()
 void
 GrooveService::logBroadcast_responded ()
 {
+  GrooveReply result = getResult ();
 }

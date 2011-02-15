@@ -15,4 +15,5 @@ GrooveService::getSearchSuggestion ()
 void
 GrooveService::getSearchSuggestion_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::getUserByUsername ()
 void
 GrooveService::getUserByUsername_responded ()
 {
+  GrooveReply result = getResult ();
 }

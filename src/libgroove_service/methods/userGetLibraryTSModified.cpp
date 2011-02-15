@@ -15,4 +15,5 @@ GrooveService::userGetLibraryTSModified ()
 void
 GrooveService::userGetLibraryTSModified_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::getGroovesharkUsersFromFacebookUserIDs ()
 void
 GrooveService::getGroovesharkUsersFromFacebookUserIDs_responded ()
 {
+  GrooveReply result = getResult ();
 }

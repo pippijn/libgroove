@@ -15,4 +15,5 @@ GrooveService::sendMobileAppSMS ()
 void
 GrooveService::sendMobileAppSMS_responded ()
 {
+  GrooveReply result = getResult ();
 }

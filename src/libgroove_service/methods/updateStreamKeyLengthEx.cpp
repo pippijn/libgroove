@@ -15,4 +15,5 @@ GrooveService::updateStreamKeyLengthEx (QString streamKey, uint streamServerID, 
 void
 GrooveService::updateStreamKeyLengthEx_responded ()
 {
+  GrooveReply result = getResult ();
 }

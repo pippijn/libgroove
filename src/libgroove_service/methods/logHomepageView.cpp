@@ -15,4 +15,5 @@ GrooveService::logHomepageView ()
 void
 GrooveService::logHomepageView_responded ()
 {
+  GrooveReply result = getResult ();
 }

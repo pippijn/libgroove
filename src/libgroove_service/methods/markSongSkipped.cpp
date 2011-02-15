@@ -15,4 +15,5 @@ GrooveService::markSongSkipped (uint songQueueID, uint songQueueSongID)
 void
 GrooveService::markSongSkipped_responded ()
 {
+  GrooveReply result = getResult ();
 }

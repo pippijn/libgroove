@@ -15,4 +15,5 @@ GrooveService::changePrivacySettings ()
 void
 GrooveService::changePrivacySettings_responded ()
 {
+  GrooveReply result = getResult ();
 }

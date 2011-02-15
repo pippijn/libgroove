@@ -15,4 +15,5 @@ GrooveService::sendInvites ()
 void
 GrooveService::sendInvites_responded ()
 {
+  GrooveReply result = getResult ();
 }

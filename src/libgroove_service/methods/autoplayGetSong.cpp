@@ -15,7 +15,7 @@ GrooveService::autoplayGetSong (uint songQueueID)
 void
 GrooveService::autoplayGetSong_responded ()
 {
-  QVariantList result = getResult ();
+  GrooveReply result = getResult ();
 
   //emit streamKeyReady (ip, streamKey);
 }

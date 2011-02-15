@@ -6,41 +6,40 @@
 struct GrooveReply
 {
   GrooveReply ()
-    : m_value ()
+    : value ()
   {
   }
 
   GrooveReply (QVariant const &value)
-    : m_value (value)
+    : value (value)
   {
   }
 
   // TODO: optimise? does this create a new map every time?
   GrooveReply operator [] (char const *key)
   {
-    return m_value.toMap ()[key];
+    return value.toMap ()[key];
   }
 
   operator int () const
   {
-    return m_value.toInt ();
+    return value.toInt ();
   }
 
   operator QString () const
   {
-    return m_value.toString ();
+    return value.toString ();
   }
 
   operator QVariantList () const
   {
-    return m_value.toList ();
+    return value.toList ();
   }
 
   operator QVariantMap () const
   {
-    return m_value.toMap ();
+    return value.toMap ();
   }
 
-private:
-  QVariant m_value;
+  QVariant const value;
 };

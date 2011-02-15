@@ -15,4 +15,5 @@ GrooveService::albumGetFans ()
 void
 GrooveService::albumGetFans_responded ()
 {
+  GrooveReply result = getResult ();
 }

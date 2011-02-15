@@ -15,4 +15,5 @@ GrooveService::artistGetSongkickEvents ()
 void
 GrooveService::artistGetSongkickEvents_responded ()
 {
+  GrooveReply result = getResult ();
 }

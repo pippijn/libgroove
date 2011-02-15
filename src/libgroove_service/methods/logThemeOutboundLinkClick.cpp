@@ -15,4 +15,5 @@ GrooveService::logThemeOutboundLinkClick ()
 void
 GrooveService::logThemeOutboundLinkClick_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::changeNotificationSettings ()
 void
 GrooveService::changeNotificationSettings_responded ()
 {
+  GrooveReply result = getResult ();
 }

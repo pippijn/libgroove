@@ -16,4 +16,5 @@ GrooveService::authenticateUserEx (QString password, QString username)
 void
 GrooveService::authenticateUserEx_responded ()
 {
+  GrooveReply result = getResult ();
 }

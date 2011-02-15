@@ -15,4 +15,5 @@ GrooveService::changeFeedSettings ()
 void
 GrooveService::changeFeedSettings_responded ()
 {
+  GrooveReply result = getResult ();
 }

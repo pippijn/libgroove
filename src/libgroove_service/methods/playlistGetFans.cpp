@@ -15,4 +15,5 @@ GrooveService::playlistGetFans (uint playlistID)
 void
 GrooveService::playlistGetFans_responded ()
 {
+  GrooveReply result = getResult ();
 }

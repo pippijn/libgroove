@@ -15,4 +15,5 @@ GrooveService::getServiceStatus ()
 void
 GrooveService::getServiceStatus_responded ()
 {
+  GrooveReply result = getResult ();
 }

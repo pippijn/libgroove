@@ -15,4 +15,5 @@ GrooveService::playlistUndelete ()
 void
 GrooveService::playlistUndelete_responded ()
 {
+  GrooveReply result = getResult ();
 }

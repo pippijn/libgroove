@@ -15,4 +15,5 @@ GrooveService::overwriteExistingPlaylist (uint playlistID, QList<uint> songIDs)
 void
 GrooveService::overwriteExistingPlaylist_responded ()
 {
+  GrooveReply result = getResult ();
 }

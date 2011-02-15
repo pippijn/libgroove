@@ -15,4 +15,5 @@ GrooveService::getRecentlyActiveUsers ()
 void
 GrooveService::getRecentlyActiveUsers_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::changeUserInfo ()
 void
 GrooveService::changeUserInfo_responded ()
 {
+  GrooveReply result = getResult ();
 }

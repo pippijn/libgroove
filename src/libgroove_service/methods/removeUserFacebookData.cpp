@@ -15,4 +15,5 @@ GrooveService::removeUserFacebookData ()
 void
 GrooveService::removeUserFacebookData_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -4,12 +4,16 @@ FocusScope {
     property string text: "search for music"
 
     id: focusScope
-    width: 510
+
+    anchors {
+        horizontalCenter: parent.horizontalCenter
+    }
+    width: parent.width - 40
     height: 60
 
     BorderImage {
         id: img
-        source: "/icons/search.png"
+        source: "/images/searchbox"
 
         width: parent.width
         height: parent.height
@@ -20,21 +24,21 @@ FocusScope {
     Text {
         id: helpText
         anchors {
-            fill: textInput
+            fill: searchInput
         }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         text: parent.text
         color: "gray"
         font.italic: true
-        font.pixelSize: textInput.font.pixelSize
+        font.pixelSize: searchInput.font.pixelSize
     }
 
     MouseArea { 
         anchors.fill: parent
         onClicked: {
             parent.focus = true
-            textInput.openSoftwareInputPanel ()
+            searchInput.openSoftwareInputPanel ()
         } 
     }
 
@@ -45,7 +49,7 @@ FocusScope {
             rightMargin: 16
             verticalCenter: parent.verticalCenter
         }
-        source: "/icons/find.png"
+        source: "/icons/search"
         height: 35
         width: height
         sourceSize {
@@ -55,7 +59,7 @@ FocusScope {
     }
 
     TextInput {
-        id: textInput
+        id: searchInput
         anchors {
             left: parent.left
             right: search.left
@@ -66,10 +70,23 @@ FocusScope {
         focus: true
         selectByMouse: true
         font.pixelSize: 20
+
+        Keys.onReleased: {
+            searchTimer.restart ()
+        }
+
+        Timer {
+            id: searchTimer
+            interval: 1000
+
+            onTriggered: {
+                controller.search (searchInput.text)
+            }
+        }
     }
 
     states: State {
-        name: "hasText"; when: textInput.text != ''
+        name: "hasText"; when: searchInput.text != ''
         PropertyChanges { target: helpText; opacity: 0 }
     }
 

@@ -107,8 +107,10 @@ struct GrooveRequest::parameter_adder
   void operator << (QVariantOrMap &&init)
   {
     GROOVE_VERIFY_OR_DIE (m_map.empty (), "attempted to add multiple parameter sets");
+#if 0
     if (init.isMap ())
       init.map_value.push_back (country ());
+#endif
     m_map = init;
   }
 

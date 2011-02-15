@@ -15,4 +15,5 @@ GrooveService::artistGetSimilarArtists (uint artistID)
 void
 GrooveService::artistGetSimilarArtists_responded ()
 {
+  GrooveReply result = getResult ();
 }

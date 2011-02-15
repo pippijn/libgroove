@@ -15,4 +15,5 @@ GrooveService::doHPBeatsUpgrade ()
 void
 GrooveService::doHPBeatsUpgrade_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::userGetSongsInLibrary (QString page, uint userID)
 void
 GrooveService::userGetSongsInLibrary_responded ()
 {
+  GrooveReply result = getResult ();
 }

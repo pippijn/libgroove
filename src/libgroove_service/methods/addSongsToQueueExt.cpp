@@ -29,4 +29,5 @@ GrooveService::addSongsToQueueExt (uint songQueueID, map songIDsArtistIDs)
 void
 GrooveService::addSongsToQueueExt_responded ()
 {
+  GrooveReply result = getResult ();
 }

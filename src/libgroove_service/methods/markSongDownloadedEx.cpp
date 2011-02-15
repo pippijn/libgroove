@@ -17,4 +17,5 @@ GrooveService::markSongDownloadedEx (uint streamServerID, QString streamKey, uin
 void
 GrooveService::markSongDownloadedEx_responded ()
 {
+  GrooveReply result = getResult ();
 }

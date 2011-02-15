@@ -15,4 +15,5 @@ GrooveService::getUserByInviteID ()
 void
 GrooveService::getUserByInviteID_responded ()
 {
+  GrooveReply result = getResult ();
 }

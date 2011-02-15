@@ -15,4 +15,5 @@ GrooveService::getStationByID ()
 void
 GrooveService::getStationByID_responded ()
 {
+  GrooveReply result = getResult ();
 }

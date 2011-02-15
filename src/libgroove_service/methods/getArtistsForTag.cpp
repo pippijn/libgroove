@@ -15,7 +15,7 @@ GrooveService::getArtistsForTag (TagID tagID)
 void
 GrooveService::getArtistsForTag_responded ()
 {
-  QVariantList result = getResult ();
+  GrooveReply result = getResult ();
 
   //emit streamKeyReady (ip, streamKey);
 }

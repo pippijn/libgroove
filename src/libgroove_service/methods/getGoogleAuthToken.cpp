@@ -15,4 +15,5 @@ GrooveService::getGoogleAuthToken ()
 void
 GrooveService::getGoogleAuthToken_responded ()
 {
+  GrooveReply result = getResult ();
 }

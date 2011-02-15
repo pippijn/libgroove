@@ -15,4 +15,5 @@ GrooveService::artistGetSongs (uint offset, uint artistID, bool isVerified)
 void
 GrooveService::artistGetSongs_responded ()
 {
+  GrooveReply result = getResult ();
 }

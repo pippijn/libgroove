@@ -15,4 +15,5 @@ GrooveService::getAffiliateDownloadURLs (QString songName, QString artistName)
 void
 GrooveService::getAffiliateDownloadURLs_responded ()
 {
+  GrooveReply result = getResult ();
 }

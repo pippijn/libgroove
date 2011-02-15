@@ -15,4 +15,5 @@ GrooveService::getUserSidebar ()
 void
 GrooveService::getUserSidebar_responded ()
 {
+  GrooveReply result = getResult ();
 }

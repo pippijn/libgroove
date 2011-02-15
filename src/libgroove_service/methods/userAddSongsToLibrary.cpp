@@ -15,4 +15,5 @@ GrooveService::userAddSongsToLibrary ()
 void
 GrooveService::userAddSongsToLibrary_responded ()
 {
+  GrooveReply result = getResult ();
 }

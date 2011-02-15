@@ -15,4 +15,5 @@ GrooveService::getCountry ()
 void
 GrooveService::getCountry_responded ()
 {
+  GrooveReply result = getResult ();
 }

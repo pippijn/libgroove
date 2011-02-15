@@ -15,4 +15,5 @@ GrooveService::setPlaylistAbout (uint playlistID, QString about)
 void
 GrooveService::setPlaylistAbout_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::provideSongFeedbackMessage ()
 void
 GrooveService::provideSongFeedbackMessage_responded ()
 {
+  GrooveReply result = getResult ();
 }

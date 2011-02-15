@@ -15,4 +15,5 @@ GrooveService::createWidgetIDFromSongIDs (QList<uint> songIDs)
 void
 GrooveService::createWidgetIDFromSongIDs_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::getCountryFromRequestIP ()
 void
 GrooveService::getCountryFromRequestIP_responded ()
 {
+  GrooveReply result = getResult ();
 }

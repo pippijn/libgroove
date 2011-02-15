@@ -15,4 +15,5 @@ GrooveService::autoplayVoteDown ()
 void
 GrooveService::autoplayVoteDown_responded ()
 {
+  GrooveReply result = getResult ();
 }

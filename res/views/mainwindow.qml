@@ -1,32 +1,40 @@
 import Qt 4.7
-import "../widgets"
+import "/widgets"
 
 Rectangle {
-    width: 700
-    height: 300
-    color: "#999999"
+    width: 798
+    height: 441
+    color: "black"
+
+    Image {
+        id: background
+        width: parent.width
+        height: parent.height
+        source: "/images/background"
+    }
 
     Rectangle {
-        width: 700;
-        height: 300;
-        color: "#edecec"
+        width: parent.width
+        height: parent.height - y
+        y: 20
+        color: "transparent"
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: parent.focus = false;
-        }
-        Column {
+        PageStack { id: pageStack; }
+
+        SearchPage {
+            id: searchPage
+            width: parent.width - 10
+            height: parent.height
             anchors {
-                fill: parent
-                leftMargin: 8
-                topMargin: 8
+                horizontalCenter: parent.horizontalCenter
+                top: parent.top
+                bottom: parent.bottom
             }
-            spacing: 10
-
-            SearchBox {
-                id: search
-                focus: true
-            }
+            visible: false
         }
+    }
+
+    Component.onCompleted: {
+        pageStack.push (searchPage)
     }
 }

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/widgets">
+        <file alias="PageStack.js">widgets/PageStack.js</file>
+        <file alias="PageStack.qml">widgets/PageStack.qml</file>
+        <file alias="SearchBox.qml">widgets/SearchBox.qml</file>
+        <file alias="TestModel.qml">widgets/TestModel.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="RotatingArc">icons/RotatingArc.png</file>
+        <file alias="next">icons/next.svg</file>
+        <file alias="play">icons/play.svg</file>
+        <file alias="search">icons/search.png</file>
+    </qresource>
+</RCC>

@@ -15,4 +15,5 @@ GrooveService::killAuthToken ()
 void
 GrooveService::killAuthToken_responded ()
 {
+  GrooveReply result = getResult ();
 }

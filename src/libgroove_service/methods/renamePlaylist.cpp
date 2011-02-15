@@ -15,4 +15,5 @@ GrooveService::renamePlaylist (uint playlistID, QString playlistName)
 void
 GrooveService::renamePlaylist_responded ()
 {
+  GrooveReply result = getResult ();
 }

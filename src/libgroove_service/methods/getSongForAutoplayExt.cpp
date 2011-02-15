@@ -15,4 +15,5 @@ GrooveService::getSongForAutoplayExt ()
 void
 GrooveService::getSongForAutoplayExt_responded ()
 {
+  GrooveReply result = getResult ();
 }

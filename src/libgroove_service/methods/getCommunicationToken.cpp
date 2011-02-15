@@ -15,4 +15,5 @@ GrooveService::getCommunicationToken ()
 void
 GrooveService::getCommunicationToken_responded ()
 {
+  GrooveReply result = getResult ();
 }

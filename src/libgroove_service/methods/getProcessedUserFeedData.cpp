@@ -15,4 +15,5 @@ GrooveService::getProcessedUserFeedData ()
 void
 GrooveService::getProcessedUserFeedData_responded ()
 {
+  GrooveReply result = getResult ();
 }

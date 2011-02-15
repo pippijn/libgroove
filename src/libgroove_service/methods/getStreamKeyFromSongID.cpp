@@ -15,4 +15,5 @@ GrooveService::getStreamKeyFromSongID (bool mobile, bool prefetch, uint songID)
 void
 GrooveService::getStreamKeyFromSongID_responded ()
 {
+  GrooveReply result = getResult ();
 }

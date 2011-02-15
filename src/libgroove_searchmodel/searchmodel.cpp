@@ -65,7 +65,9 @@ GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTer
           , SIGNAL (searchResultsReady (QList<GrooveSongPointer> const &))
           , SLOT (searchCompleted (QList<GrooveSongPointer> const &))
           );
-  m_service->getSearchResults (searchTerm, type);
+  QList<QString> types;
+  types.append (type);
+  m_service->getSearchResultsEx (searchTerm, types);
 }
 
 void

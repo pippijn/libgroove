@@ -15,4 +15,5 @@ GrooveService::createPlaylistEx ()
 void
 GrooveService::createPlaylistEx_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::deletePlaylist (uint playlistID)
 void
 GrooveService::deletePlaylist_responded ()
 {
+  GrooveReply result = getResult ();
 }

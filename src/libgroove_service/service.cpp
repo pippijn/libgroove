@@ -30,7 +30,9 @@ GrooveService::getReply () const
     return { };
 
   QByteArray response = reply->readAll ();
+#if 0
   LDEBUG << "response: " << response;
+#endif
 
   QJson::Parser parser;
   bool ok;

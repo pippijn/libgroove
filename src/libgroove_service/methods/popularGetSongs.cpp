@@ -15,4 +15,5 @@ GrooveService::popularGetSongs (QString type)
 void
 GrooveService::popularGetSongs_responded ()
 {
+  GrooveReply result = getResult ();
 }

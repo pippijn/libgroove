@@ -15,4 +15,5 @@ GrooveService::removeShortcutFromUserSidebar ()
 void
 GrooveService::removeShortcutFromUserSidebar_responded ()
 {
+  GrooveReply result = getResult ();
 }

@@ -15,4 +15,5 @@ GrooveService::getLastfmService ()
 void
 GrooveService::getLastfmService_responded ()
 {
+  GrooveReply result = getResult ();
 }

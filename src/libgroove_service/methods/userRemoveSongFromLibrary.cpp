@@ -15,4 +15,5 @@ GrooveService::userRemoveSongFromLibrary ()
 void
 GrooveService::userRemoveSongFromLibrary_responded ()
 {
+  GrooveReply result = getResult ();
 }

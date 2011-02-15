@@ -15,4 +15,5 @@ GrooveService::albumGetSongs ()
 void
 GrooveService::albumGetSongs_responded ()
 {
+  GrooveReply result = getResult ();
 }

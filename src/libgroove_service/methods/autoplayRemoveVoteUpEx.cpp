@@ -15,4 +15,5 @@ GrooveService::autoplayRemoveVoteUpEx (uint songQueueID, uint songQueueSongID)
 void
 GrooveService::autoplayRemoveVoteUpEx_responded ()
 {
+  GrooveReply result = getResult ();
 }
