@@ -2,10 +2,12 @@ bin_PROGRAMS += groovy-qml
 
 groovy_qml_SOURCES =				\
 	src/frontend/qml/main.cpp		\
-	src/frontend/qml/controller.cpp
+	src/frontend/qml/controller.cpp		\
+	src/frontend/qml/qmlcontroller.cpp
 
 nodist_groovy_qml_SOURCES =			\
-	src/frontend/qml/controller.moc.cpp
+	src/frontend/qml/controller.moc.cpp	\
+	src/frontend/qml/qmlcontroller.moc.cpp
 
 groovy_qml_CXXFLAGS =				\
 	$(AM_CXXFLAGS)				\

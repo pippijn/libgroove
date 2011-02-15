@@ -48,5 +48,5 @@ GrooveService::getStreamKeyFromSongIDEx_responded ()
   GROOVE_VERIFY_OR_DIE (!streamKey.isEmpty (), "got invalid streamKey from server");
   GROOVE_VERIFY_OR_DIE (!ip.isEmpty (), "got invalid streaming IP from server");
 
-  emit streamKeyReady (ip, streamKey);
+  emit getStreamKeyFromSongIDEx_success (ip, streamKey);
 }

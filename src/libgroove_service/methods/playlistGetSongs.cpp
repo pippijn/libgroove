@@ -18,6 +18,4 @@ GrooveService::playlistGetSongs_responded ()
   QVariantMap result = getResult ();
 
   QVariantList Songs = result["Songs"].toList ();
-
-  //emit streamKeyReady (ip, streamKey);
 }

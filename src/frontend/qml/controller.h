@@ -19,9 +19,11 @@ public:
 
 public slots:
   void search (QString const &query);
+  void autocomplete (QString const &query);
 
 private slots:
   void connectionEstablished ();
+  virtual void updateCompletion (QStringList const &artistList) = 0;
 
 private:
   struct Private;

@@ -16,6 +16,4 @@ void
 GrooveService::getArtistsForTag_responded ()
 {
   GrooveReply result = getResult ();
-
-  //emit streamKeyReady (ip, streamKey);
 }

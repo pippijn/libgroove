@@ -1,4 +1,8 @@
-#define LIVE 1
+#define LIVE            1
+#define LIVE_SEARCH     0
+#define LIVE_COMPLETION 1
+#include <QStringList>
+
 #include "groove/client.h"
 #include "groove/service.h"
 #include "groove/searchmodel.h"
@@ -13,7 +17,8 @@ struct Controller::Private
   std::shared_ptr<GrooveSearchModel> searchModel;
   std::shared_ptr<GroovePlaylistModel> playlistModel;
 
-  QString lastQuery;
+  QString lastAutocompleteQuery;
+  QString lastSearchQuery;
 
   bool connected;
 
@@ -22,7 +27,8 @@ struct Controller::Private
     , service (new GrooveService (client, parent))
     , searchModel (new GrooveSearchModel (client, service, parent))
     , playlistModel (new GroovePlaylistModel (client, parent))
-    , lastQuery ()
+    , lastAutocompleteQuery ()
+    , lastSearchQuery ()
     , connected (false)
   {
   }
@@ -66,7 +72,7 @@ Controller::search (QString const &query)
       LDEBUG << "query is empty; not searching";
       return;
     }
-  if (nquery == self->lastQuery)
+  if (nquery == self->lastSearchQuery)
     {
       LDEBUG << "query is unchanged";
       return;
@@ -79,11 +85,41 @@ Controller::search (QString const &query)
 
   LDEBUG << "search for" << nquery;
 
-  self->lastQuery = nquery;
-#if 0
-  self->service->getArtistAutocomplete (nquery);
-#else
+  self->lastSearchQuery = nquery;
+#if LIVE_SEARCH
   self->searchModel->searchBySong (nquery);
+#endif
+}
+
+void
+Controller::autocomplete (QString const &query)
+{
+  QString nquery = wsNormed (query);
+  if (nquery.isEmpty ())
+    {
+      LDEBUG << "query is empty; not searching";
+      return;
+    }
+  if (nquery == self->lastAutocompleteQuery)
+    {
+      LDEBUG << "query is unchanged";
+      return;
+    }
+  if (!self->connected)
+    {
+      LDEBUG << "connecting; not searching";
+      return;
+    }
+
+  LDEBUG << "search for" << nquery;
+
+  self->lastAutocompleteQuery = nquery;
+#if LIVE_COMPLETION
+  connect ( self->service.get ()
+          , SIGNAL (getArtistAutocomplete_success (QStringList const &))
+          , this
+          , SLOT (updateCompletion (QStringList const &)));
+  self->service->getArtistAutocomplete (nquery);
 #endif
 }
 

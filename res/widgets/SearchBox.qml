@@ -3,8 +3,6 @@ import Qt 4.7
 FocusScope {
     property string text: "search for music"
 
-    id: focusScope
-
     anchors {
         horizontalCenter: parent.horizontalCenter
     }
@@ -73,6 +71,8 @@ FocusScope {
 
         Keys.onReleased: {
             searchTimer.restart ()
+            if (!autocompleteTimer.running)
+                autocompleteTimer.start ()
         }
 
         Timer {
@@ -81,6 +81,15 @@ FocusScope {
 
             onTriggered: {
                 controller.search (searchInput.text)
+            }
+        }
+
+        Timer {
+            id: autocompleteTimer
+            interval: 1000
+
+            onTriggered: {
+                controller.autocomplete (searchInput.text)
             }
         }
     }

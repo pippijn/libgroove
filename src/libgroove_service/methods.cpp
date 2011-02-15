@@ -1,8 +1,10 @@
-#include "reply.h"
-#include "request.h"
+#include <QStringList>
 
 #include "groove/data/song.h"
 #include "groove/service.h"
+
+#include "reply.h"
+#include "request.h"
 
 #include "methods/addShortcutToUserSidebar.cpp"
 #include "methods/addSongsToQueueExt.cpp"

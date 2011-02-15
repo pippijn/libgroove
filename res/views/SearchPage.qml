@@ -6,24 +6,23 @@ Rectangle {
     /*color: "#000000"*/
     color: "transparent"
 
-    ListView {
+    SearchResults {
         id: searchList
-        model: searchModel
-        /*model: TestModel { }*/
-
-        anchors {
-            left:   parent.left
-            right:  parent.right
-            bottom: parent.bottom
-            top:    searchBox.bottom
-            margins: 10
-        }
-
-        delegate: SongListDelegate { }
     }
 
     SearchBox {
         id: searchBox
         focus: true
+    }
+
+    CompletionList {
+        anchors {
+            left:   searchBox.left
+            right:  searchBox.right
+            top:    searchBox.bottom
+            bottom: parent.bottom
+            margins: 18
+            topMargin: -16
+        }
     }
 }

@@ -14,6 +14,4 @@ void
 GrooveService::initiateQueueEx_responded ()
 {
   QString queueID = getResult ();
-
-  //emit streamKeyReady (ip, streamKey);
 }

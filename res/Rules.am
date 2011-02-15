@@ -13,11 +13,14 @@ RESOURCES =					\
 	res/images/background.svg		\
 	res/images/searchbox.svg		\
 	res/views/SearchPage.qml		\
-	res/views/SongListDelegate.qml		\
 	res/views/mainwindow.qml		\
+	res/widgets/CompletionList.qml		\
+	res/widgets/CompletionListDelegate.qml	\
 	res/widgets/PageStack.js		\
 	res/widgets/PageStack.qml		\
 	res/widgets/SearchBox.qml		\
+	res/widgets/SearchResults.qml		\
+	res/widgets/SearchResultsDelegate.qml	\
 	res/widgets/TestModel.qml
 EXTRA_DIST += $(QRC) $(RESOURCES)
 

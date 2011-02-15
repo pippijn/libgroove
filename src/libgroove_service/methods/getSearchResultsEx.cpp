@@ -6,7 +6,7 @@
  * \param types: a list of search types (types are 'Songs', 'Artists', 'Albums' or 'Playlists')
  */
 void
-GrooveService::getSearchResultsEx (QString query, QList<QString> types)
+GrooveService::getSearchResultsEx (QString query, QStringList types)
 {
   static char const *method = __func__;
 
@@ -33,5 +33,5 @@ GrooveService::getSearchResultsEx_responded ()
       songList.push_back (GrooveSong::make (songData));
     }
 
-  emit searchResultsReady (songList);
+  emit getSearchResultsEx_success (songList);
 }

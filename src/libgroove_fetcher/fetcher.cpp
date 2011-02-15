@@ -108,7 +108,10 @@ GrooveFetcher::fetch (GrooveService &service)
 
       LDEBUG << "Started streaming for " << m_song.name << " (id: " << m_song.ID << ")";
       /* TODO: error handling */
-      connect (&service, SIGNAL (streamKeyReady (QString, QString)), this, SLOT (onStreamKeyReady (QString, QString)));
+      connect ( &service
+              , SIGNAL (getStreamKeyFromSongIDEx_success (QString, QString))
+              , this
+              , SLOT (onStreamKeyReady (QString, QString)));
       service.getStreamKeyFromSongIDEx (false, false, m_song.ID);
     }
   else

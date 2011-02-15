@@ -1,8 +1,6 @@
 import Qt 4.7
 
 Component {
-    id: songDelegate
-
     Rectangle {
         ListView.onAdd: {
             console.log ("Item added!")
@@ -12,7 +10,6 @@ Component {
             console.log ("Item removed!")
         }
 
-        id: songListDelegateItem
         width: ListView.view.width
         height: 100
         color: "transparent"
@@ -60,7 +57,6 @@ Component {
 
             Image {
                 source: "/icons/play"
-                id: playMe
 
                 width: 40
                 height: 40
@@ -87,7 +83,6 @@ Component {
 
             Image {
                 source: "/icons/next"
-                id: queueMe
 
                 width: 40
                 height: 40

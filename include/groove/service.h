@@ -3,18 +3,19 @@
  */
 #pragma once
 
+#include <memory>
+
+#include <QDate>
+#include <QList>
+#include <QStringList> // XXX: for moc
+#include <QVariant>
+
 #include "libgroove_global.h"
 
 #include "groove/data/songptr.h"
 #include "groove/private/make_varmap.h"
 class GrooveClient;
 class GrooveReply;
-
-#include <QDate>
-#include <QList>
-#include <QVariant>
-
-#include <memory>
 
 enum class TagID
 {
@@ -259,7 +260,7 @@ public slots: // functions
   void getQueueSongListFromSongIDs (QList<uint> songIDs);
   void getRecentlyActiveUsers ();
   void getSearchResults (QString searchTerm, QString type);
-  void getSearchResultsEx (QString query, QList<QString> types);
+  void getSearchResultsEx (QString query, QStringList types);
   void getSearchSuggestion ();
   void getServiceStatus ();
   void getSimilarUsers ();
@@ -328,6 +329,8 @@ private: // data
   std::shared_ptr<GrooveClient> m_client;
 
 signals:
-  void searchResultsReady (QList<GrooveSongPointer> const &songList);
-  void streamKeyReady (QString ip, QString streamKey);
+  void getArtistAutocomplete_success (QStringList const &artistList);
+  void getSearchResults_success (QList<GrooveSongPointer> const &songList);
+  void getSearchResultsEx_success (QList<GrooveSongPointer> const &songList);
+  void getStreamKeyFromSongIDEx_success (QString ip, QString streamKey);
 };

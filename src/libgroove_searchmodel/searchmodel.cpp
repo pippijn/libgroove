@@ -62,10 +62,10 @@ GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTer
   LDEBUG << "Searching by " << type << " for " << searchTerm;
 
   connect ( m_service.get ()
-          , SIGNAL (searchResultsReady (QList<GrooveSongPointer> const &))
+          , SIGNAL (getSearchResultsEx_success (QList<GrooveSongPointer> const &))
           , SLOT (searchCompleted (QList<GrooveSongPointer> const &))
           );
-  QList<QString> types;
+  QStringList types;
   types.append (type);
   m_service->getSearchResultsEx (searchTerm, types);
 }
@@ -73,7 +73,7 @@ GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTer
 void
 GrooveSearchModel::searchCompleted (QList<GrooveSongPointer> const &newSongList)
 {
-  disconnect (m_service.get (), SIGNAL (searchResultsReady (QList<GrooveSongPointer> const &)));
+  disconnect (m_service.get (), SIGNAL (getSearchResultsEx_success (QList<GrooveSongPointer> const &)));
 
   if (!newSongList.count ())
     {

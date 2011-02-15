@@ -6,7 +6,7 @@
 
 #include "groove/searchmodel.h"
 
-#include "controller.h"
+#include "qmlcontroller.h"
 
 static void
 setupProxy (QString hostName, quint16 port, QString user, QString password)
@@ -32,11 +32,11 @@ main (int argc, char **argv)
   if (args.contains ("--proxy"))
     setupProxy ("localhost", 8080, "username", "password");
 
-  // Controller
-  Controller controller;
-
   // View
   QDeclarativeView view;
+
+  // Controller
+  QmlController controller (view);
 
   // Linking model and view
   QDeclarativeContext *context = view.rootContext ();

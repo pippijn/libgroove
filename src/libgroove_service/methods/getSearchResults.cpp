@@ -33,5 +33,5 @@ GrooveService::getSearchResults_responded ()
       songList.push_back (GrooveSong::make (songData));
     }
 
-  emit searchResultsReady (songList);
+  emit getSearchResults_success (songList);
 }

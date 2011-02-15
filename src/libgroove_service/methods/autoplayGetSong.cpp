@@ -16,6 +16,4 @@ void
 GrooveService::autoplayGetSong_responded ()
 {
   GrooveReply result = getResult ();
-
-  //emit streamKeyReady (ip, streamKey);
 }

@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/views">
         <file alias="SearchPage.qml">views/SearchPage.qml</file>
-        <file alias="SongListDelegate.qml">views/SongListDelegate.qml</file>
         <file alias="mainwindow.qml">views/mainwindow.qml</file>
     </qresource>
 </RCC>
