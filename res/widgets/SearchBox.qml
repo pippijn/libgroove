@@ -6,14 +6,30 @@ FocusScope {
     anchors {
         horizontalCenter: parent.horizontalCenter
     }
-    width: parent.width - 40
+    width: parent.width * 0.9
     height: 60
 
-    Image {
-        source: "/images/searchbox"
+    function doSearch () {
+        searchIcon.state = "searching"
+        controller.search (searchInput.text)
+    }
 
+    Rectangle {
         width: parent.width
         height: parent.height
+        radius: 10
+        color: "#dddddd"
+        border.color: "#747474"
+        border.width: 2
+
+        Rectangle {
+            width: parent.width - 20
+            height: parent.height - 20
+            x: 10
+            y: 10
+            color: "white"
+            border.color: "black"
+        }
     }
 
     Text {
@@ -29,20 +45,10 @@ FocusScope {
         font.pixelSize: searchInput.font.pixelSize
     }
 
-    MouseArea { 
-        anchors.fill: parent
-        onClicked: {
-            parent.focus = true
-            searchInput.openSoftwareInputPanel ()
-        } 
-    }
-
     MouseArea {
         id: search
 
-        onClicked: {
-            controller.search (searchInput.text)
-        }
+        onClicked: doSearch ()
 
         anchors {
             right: parent.right
@@ -53,15 +59,87 @@ FocusScope {
         height: 35
         width: height
 
-        Image {
-            anchors {
-                fill: parent
+        Rectangle {
+            id: searchIcon
+            state: "inactive"
+            anchors.fill: parent
+
+            Image {
+                id: searchIconInactive
+                anchors.fill: parent
+                source: "/icons/search"
+                opacity: 1
+                sourceSize {
+                    height: height
+                    width: width
+                }
             }
-            source: "/icons/search"
-            sourceSize {
-                height: height
-                width: width
+            AnimatedImage {
+                id: searchIconSearching
+                height: 32
+                width: height
+                x: (parent.height - height) / 2
+                y: (parent.width - width) / 2
+                source: "/icons/loading"
+                opacity: 0
             }
+
+            Connections {
+                target: searchModel
+
+                onSearchCompleted: {
+                    searchIcon.state = "inactive"
+                    console.log (numOfResults)
+                }
+            }
+
+            states: [
+                State {
+                    name: "inactive"
+                    PropertyChanges {
+                        target: searchIconInactive
+                        opacity: 1
+                    }
+                    PropertyChanges {
+                        target: searchIconSearching
+                        opacity: 0
+                    }
+                },
+
+                State {
+                    name: "searching"
+                    PropertyChanges {
+                        target: searchIconInactive
+                        opacity: 0
+                    }
+                    PropertyChanges {
+                        target: searchIconSearching
+                        opacity: 1
+                    }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    to: "searching"
+
+                    NumberAnimation {
+                        exclude: searchIconInactive
+                        properties: "opacity"
+                        duration: 1000
+                    }
+                },
+
+                Transition {
+                    to: "inactive"
+
+                    NumberAnimation {
+                        exclude: searchIconSearching
+                        properties: "opacity"
+                        duration: 300
+                    }
+                }
+            ]
         }
     }
 
@@ -78,9 +156,8 @@ FocusScope {
         selectByMouse: true
         font.pixelSize: 20
 
-        Keys.onEnterPressed: {
-            controller.search (searchInput.text)
-        }
+        Keys.onReturnPressed: doSearch ()
+        Keys.onEnterPressed: doSearch ()
         /*
         Keys.onDownPressed: {
             completionListView.incrementCurrentIndex ()
@@ -101,10 +178,12 @@ FocusScope {
         }
     }
 
-    states: State {
-        name: "hasText"; when: searchInput.text != ''
-        PropertyChanges { target: helpText; opacity: 0 }
-    }
+    states: [
+        State {
+            name: "hasText"; when: searchInput.text != ''
+            PropertyChanges { target: helpText; opacity: 0 }
+        }
+    ]
 
     transitions: [
         Transition {

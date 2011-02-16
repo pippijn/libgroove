@@ -45,6 +45,9 @@ public:
    */
   GrooveSongPointer select (QModelIndex const &index);
 
+public:
+  Q_PROPERTY (int trackCount READ rowCount)
+
 public slots:
   /*!
    *  Appends a given \a song to the end of this playlist.
@@ -87,8 +90,6 @@ public slots:
   int currentTrack () const;
 
 private:
-  GrooveSongPointer songByIndex (QModelIndex const &index) const;
-
   /*!
    *  Returns the currently playing track on this playlist, or 0 if there is no current track.
    */

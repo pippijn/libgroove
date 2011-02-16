@@ -37,17 +37,13 @@ public:
   GrooveSearchModel (std::shared_ptr<GrooveClient> client, std::shared_ptr<GrooveService> service, QObject *parent);
   ~GrooveSearchModel ();
 
-  /*!
-   *  Retrieve a song for a given \a index.
-   *
-   *  Returns a pointer to the song or 0 if there is an error.
-   */
-  GrooveSongPointer songByIndex (QModelIndex const &index) const;
-
 public slots:
   void searchByArtist (QString const &artist);  /* XXX: should this really be here? causes problems due to different fields returned? */
   void searchBySong (QString const &song);
   void searchByAlbum (QString const &album);  /* XXX: should this really be here? causes problems due to different fields returned? */
+
+signals:
+  void searchCompleted (int numOfResults);
 
 private:
   /*!
@@ -60,7 +56,7 @@ private slots:
   /*!
    *  Invoked when a currently running search completes.
    */
-  void searchCompleted (QList<GrooveSongPointer> const &newSongList);
+  void processSearchCompleted (QList<GrooveSongPointer> const &newSongList);
 
 private:
   std::shared_ptr<GrooveClient> m_client;

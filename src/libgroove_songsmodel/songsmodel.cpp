@@ -90,7 +90,7 @@ GrooveSongsModel::GrooveSongsModel (QString const &modelName, QObject *parent)
   // for QML
   QHash<int, QByteArray> roles;
 
-  for (int i = 0; i < m_visible.size (); i++)
+  for (int i = 0; i < columnCount (); i++)
     roles[Qt::UserRole + i] = m_visible[i].toUtf8 ();
 
   setRoleNames (roles);
@@ -101,16 +101,34 @@ GrooveSongsModel::~GrooveSongsModel ()
 }
 
 
+GrooveSongPointer
+GrooveSongsModel::songByIndex (QModelIndex const &index) const
+{
+  return songByIndex (index.row ());
+}
+
+GrooveSongPointer
+GrooveSongsModel::songByIndex (int index) const
+{
+  if (GROOVE_VERIFY (index >= 0, "row is negative"))
+    return 0;
+  if (GROOVE_VERIFY (index < rowCount (), "row is higher than the number of songs I have"))
+    return 0;
+
+  return m_songs[index];
+}
+
+
 bool
-GrooveSongsModel::verifyIndex (QModelIndex const &index, int role) const
+GrooveSongsModel::validateIndex (QModelIndex const &index) const
 {
   if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
     return false;
-  if (GROOVE_VERIFY (index.row () < m_songs.count (), "row is higher than the number of songs I have"))
+  if (GROOVE_VERIFY (index.row () < rowCount (), "row is higher than the number of songs I have"))
     return false;
   if (GROOVE_VERIFY (index.column () >= 0, "column is negative"))
     return false;
-  if (GROOVE_VERIFY (index.column () < m_visible.size (), "column is higher than m_visible.size ()"))
+  if (GROOVE_VERIFY (index.column () < columnCount (), "column is higher than columnCount ()"))
     return false;
   return true;
 }
@@ -122,7 +140,7 @@ GrooveSongsModel::index (int row, int column, QModelIndex const &parent) const
   Q_UNUSED (parent);
 
   /* list size is 0 based */
-  if (row < 0 || row >= m_songs.count () || column < 0 || column > m_visible.size () - 1)
+  if (row < 0 || row >= rowCount () || column < 0 || column > columnCount () - 1)
     return QModelIndex ();
 
   return createIndex (row, column);
@@ -155,10 +173,10 @@ GrooveSongsModel::columnCount (QModelIndex const &parent) const
 QVariant
 GrooveSongsModel::data (QModelIndex const &index, int role) const
 {
-  if (!verifyIndex (index, role))
+  if (!validateIndex (index))
     return QVariant ();
 
-  GrooveSongPointer song = m_songs[index.row ()];
+  GrooveSongPointer song = songByIndex (index);
 
   int wantedData = index.column ();
 
@@ -218,7 +236,7 @@ GrooveSongsModel::headerData (int section, Qt::Orientation orientation, int role
 
   if (GROOVE_VERIFY (section >= 0, "section is negative"))
     return QVariant ();
-  if (GROOVE_VERIFY (section < m_visible.size (), "section is higher than m_visible.size ()"))
+  if (GROOVE_VERIFY (section < columnCount (), "section is higher than columnCount ()"))
     return QVariant ();
 
   switch (role)
@@ -237,7 +255,7 @@ GrooveSongsModel::setData (QModelIndex const &index, QVariant const &value, int 
 {
   if (index.row () == -1)
     return false;
-  if (!verifyIndex (index, role))
+  if (!validateIndex (index))
     return false;
 
 #if 1

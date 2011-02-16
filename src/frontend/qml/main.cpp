@@ -7,6 +7,7 @@
 #include <QDeclarativeView>
 #include <QNetworkProxy>
 
+#include "groove/playlistmodel.h"
 #include "groove/searchmodel.h"
 
 #include "qmlcontroller.h"
@@ -37,6 +38,7 @@ main (int argc, char **argv)
 
   // View
   QDeclarativeView view;
+  view.setResizeMode (QDeclarativeView::SizeRootObjectToView);
 
   // Controller
   QmlController controller (view);
@@ -45,9 +47,13 @@ main (int argc, char **argv)
   QDeclarativeContext *context = view.rootContext ();
   context->setContextProperty ("controller", &controller);
   context->setContextProperty ("searchModel", &controller.searchModel ());
+  context->setContextProperty ("playlistModel", &controller.playlistModel ());
 
   // Load UI description into view
   view.setSource (QUrl ("qrc:/views/mainwindow.qml"));
+
+  // Allow QML application to quit the entire application
+  QObject::connect (view.engine (), SIGNAL (quit ()), &qca, SLOT (quit ()));
 
   // Run the application
   view.show ();

@@ -12,7 +12,7 @@ Component {
             }
             onClicked: {
                 console.log ("Current index: " + index)
-                searchList.currentIndex = index
+                playlist.currentIndex = index
                 //pageStack.push (songViewPage)
             }
 
@@ -48,6 +48,22 @@ Component {
             spacing: 20
 
             Image {
+                source: "/icons/delete"
+
+                width: 40
+                height: 40
+
+                MouseArea {
+                    anchors {
+                        fill: parent
+                    }
+                    onClicked: {
+                        controller.unqueue (index);
+                    }
+                }
+            }
+
+            Image {
                 source: "/icons/play"
 
                 width: 40
@@ -58,23 +74,7 @@ Component {
                         fill: parent
                     }
                     onClicked: {
-                        controller.enqueue (index);
-                        controller.play (playlistModel.trackCount - 1);
-                    }
-                }
-            }
-
-
-            Image {
-                source: "/icons/next"
-
-                width: 40
-                height: 40
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        controller.enqueue (index);
+                        controller.play (index);
                     }
                 }
             }

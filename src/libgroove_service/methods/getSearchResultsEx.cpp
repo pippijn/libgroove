@@ -23,7 +23,14 @@ GrooveService::getSearchResultsEx (QString query, QStringList types)
 void
 GrooveService::getSearchResultsEx_responded ()
 {
-  QVariantList songs = getResult ()["result"]["Songs"];
+  GrooveReply result = getResult ();
+  QVariantList songs = result["Songs"];
+
+  // TODO: wtf is going on here? I get any of these three API responses
+  if (songs.isEmpty ())
+    songs = result["result"];
+  if (songs.isEmpty ())
+    songs = result["result"]["Songs"];
 
   QList<GrooveSongPointer> songList;
   foreach (QVariant const &song, songs)

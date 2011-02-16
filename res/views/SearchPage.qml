@@ -2,13 +2,9 @@ import Qt 4.7
 import "/widgets"
 
 Rectangle {
-    id: searchPage
-    /*color: "#000000"*/
     color: "transparent"
 
-    SearchResults {
-        id: searchList
-    }
+    SearchResults { }
 
     SearchBox {
         id: searchBox
@@ -23,5 +19,6 @@ Rectangle {
             margins: 18
             topMargin: -16
         }
+        visible: false
     }
 }

@@ -34,8 +34,17 @@ protected:
   GrooveSongsModel (QString const &modelName, QObject *parent);
   ~GrooveSongsModel ();
 
+public:
+  /*!
+   *  Retrieve a song for a given \a index.
+   *
+   *  Returns a pointer to the song or 0 if there is an error.
+   */
+  GrooveSongPointer songByIndex (QModelIndex const &index) const;
+  GrooveSongPointer songByIndex (int index) const;
+
 private:
-  bool verifyIndex (QModelIndex const &index, int role) const;
+  bool validateIndex (QModelIndex const &index) const;
 
 public:
   virtual QModelIndex index (int row, int column, QModelIndex const &parent = QModelIndex ()) const;

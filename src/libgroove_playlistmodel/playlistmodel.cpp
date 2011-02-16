@@ -29,18 +29,6 @@ GroovePlaylistModel::GroovePlaylistModel (std::shared_ptr<GrooveClient> client, 
 {
 }
 
-GrooveSongPointer
-GroovePlaylistModel::songByIndex (QModelIndex const &index) const
-{
-  //qDebug () << index.row ();
-  if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
-    return NULL;
-  if (GROOVE_VERIFY (index.row () < m_songs.count (), "row is higher than the number of songs model contains"))
-    return NULL;
-
-  return m_songs[index.row ()];
-}
-
 void
 GroovePlaylistModel::append (GrooveSongPointer song)
 {

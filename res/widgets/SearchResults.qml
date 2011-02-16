@@ -1,6 +1,7 @@
 import Qt 4.7
 
 ListView {
+    id: searchList
     model: searchModel
     /*model: TestModel { }*/
 

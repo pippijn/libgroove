@@ -63,7 +63,7 @@ GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTer
 
   connect ( m_service.get ()
           , SIGNAL (getSearchResultsEx_success (QList<GrooveSongPointer> const &))
-          , SLOT (searchCompleted (QList<GrooveSongPointer> const &))
+          , SLOT (processSearchCompleted (QList<GrooveSongPointer> const &))
           );
   QStringList types;
   types.append (type);
@@ -71,7 +71,7 @@ GrooveSearchModel::searchByHelper (QString const &type, QString const &searchTer
 }
 
 void
-GrooveSearchModel::searchCompleted (QList<GrooveSongPointer> const &newSongList)
+GrooveSearchModel::processSearchCompleted (QList<GrooveSongPointer> const &newSongList)
 {
   disconnect (m_service.get (), SIGNAL (getSearchResultsEx_success (QList<GrooveSongPointer> const &)));
 
@@ -85,15 +85,6 @@ GrooveSearchModel::searchCompleted (QList<GrooveSongPointer> const &newSongList)
   clear ();
   m_songs = newSongList;
   endInsertRows ();
-}
 
-GrooveSongPointer
-GrooveSearchModel::songByIndex (QModelIndex const &index) const
-{
-  if (GROOVE_VERIFY (index.row () >= 0, "row is negative"))
-    return 0;
-  if (GROOVE_VERIFY (index.row () < m_songs.count (), "row is higher than the number of songs model contains"))
-    return 0;
-
-  return m_songs[index.row ()];
+  emit searchCompleted (newSongList.size ());
 }

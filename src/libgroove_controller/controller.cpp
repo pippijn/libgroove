@@ -1,8 +1,8 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
-#define LIVE            0
-#define LIVE_SEARCH     0
+#define LIVE            1
+#define LIVE_SEARCH     1
 #define LIVE_COMPLETION 0
 #include <QStringList>
 
@@ -52,6 +52,12 @@ GrooveController::~GrooveController ()
 }
 
 
+GroovePlaylistModel &
+GrooveController::playlistModel ()
+{
+  return *self->playlistModel;
+}
+
 GrooveSearchModel &
 GrooveController::searchModel ()
 {
@@ -59,7 +65,7 @@ GrooveController::searchModel ()
 }
 
 
-QString
+static QString
 wsNormed (QString const &s)
 {
   return s.trimmed ().replace (QRegExp ("\\s+"), " ");
@@ -91,6 +97,26 @@ GrooveController::search (QString const &query)
 #if LIVE_SEARCH
   self->searchModel->searchBySong (nquery);
 #endif
+}
+
+void
+GrooveController::play (int index)
+{
+  LDEBUG << "playing" << index;
+}
+
+void
+GrooveController::enqueue (int index)
+{
+  LDEBUG << "enqueueing" << index;
+  self->playlistModel->append (self->searchModel->songByIndex (index));
+}
+
+void
+GrooveController::unqueue (int index)
+{
+  LDEBUG << "unqueueing" << index;
+  self->playlistModel->removeAt (index);
 }
 
 void

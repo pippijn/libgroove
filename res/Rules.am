@@ -7,17 +7,30 @@ QRC =						\
 	$(srcdir)/res/widgets.qrc
 RESOURCES =					\
 	res/icons/RotatingArc.png		\
+	res/icons/delete.svg			\
+	res/icons/loading.gif			\
 	res/icons/next.svg			\
 	res/icons/play.svg			\
 	res/icons/search.png			\
+	res/icons/tb-current.svg		\
+	res/icons/tb-favourites.svg		\
+	res/icons/tb-playlist.svg		\
+	res/icons/tb-quit.svg			\
+	res/icons/tb-search.svg			\
+	res/icons/tb-settings.svg		\
 	res/images/background.svg		\
 	res/images/searchbox.svg		\
+	res/views/FavouritesPage.qml		\
+	res/views/PlaylistPage.qml		\
 	res/views/SearchPage.qml		\
+	res/views/SettingsPage.qml		\
 	res/views/mainwindow.qml		\
 	res/widgets/CompletionList.qml		\
 	res/widgets/CompletionListDelegate.qml	\
 	res/widgets/PageStack.js		\
 	res/widgets/PageStack.qml		\
+	res/widgets/Playlist.qml		\
+	res/widgets/PlaylistDelegate.qml	\
 	res/widgets/SearchBox.qml		\
 	res/widgets/SearchResults.qml		\
 	res/widgets/SearchResultsDelegate.qml	\
