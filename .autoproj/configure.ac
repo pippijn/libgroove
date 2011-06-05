@@ -1,32 +1,11 @@
-dnl Copyright © 2010 Pippijn van Steenhoven
-dnl See COPYING.AGPL for licence information.
-
-AC_PREREQ(2.61)
-AC_INIT([Groovy], [0.1], [groovy@xinutec.org])
-AC_CONFIG_AUX_DIR(autoconf)
-AC_CONFIG_SRCDIR(config.h.in)
-AC_CONFIG_MACRO_DIR(m4/libtool)
-AC_CONFIG_HEADERS(config.h)
-
-dnl automake
-LT_INIT([disable-static])
-AM_INIT_AUTOMAKE([silent-rules gnits])
-AM_SILENT_RULES([yes])
-
+%header ("Groovy", "0.1", 'groovy@xinutec.org')
+%automake
 
 # build tools
-AC_LANG(C++)
-AC_PROG_CXX
-
+%c++
 AC_PROG_YACC
 
-dnl pkg-config
-AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
-
-if test x$PKG_CONFIG = xno; then
-   AC_MSG_ERROR([Could not find pkg-config])
-fi
-
+%pkgconfig
 
 export PKG_CONFIG_PATH="/opt/qtsdk-2010.05/qt/lib/pkgconfig"
 
