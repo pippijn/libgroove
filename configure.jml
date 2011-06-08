@@ -36,5 +36,5 @@ project {
 		else { error { "Boost C++ library is required." } }
 	}
 
-	output { }
+	output;
 }
