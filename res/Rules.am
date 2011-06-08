@@ -19,6 +19,7 @@ RESOURCES =					\
 	res/icons/tb-search.svg			\
 	res/icons/tb-settings.svg		\
 	res/images/background.svg		\
+	res/images/coverArtMissing.svg		\
 	res/images/searchbox.svg		\
 	res/views/FavouritesPage.qml		\
 	res/views/PlaylistPage.qml		\
@@ -34,11 +35,13 @@ RESOURCES =					\
 	res/widgets/SearchBox.qml		\
 	res/widgets/SearchResults.qml		\
 	res/widgets/SearchResultsDelegate.qml	\
-	res/widgets/TestModel.qml
+	res/widgets/TestModel.qml		\
+	res/widgets/TestPlaylist.qml
 EXTRA_DIST += $(QRC) $(RESOURCES)
 
 nodist_libgroove_resources_la_SOURCES =		\
 	resources.cpp
+CLEANFILES += $(nodist_libgroove_resources_la_SOURCES)
 
 resources.cpp: $(QRC) $(RESOURCES)
 	$(AM_V_GEN)$(RCC) $(QRC) > $@		\

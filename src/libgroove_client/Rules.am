@@ -16,8 +16,8 @@ CLEANFILES += $(nodist_libgroove_client_la_SOURCES)
 
 libgroove_client_la_CXXFLAGS =	\
 	$(AM_CXXFLAGS)		\
-	$(QTNETWORK_CXXFLAGS)	\
-	$(QJSON_CXXFLAGS)
+	$(QTNETWORK_CFLAGS)	\
+	$(QJSON_CFLAGS)
 libgroove_client_la_LIBADD =	\
 	libgroove_common.la	\
 	$(QTNETWORK_LIBS)	\

@@ -1,52 +1,20 @@
-/COPYING
-/INSTALL
-# autotools files
-/Makefile.in
+# $builddir
 /_build
+/_inst
+
+# Autotools files
 /aclocal.m4
-/autoconf.h.in
-/autoconf.h.in~
 /autoconf
 /autom4te.cache
+/config.h.in
+/config.h.in~
+/config.log
 /configure
-/m4/libtool
+/INSTALL
+/m4
+/configure.ac
+Makefile.am
+Makefile.in
 
-# qmake object directory
-/qbuild/obj
-
-# qtcreator user profile
-/qbuild/groovy.pro.user
-
-# work in progress
+# Work in progress, not for git
 /wip
-
-# thumbnails created by windows
-Thumbs.db
-# files build by Visual Studio
-*.obj
-*.exe
-*.pdb
-*.user
-*.aps
-*.pch
-*.vspscc
-*_i.c
-*_p.c
-*.ncb
-*.suo
-*.tlb
-*.tlh
-*.bak
-*.cache
-*.ilk
-*.log
-[Bb]in
-[Dd]ebug*/
-*.lib
-*.sbr
-obj/
-[Rr]elease*/
-_ReSharper*/
-[Tt]est[Rr]esult*
-
-groovy-build-desktop/groovy-man/Makefile

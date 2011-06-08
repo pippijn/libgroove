@@ -1,6 +1,8 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
+#include "config.h"
+
 #include <QApplication>
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
@@ -11,6 +13,27 @@
 #include "groove/searchmodel.h"
 
 #include "qmlcontroller.h"
+
+static void
+help ()
+{
+  printf ("Usage: %s\n", PACKAGE);
+}
+
+static void
+version ()
+{
+  printf ("%s version %s\n\n", PACKAGE_NAME, PACKAGE_VERSION);
+  puts ("Copyright © 2010 Robin Burchell <robin.burchell@collabora.co.uk>");
+  puts ("Copyright © 2010 Pippijn van Steenhoven <pippijn@xinutec.org>");
+  puts ("");
+  puts ("This program is free software; you can redistribute it and/or modify it");
+  puts ("under the terms and conditions of the GNU Affero General Public License,");
+  puts ("version 3, as published by the Free Software Foundation, or later.");
+  puts ("");
+  printf ("Send bugreports to %s\n", PACKAGE_BUGREPORT);
+}
+
 
 static void
 setupProxy (QString hostName, quint16 port, QString user, QString password)
@@ -35,6 +58,11 @@ main (int argc, char **argv)
   QStringList args = qca.arguments ();
   if (args.contains ("--proxy"))
     setupProxy ("localhost", 8080, "username", "password");
+
+  if (args.contains ("--help"))
+    return help (), EXIT_SUCCESS;
+  if (args.contains ("--version"))
+    return version (), EXIT_SUCCESS;
 
   // View
   QDeclarativeView view;

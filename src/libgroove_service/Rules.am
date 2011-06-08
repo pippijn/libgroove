@@ -1,22 +1,23 @@
 lib_LTLIBRARIES += libgroove_service.la
 
-libgroove_service_la_SOURCES =			\
-	src/libgroove_service/service.cpp	\
-	src/libgroove_service/methods.cpp	\
-	src/libgroove_service/request.cpp	\
-	src/libgroove_service/request.h
+LOCAL_SOURCES =		\
+	service.cpp	\
+	methods.cpp	\
+	reply.h		\
+	request.cpp	\
+	request.h
 
-include src/libgroove_service/methods/Rules.am
+include methods/Rules.am
 
-nodist_libgroove_service_la_SOURCES =		\
+nodist_LOCAL_SOURCES =		\
 	include/groove/service.moc.cpp
-CLEANFILES += $(nodist_libgroove_service_la_SOURCES)
+CLEANFILES += $(nodist_LOCAL_SOURCES)
 
-libgroove_service_la_CXXFLAGS =	\
+LOCAL_CXXFLAGS =		\
 	$(AM_CXXFLAGS)		\
-	$(QTNETWORK_CXXFLAGS)	\
-	$(QJSON_CXXFLAGS)
-libgroove_service_la_LIBADD =	\
+	$(QTNETWORK_CFLAGS)	\
+	$(QJSON_CFLAGS)
+LOCAL_LIBADD =			\
 	libgroove_client.la	\
 	libgroove_common.la	\
 	libgroove_data.la	\

@@ -1,6 +1,8 @@
 /* Copyright © 2010 Pippijn van Steenhoven
  * See COPYING.AGPL for licence information.
  */
+#include "config.h"
+
 #include "frontend/uic/groovewindow.h"
 
 #include "groove/client.h"

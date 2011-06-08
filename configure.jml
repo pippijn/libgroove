@@ -1,0 +1,42 @@
+project {
+	name: "Groovy"
+	version: "0.1"
+	contact: "groovy@xinutec.org"
+
+	lang: "C++"
+
+	ac_prog {
+		li { YACC }
+	}
+
+	shell { 'export PKG_CONFIG_PATH="/opt/qtsdk-2010.05/qt/lib/pkgconfig"' }
+
+	pkgconfig { package: "QtCore" version: "4.7.0" }
+	pkgconfig { package: "QtNetwork" version: "4.7.0" }
+	pkgconfig { package: "QtGui" version: "4.7.0" }
+	pkgconfig { package: "QtDeclarative" version: "4.7.0" }
+	pkgconfig { package: "QJson" version: "0.7.1" }
+	pkgconfig { package: "phonon" version: "4.4.0" }
+
+	shell { "AC_MSG_CHECKING([moc location])" }
+	shell { "MOC=`$PKG_CONFIG --variable=moc_location QtCore`" }
+	shell { "AC_SUBST([MOC])" }
+	shell { "AC_MSG_RESULT([$MOC])" }
+
+	shell { "AC_MSG_CHECKING([uic location])" }
+	shell { "UIC=`$PKG_CONFIG --variable=uic_location QtCore`" }
+	shell { "AC_SUBST([UIC])" }
+	shell { "AC_MSG_RESULT([$UIC])" }
+
+	shell { "AC_PATH_PROGS([RCC], [rcc])" }
+
+	// Boost
+	check_header {
+		"boost/intrusive_ptr.hpp"
+		else { error { "Boost C++ library is required." } }
+	}
+
+	output {
+		li { "Makefile" }
+	}
+}

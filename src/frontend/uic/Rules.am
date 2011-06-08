@@ -19,8 +19,8 @@ CLEANFILES += $(nodist_groovy_uic_SOURCES)
 groovy_uic_CXXFLAGS =		\
 	$(AM_CXXFLAGS)		\
 	-Wno-conversion		\
-	$(QTGUI_CXXFLAGS)	\
-	$(PHONON_CXXFLAGS)
+	$(QTGUI_CFLAGS)		\
+	$(PHONON_CFLAGS)
 groovy_uic_LDADD =			\
 	libgroove_client.la		\
 	libgroove_common.la		\
