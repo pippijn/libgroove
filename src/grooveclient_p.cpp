@@ -30,7 +30,7 @@ GrooveClientPrivate *GrooveClientPrivate::m_instance = NULL;
 void GrooveClientPrivate::processPHPSessionId()
 {
     qDebug() << Q_FUNC_INFO << "processing";
-    QList<QNetworkCookie> cookieList = GrooveClient::networkManager()->cookieJar()->cookiesForUrl(QUrl("http://listen.grooveshark.com"));
+    QList<QNetworkCookie> cookieList = GrooveClient::networkManager()->cookieJar()->cookiesForUrl(QUrl("http://grooveshark.com"));
 
     foreach (const QNetworkCookie &cookie, cookieList) {
         if (cookie.name() == "PHPSESSID") {
@@ -113,13 +113,23 @@ QString GrooveClientPrivate::grooveMessageToken(const QString &method)
     messageToken.append(method);
     messageToken.append(":");
     messageToken.append(m_sessionToken.toAscii());
-    messageToken.append(":quitStealinMahShit:");
+
+    QHash<QString, QString> saltLookup;
+    saltLookup["getStreamKeyFromSongIDEx"] = "bewareOfBearsharktopus";
+
+    QString salt = saltLookup.value(method);
+    if (salt.isNull())
+        salt = "backToTheScienceLab"; // default
+
+    messageToken.append(":");
+    messageToken.append(salt);
+    messageToken.append(":");
     messageToken.append(rnum);
 
     QString rs;
     rs.append(rnum);
     rs.append(QCryptographicHash::hash(messageToken.toAscii(), QCryptographicHash::Sha1).toHex());
 
-    qDebug() << Q_FUNC_INFO << "Produced token " << rs;
+    qDebug() << Q_FUNC_INFO << "Produced token " << rs << " with salt " << salt;
     return rs;
 }

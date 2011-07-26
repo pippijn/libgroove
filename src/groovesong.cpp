@@ -268,7 +268,7 @@ void GrooveSong::startStreaming()
         }
     }
 
-    GrooveRequest *request = new GrooveRequest(GrooveClient::instance(), "http://listen.grooveshark.com/more.php?getStreamKeyFromSongIDEx");
+    GrooveRequest *request = new GrooveRequest(GrooveClient::instance(), "http://grooveshark.com/more.php?getStreamKeyFromSongIDEx");
     request->setMethod("getStreamKeyFromSongIDEx");
     request->setHeader("client", "jsqueue");
     request->setHeader("token", GrooveClientPrivate::instance()->grooveMessageToken("getStreamKeyFromSongIDEx"));
