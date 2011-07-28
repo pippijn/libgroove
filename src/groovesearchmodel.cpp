@@ -82,8 +82,12 @@ void GrooveSearchModel::processSearchCompleted(const QVariantMap &result)
         return;
     }
 
+    // if you get 0 results here, and the search is valid, it's probably
+    // grooveshark fucking with you.
     QList<GrooveSong *> newSongList;
-    foreach (const QVariant &song, result["result"].toMap()["Songs"].toList()) {
+    const QVariantList &songList =
+        result["result"].toMap()["Songs"].toMap()["Songs"].toList();
+    foreach (const QVariant &song, songList) {
         QVariantMap songData = song.toMap();
 
         newSongList.append(new GrooveSong(songData));
