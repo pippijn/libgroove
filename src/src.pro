@@ -8,8 +8,6 @@ QT       += network
 
 TARGET = groove
 TEMPLATE = lib
-INCLUDEPATH = ../include/
-DEPENDPATH = ../include/
 
 include(../libqjson.pri)
 
