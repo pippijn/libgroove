@@ -1,6 +1,9 @@
 include automake/init.am
 include automake/nowarn_qt.am
 
+lib_LTLIBRARIES		= # empty
+bin_PROGRAMS		= # empty
+
 AM_CPPFLAGS		+= -fvisibility=hidden
 AM_CPPFLAGS		+= -DPKGDATADIR='"$(pkgdatadir)"'
 

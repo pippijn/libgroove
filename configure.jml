@@ -9,7 +9,7 @@ project {
 		li { YACC }
 	}
 
-	shell { 'export PKG_CONFIG_PATH="/opt/qtsdk-2010.05/qt/lib/pkgconfig"' }
+	shell { 'export PKG_CONFIG_PATH="/opt/QtSDK/Desktop/Qt/473/gcc/lib/pkgconfig"' }
 
 	pkgconfig { package: "QtCore" version: "4.7.0" }
 	pkgconfig { package: "QtNetwork" version: "4.7.0" }
