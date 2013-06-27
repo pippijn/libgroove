@@ -1,0 +1,5 @@
+EXTRA_DIST +=					\
+	qbuild/groovy-man/groovy-man.pro	\
+	qbuild/groovy-uic/groovy-uic.pro	\
+	qbuild/libgroove/libgroove.pro		\
+	qbuild/groovy.pro

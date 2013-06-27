@@ -1,0 +1,28 @@
+bin_PROGRAMS += groovy-qml
+
+groovy_qml_SOURCES =				\
+	src/frontend/qml/main.cpp		\
+	src/frontend/qml/qmlcontroller.cpp	\
+	src/frontend/qml/qmlcontroller.h
+
+nodist_groovy_qml_SOURCES =			\
+	src/frontend/qml/qmlcontroller.moc.cpp
+CLEANFILES += $(nodist_groovy_qml_SOURCES)
+
+groovy_qml_CXXFLAGS =				\
+	$(AM_CXXFLAGS)				\
+	$(QTGUI_CFLAGS)				\
+	$(QTNETWORK_CFLAGS)			\
+	$(QTDECLARATIVE_CFLAGS)
+groovy_qml_LDADD =				\
+	libgroove_client.la			\
+	libgroove_common.la			\
+	libgroove_controller.la			\
+	libgroove_playlistmodel.la		\
+	libgroove_resources.la			\
+	libgroove_searchmodel.la		\
+	libgroove_service.la			\
+	libgroove_songsmodel.la			\
+	$(QTGUI_LIBS)				\
+	$(QTNETWORK_LIBS)			\
+	$(QTDECLARATIVE_LIBS)

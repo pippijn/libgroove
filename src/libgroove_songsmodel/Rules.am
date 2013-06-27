@@ -1,0 +1,12 @@
+lib_LTLIBRARIES += libgroove_songsmodel.la
+
+libgroove_songsmodel_la_SOURCES =			\
+	src/libgroove_songsmodel/songsmodel.cpp
+
+nodist_libgroove_songsmodel_la_SOURCES =		\
+	include/groove/songsmodel.moc.cpp
+CLEANFILES += $(nodist_libgroove_songsmodel_la_SOURCES)
+
+libgroove_songsmodel_la_LIBADD =	\
+	libgroove_common.la		\
+	libgroove_data.la

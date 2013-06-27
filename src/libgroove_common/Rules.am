@@ -1,0 +1,5 @@
+lib_LTLIBRARIES += libgroove_common.la
+
+libgroove_common_la_SOURCES =			\
+	src/libgroove_common/debug.cpp		\
+	src/libgroove_common/settings.cpp

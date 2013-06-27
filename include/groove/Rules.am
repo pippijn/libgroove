@@ -1,0 +1,12 @@
+noinst_HEADERS +=			\
+	include/groove/client.h		\
+	include/groove/controller.h	\
+	include/groove/fetcher.h	\
+	include/groove/playlistmodel.h	\
+	include/groove/searchmodel.h	\
+	include/groove/service.h	\
+	include/groove/settings.h	\
+	include/groove/songsmodel.h
+
+include include/groove/data/Rules.am
+include include/groove/private/Rules.am

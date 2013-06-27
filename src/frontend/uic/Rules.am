@@ -1,0 +1,34 @@
+include src/frontend/uic/uic/Rules.am
+
+bin_PROGRAMS += groovy-uic
+
+groovy_uic_SOURCES =					\
+	src/frontend/uic/about.cpp			\
+	src/frontend/uic/crash.cpp			\
+	src/frontend/uic/debug.cpp			\
+	src/frontend/uic/groovewindow.cpp		\
+	src/frontend/uic/main.cpp			\
+	src/frontend/uic/preferences.cpp
+
+nodist_groovy_uic_SOURCES =				\
+	include/frontend/uic/about.moc.cpp		\
+	include/frontend/uic/groovewindow.moc.cpp	\
+	include/frontend/uic/preferences.moc.cpp
+CLEANFILES += $(nodist_groovy_uic_SOURCES)
+
+groovy_uic_CXXFLAGS =		\
+	$(AM_CXXFLAGS)		\
+	-Wno-conversion		\
+	$(QTGUI_CFLAGS)		\
+	$(PHONON_CFLAGS)
+groovy_uic_LDADD =			\
+	libgroove_client.la		\
+	libgroove_common.la		\
+	libgroove_data.la		\
+	libgroove_fetcher.la		\
+	libgroove_playlistmodel.la	\
+	libgroove_searchmodel.la	\
+	libgroove_service.la		\
+	libgroove_songsmodel.la		\
+	$(QTGUI_LIBS)			\
+	$(PHONON_LIBS)

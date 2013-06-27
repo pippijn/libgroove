@@ -1,0 +1,7 @@
+noinst_HEADERS +=			\
+	include/libgroove_global.h	\
+	include/property.h
+
+include include/frontend/Rules.am
+include include/groove/Rules.am
+include include/property/Rules.am

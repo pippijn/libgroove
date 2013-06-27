@@ -1,0 +1,17 @@
+lib_LTLIBRARIES += libgroove_controller.la
+
+libgroove_controller_la_SOURCES =				\
+	src/libgroove_controller/controller.cpp
+
+nodist_libgroove_controller_la_SOURCES =			\
+	include/groove/controller.moc.cpp
+CLEANFILES += $(nodist_libgroove_controller_la_SOURCES)
+
+libgroove_controller_la_LIBADD =	\
+	libgroove_client.la		\
+	libgroove_common.la		\
+	libgroove_data.la		\
+	libgroove_playlistmodel.la	\
+	libgroove_searchmodel.la	\
+	libgroove_service.la		\
+	libgroove_songsmodel.la

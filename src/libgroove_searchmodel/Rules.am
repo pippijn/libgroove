@@ -1,0 +1,14 @@
+lib_LTLIBRARIES += libgroove_searchmodel.la
+
+libgroove_searchmodel_la_SOURCES =				\
+	src/libgroove_searchmodel/searchmodel.cpp
+
+nodist_libgroove_searchmodel_la_SOURCES =			\
+	include/groove/searchmodel.moc.cpp
+CLEANFILES += $(nodist_libgroove_searchmodel_la_SOURCES)
+
+libgroove_searchmodel_la_LIBADD =	\
+	libgroove_common.la		\
+	libgroove_data.la		\
+	libgroove_service.la		\
+	libgroove_songsmodel.la

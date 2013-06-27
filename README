@@ -4,19 +4,6 @@ what is it?
 libgroove is a high level Qt API to access data and music on the excellent
 Grooveshark (http://listen.grooveshark.com) service.
 
-please note that libgroove is not, at this stage, API or ABI stable.
-
-building
-========
-
-requirements:
-- libqjson (libqjson-dev libqjson0 on debian/ubuntu)
-
-steps:
-- qmake
-- make
-- make install
-
 is this legal?
 =============
 

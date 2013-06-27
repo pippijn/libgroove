@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/views">
+        <file alias="FavouritesPage.qml">views/FavouritesPage.qml</file>
+        <file alias="PlaylistPage.qml">views/PlaylistPage.qml</file>
+        <file alias="SearchPage.qml">views/SearchPage.qml</file>
+        <file alias="SettingsPage.qml">views/SettingsPage.qml</file>
+        <file alias="mainwindow.qml">views/mainwindow.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,16 @@
+lib_LTLIBRARIES += libgroove_data.la
+
+libgroove_data_la_SOURCES =			\
+	src/libgroove_data/album.cpp		\
+	src/libgroove_data/artist.cpp		\
+	src/libgroove_data/playlist.cpp		\
+	src/libgroove_data/song.cpp		\
+	src/libgroove_data/user.cpp
+
+nodist_libgroove_data_la_SOURCES =		\
+	include/groove/data/album.moc.cpp	\
+	include/groove/data/artist.moc.cpp	\
+	include/groove/data/playlist.moc.cpp	\
+	include/groove/data/song.moc.cpp	\
+	include/groove/data/user.moc.cpp
+CLEANFILES += $(nodist_libgroove_data_la_SOURCES)

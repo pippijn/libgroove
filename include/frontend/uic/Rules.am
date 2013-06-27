@@ -1,0 +1,4 @@
+noinst_HEADERS +=				\
+	include/frontend/uic/about.h		\
+	include/frontend/uic/groovewindow.h	\
+	include/frontend/uic/preferences.h

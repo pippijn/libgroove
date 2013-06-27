@@ -1,0 +1,3 @@
+=head1 Grooveshark Client
+
+L<Git repository|http://xinutec.org/git/net/groovy.git/>

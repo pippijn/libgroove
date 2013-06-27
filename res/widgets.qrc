@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/widgets">
+        <file alias="CompletionList.qml">widgets/CompletionList.qml</file>
+        <file alias="CompletionListDelegate.qml">widgets/CompletionListDelegate.qml</file>
+        <file alias="PageStack.js">widgets/PageStack.js</file>
+        <file alias="PageStack.qml">widgets/PageStack.qml</file>
+        <file alias="Playlist.qml">widgets/Playlist.qml</file>
+        <file alias="PlaylistDelegate.qml">widgets/PlaylistDelegate.qml</file>
+        <file alias="SearchBox.qml">widgets/SearchBox.qml</file>
+        <file alias="SearchResults.qml">widgets/SearchResults.qml</file>
+        <file alias="SearchResultsDelegate.qml">widgets/SearchResultsDelegate.qml</file>
+        <file alias="TestModel.qml">widgets/TestModel.qml</file>
+        <file alias="TestPlaylist.qml">widgets/TestPlaylist.qml</file>
+    </qresource>
+</RCC>
